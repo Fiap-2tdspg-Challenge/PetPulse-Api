@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.model.User;
-import fiap.com.br.petpulse.service.UserService;
+import fiap.com.br.petpulse.model.Tutor;
+import fiap.com.br.petpulse.service.TutorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -16,17 +16,17 @@ import java.util.List;
 @RequestMapping("users")
 @Slf4j
 @Tag(name = "User", description = "Endpoint para gerenciamento de usuários")
-public class UserController {
+public class TutorController {
 
     @Autowired
-    private UserService service;
+    private TutorService service;
 
     @GetMapping
     @Operation(
             summary = "Listar todos os usuários",
             description = "Retorna uma lista completa de todos os usuários cadastrados no banco de dados."
     )
-    public List<User> listAll() {
+    public List<Tutor> listAll() {
         log.info("Listando todos os usuários");
         return service.getAllUsers();
     }
@@ -36,11 +36,11 @@ public class UserController {
             summary = "Cadastrar novo usuário",
             description = "Cria um novo registro de usuário. O ID é gerado automaticamente."
     )
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        log.info("Criando novo usuário: {}", user.getName());
+    public ResponseEntity<Tutor> createUser(@RequestBody Tutor tutor) {
+        log.info("Criando novo usuário: {}", tutor.getName());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(service.addUser(user));
+                .body(service.addUser(tutor));
     }
 
     @GetMapping("{id}")
@@ -48,7 +48,7 @@ public class UserController {
             summary = "Obter usuário por ID",
             description = "Busca os detalhes de um usuário específico através do seu identificador único."
     )
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<Tutor> getUserById(@PathVariable Long id) {
         log.info("Obtendo dados do usuário {}", id);
         return ResponseEntity.ok(service.getUserById(id));
     }
@@ -69,8 +69,8 @@ public class UserController {
             summary = "Atualizar usuário",
             description = "Atualiza os dados de um usuário existente. Substitui todas as informações do registro pelo corpo enviado."
     )
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        log.info("Atualizando usuário com id {} com os dados {}", id, user);
-        return ResponseEntity.ok(service.updateUser(id, user));
+    public ResponseEntity<Tutor> updateUser(@PathVariable Long id, @RequestBody Tutor tutor) {
+        log.info("Atualizando usuário com id {} com os dados {}", id, tutor);
+        return ResponseEntity.ok(service.updateUser(id, tutor));
     }
 }

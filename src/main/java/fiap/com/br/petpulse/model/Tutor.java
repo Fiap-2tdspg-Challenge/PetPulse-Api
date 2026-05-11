@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class Tutor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

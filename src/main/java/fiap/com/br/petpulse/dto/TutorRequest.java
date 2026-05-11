@@ -1,13 +1,13 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.model.User;
+import fiap.com.br.petpulse.model.Tutor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
-public record UserRequest(
+public record TutorRequest(
         @NotBlank
         @Size(min = 3, max = 50)
         String name,
@@ -33,8 +33,8 @@ public record UserRequest(
         @Size(max = 120)
         String adress
 ) {
-    public User toEntity(){
-        return User.builder()
+    public Tutor toEntity(){
+        return Tutor.builder()
                 .name(name)
                 .cpf(cpf)
                 .email(email)
