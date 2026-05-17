@@ -6,9 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "T_CLY_USUARIO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

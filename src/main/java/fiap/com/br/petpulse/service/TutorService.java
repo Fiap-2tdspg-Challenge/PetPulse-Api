@@ -42,7 +42,9 @@ public class TutorService {
 
     private Tutor findUserById(Long id) {
         return tutorRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tutor com id " + id + " não encontrado")
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Tutor com id " + id + " não encontrado")
         );
     }
 }

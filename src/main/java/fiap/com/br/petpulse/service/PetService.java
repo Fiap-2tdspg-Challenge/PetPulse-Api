@@ -40,7 +40,9 @@ public class PetService {
 
     private Pet findPetById(Long id) {
         return petRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Petcom id " + id + " não encontrado")
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Petcom id " + id + " não encontrado")
         );
     }
 }

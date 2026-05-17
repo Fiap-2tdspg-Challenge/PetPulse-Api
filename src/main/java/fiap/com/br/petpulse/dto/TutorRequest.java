@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.time.LocalDateTime;
+
 public record TutorRequest(
         @NotBlank
         @Size(min = 3, max = 50)
@@ -32,6 +34,7 @@ public record TutorRequest(
         @NotBlank
         @Size(max = 120)
         String adress
+
 ) {
     public Tutor toEntity(){
         return Tutor.builder()
