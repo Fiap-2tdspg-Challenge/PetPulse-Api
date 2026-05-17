@@ -2,7 +2,6 @@ package fiap.com.br.petpulse.dto;
 
 import fiap.com.br.petpulse.Enums.RecordType;
 import fiap.com.br.petpulse.model.ClinicalHistory;
-import fiap.com.br.petpulse.model.Tutor;
 
 import java.time.LocalDate;
 

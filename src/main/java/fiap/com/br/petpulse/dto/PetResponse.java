@@ -23,7 +23,7 @@ public record PetResponse(
         String tutorName
 
 ) {
-    public PetResponse toResponse(Pet pet) {
+    public PetResponse fromEntity(Pet pet) {
         return new PetResponse(
                 pet.getId(),
                 pet.getName(),
