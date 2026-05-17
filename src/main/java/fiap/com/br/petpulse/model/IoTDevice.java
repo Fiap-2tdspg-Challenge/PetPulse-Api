@@ -20,28 +20,16 @@ public class IoTDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToOne
-    private Pet pet;
-
     private LocalDate linkedAt;
-
     private Integer collectionIntervalMinutes;
-
     private Integer heartRate;
-
     private Double activityLevel;
-
     private Double pressure;
-
     private LocalDate lastReadingDate;
-
     @Enumerated(EnumType.STRING)
     private DeviceStatus status;
-
     @PrePersist
     public void prePersist() {
-
         this.linkedAt = LocalDate.now();
 
         if (this.status == null) {
@@ -49,4 +37,6 @@ public class IoTDevice {
         }
     }
 
+    @OneToOne
+    private Pet pet;
 }

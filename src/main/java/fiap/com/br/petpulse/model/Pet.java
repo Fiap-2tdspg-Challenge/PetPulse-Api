@@ -22,7 +22,7 @@ public class Pet {
     private Long id;
     private String name;
     private String species;
-    private String breed; // <- raça
+    private String breed;// <- raça
     private LocalDate birthDate;
     private Double weight;
     @Enumerated(EnumType.STRING)
