@@ -1,9 +1,9 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.Enums.AlertOrigin;
-import fiap.com.br.petpulse.Enums.AlertRiskLevel;
-import fiap.com.br.petpulse.Enums.AlertStatus;
-import fiap.com.br.petpulse.Enums.AlertType;
+import fiap.com.br.petpulse.enums.AlertOrigin;
+import fiap.com.br.petpulse.enums.AlertRiskLevel;
+import fiap.com.br.petpulse.enums.AlertStatus;
+import fiap.com.br.petpulse.enums.AlertType;
 import fiap.com.br.petpulse.model.SmartAlert;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +27,8 @@ public record SmartAlertRequest(
         @Size(max = 1000)
         String recommendation,
 
-        AlertStatus status
+        @NotNull(message = "Pet id é requerido")
+        Long petId
 ) {
     public SmartAlert toEntity(){
         return SmartAlert.builder()

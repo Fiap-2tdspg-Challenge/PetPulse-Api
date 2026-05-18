@@ -1,7 +1,7 @@
-package fiap.com.br.petpulse.Enums;
+package fiap.com.br.petpulse.enums;
 
 public enum PetSize {
     PEQUENO,
-    MÉDIO,
+    MEDIO,
     GRANDE
 }

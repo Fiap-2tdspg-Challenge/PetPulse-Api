@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @Table(name = "T_CLY_USUARIO")
@@ -21,5 +23,12 @@ public class Tutor {
     private String email;
     private String password;
     private String phone;
-    private String adress;
+    private String address;
+
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

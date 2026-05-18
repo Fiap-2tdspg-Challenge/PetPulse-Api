@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.model;
 
-import fiap.com.br.petpulse.Enums.Sex;
-import fiap.com.br.petpulse.Enums.PetSize;
+import fiap.com.br.petpulse.enums.Sex;
+import fiap.com.br.petpulse.enums.PetSize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

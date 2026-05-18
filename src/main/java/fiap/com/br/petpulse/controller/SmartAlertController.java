@@ -1,6 +1,7 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.model.SmartAlert;
+import fiap.com.br.petpulse.dto.SmartAlertRequest;
+import fiap.com.br.petpulse.dto.SmartAlertResponse;
 import fiap.com.br.petpulse.service.SmartAlertService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +17,26 @@ public class SmartAlertController {
     private SmartAlertService smartAlertService;
 
     @PostMapping
-    public SmartAlert addSmartAlert(@RequestBody @Valid SmartAlert smartAlert) {
-        return smartAlertService.addSmartAlert(smartAlert);
+    public SmartAlertResponse addSmartAlert(@RequestBody @Valid SmartAlertRequest request) {
+        return smartAlertService.addSmartAlert(request);
     }
 
     @GetMapping
-    public List<SmartAlert> getAllSmartAlerts() {
+    public List<SmartAlertResponse> getAllSmartAlerts() {
         return smartAlertService.getAllSmartAlerts();
     }
 
     @GetMapping("/{id}")
-    public SmartAlert getSmartAlertById(@PathVariable Long id) {
+    public SmartAlertResponse getSmartAlertById(@PathVariable Long id) {
         return smartAlertService.getSmartAlertById(id);
     }
 
     @PutMapping("/{id}")
-    public SmartAlert updateSmartAlert(
+    public SmartAlertResponse updateSmartAlert(
             @PathVariable Long id,
-            @RequestBody @Valid SmartAlert smartAlert
+            @RequestBody @Valid SmartAlertRequest request
     ) {
-        return smartAlertService.updateSmartAlert(id, smartAlert);
+        return smartAlertService.updateSmartAlert(id, request);
     }
 
     @DeleteMapping("/{id}")

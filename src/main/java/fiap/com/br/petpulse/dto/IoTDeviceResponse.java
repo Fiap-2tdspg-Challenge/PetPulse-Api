@@ -1,11 +1,11 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.Enums.DeviceStatus;
+import fiap.com.br.petpulse.enums.DeviceStatus;
 import fiap.com.br.petpulse.model.IoTDevice;
 
 import java.time.LocalDate;
 
-public record IotDeviceResponse(
+public record IoTDeviceResponse(
 
         LocalDate linkedAt,
 
@@ -21,9 +21,9 @@ public record IotDeviceResponse(
 
         DeviceStatus status
 ) {
-    public static IotDeviceResponse fromEntity(IoTDevice device) {
+    public static IoTDeviceResponse toResponse(IoTDevice device) {
 
-        return new IotDeviceResponse(
+        return new IoTDeviceResponse(
                 device.getLinkedAt(),
                 device.getCollectionIntervalMinutes(),
                 device.getHeartRate(),

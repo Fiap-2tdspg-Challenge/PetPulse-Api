@@ -31,7 +31,7 @@ public record TutorRequest(
 
         @NotBlank
         @Size(max = 120)
-        String adress
+        String address
 
 ) {
     public Tutor toEntity(){
@@ -41,7 +41,7 @@ public record TutorRequest(
                 .email(email)
                 .password(password)
                 .phone(phone)
-                .adress(adress)
+                .address(address)
                 .build();
     }
 

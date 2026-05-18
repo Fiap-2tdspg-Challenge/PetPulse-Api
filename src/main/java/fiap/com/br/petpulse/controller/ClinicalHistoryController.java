@@ -1,6 +1,7 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.model.ClinicalHistory;
+import fiap.com.br.petpulse.dto.ClinicalHistoryRequest;
+import fiap.com.br.petpulse.dto.ClinicalHistoryResponse;
 import fiap.com.br.petpulse.service.ClinicalHistoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,30 +12,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/clinical-histories")
 public class ClinicalHistoryController {
+
     @Autowired
     private ClinicalHistoryService clinicalHistoryService;
 
     @PostMapping
-    public ClinicalHistory addClinicalHistory(@RequestBody @Valid ClinicalHistory clinicalHistory) {
-        return clinicalHistoryService.addClinicalHistory(clinicalHistory);
+    public ClinicalHistoryResponse addClinicalHistory(
+            @RequestBody @Valid ClinicalHistoryRequest request
+    ) {
+        return clinicalHistoryService.addClinicalHistory(request);
     }
 
     @GetMapping
-    public List<ClinicalHistory> getAllClinicalHistories() {
+    public List<ClinicalHistoryResponse> getAllClinicalHistories() {
         return clinicalHistoryService.getAllClinicalHistories();
     }
 
     @GetMapping("/{id}")
-    public ClinicalHistory getClinicalHistoryById(@PathVariable Long id) {
+    public ClinicalHistoryResponse getClinicalHistoryById(@PathVariable Long id) {
         return clinicalHistoryService.getClinicalHistoryById(id);
     }
 
     @PutMapping("/{id}")
-    public ClinicalHistory updateClinicalHistory(
+    public ClinicalHistoryResponse updateClinicalHistory(
             @PathVariable Long id,
-            @RequestBody @Valid ClinicalHistory clinicalHistory
+            @RequestBody @Valid ClinicalHistoryRequest request
     ) {
-        return clinicalHistoryService.updateClinicalHistory(id, clinicalHistory);
+        return clinicalHistoryService.updateClinicalHistory(id, request);
     }
 
     @DeleteMapping("/{id}")

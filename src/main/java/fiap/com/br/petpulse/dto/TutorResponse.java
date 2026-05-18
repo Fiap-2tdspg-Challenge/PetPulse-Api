@@ -2,24 +2,26 @@ package fiap.com.br.petpulse.dto;
 
 import fiap.com.br.petpulse.model.Tutor;
 
+import java.time.LocalDateTime;
+
 public record TutorResponse(
         Long id,
         String name,
         String cpf,
         String email,
-        String password,
         String phone,
-        String adress
+        String address,
+        LocalDateTime createdAt
 ) {
-    public static TutorResponse fromEntity(Tutor tutor){
+    public static TutorResponse toResponse(Tutor tutor){
         return new TutorResponse(
                 tutor.getId(),
                 tutor.getName(),
                 tutor.getCpf(),
                 tutor.getEmail(),
-                tutor.getPassword(),
                 tutor.getPhone(),
-                tutor.getAdress()
+                tutor.getAddress(),
+                tutor.getCreatedAt()
         );
     }
 }

@@ -1,6 +1,6 @@
 package fiap.com.br.petpulse.model;
 
-import fiap.com.br.petpulse.Enums.DeviceStatus;
+import fiap.com.br.petpulse.enums.DeviceStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

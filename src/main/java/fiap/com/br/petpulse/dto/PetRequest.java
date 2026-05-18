@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.Enums.PetSize;
-import fiap.com.br.petpulse.Enums.Sex;
+import fiap.com.br.petpulse.enums.PetSize;
+import fiap.com.br.petpulse.enums.Sex;
 import fiap.com.br.petpulse.model.Pet;
 import jakarta.validation.constraints.*;
 
@@ -35,7 +35,10 @@ public record PetRequest(
         @NotNull
         PetSize size,
 
-        String knownDiseases
+        String knownDiseases,
+
+        @NotNull(message = "Tutor id é requerido")
+        Long tutorId
 
 ) {
     public Pet toEntity(){

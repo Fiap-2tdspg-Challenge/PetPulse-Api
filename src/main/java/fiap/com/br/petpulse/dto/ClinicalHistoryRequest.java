@@ -1,6 +1,6 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.Enums.RecordType;
+import fiap.com.br.petpulse.enums.RecordType;
 import fiap.com.br.petpulse.model.ClinicalHistory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,14 +23,17 @@ public record ClinicalHistoryRequest(
         String clinicProfessional,
 
         @Size(max = 1000)
-        String observations
+        String observations,
+
+        @NotNull(message = "Pet id é requerido")
+        Long petId
 
 ) {
     public ClinicalHistory toEntity(){
         return ClinicalHistory.builder()
                 .recordType(recordType)
                 .description(description)
-                .recordDate(returnDate)
+                .returnDate(returnDate)
                 .clinicProfessional(clinicProfessional)
                 .observations(observations)
                 .build();

@@ -1,7 +1,11 @@
 package fiap.com.br.petpulse.service;
 
+import fiap.com.br.petpulse.dto.ClinicalHistoryRequest;
+import fiap.com.br.petpulse.dto.ClinicalHistoryResponse;
 import fiap.com.br.petpulse.model.ClinicalHistory;
+import fiap.com.br.petpulse.model.Pet;
 import fiap.com.br.petpulse.repositories.ClinicalHistoryRepository;
+import fiap.com.br.petpulse.repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,19 +15,37 @@ import java.util.List;
 
 @Service
 public class ClinicalHistoryService {
+
     @Autowired
     private ClinicalHistoryRepository clinicalHistoryRepository;
 
-    public ClinicalHistory addClinicalHistory(ClinicalHistory clinicalHistory){
-        return clinicalHistoryRepository.save(clinicalHistory);
+    @Autowired
+    private PetRepository petRepository;
+
+    public ClinicalHistoryResponse addClinicalHistory(ClinicalHistoryRequest request) {
+
+        Pet pet = petRepository.findById(request.petId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Pet com id " + request.petId() + " não encontrado"
+                )
+        );
+
+        ClinicalHistory clinicalHistory = request.toEntity();
+        clinicalHistory.setPet(pet);
+
+        return ClinicalHistoryResponse.toResponse(clinicalHistoryRepository.save(clinicalHistory));
     }
 
-    public List<ClinicalHistory> getAllClinicalHistories() {
-        return clinicalHistoryRepository.findAll();
+    public List<ClinicalHistoryResponse> getAllClinicalHistories() {
+        return clinicalHistoryRepository.findAll()
+                .stream()
+                .map(ClinicalHistoryResponse::toResponse)
+                .toList();
     }
 
-    public ClinicalHistory getClinicalHistoryById(Long id){
-        return findClinicalHistoryById(id);
+    public ClinicalHistoryResponse getClinicalHistoryById(Long id) {
+        return ClinicalHistoryResponse.toResponse(findClinicalHistoryById(id));
     }
 
     public void deleteClinicalHistory(Long id) {
@@ -31,10 +53,25 @@ public class ClinicalHistoryService {
         clinicalHistoryRepository.deleteById(id);
     }
 
-    public ClinicalHistory updateClinicalHistory(Long id, ClinicalHistory newClinicalHistory) {
-        findClinicalHistoryById(id);
-        newClinicalHistory.setId(id);
-        return clinicalHistoryRepository.save(newClinicalHistory);
+    public ClinicalHistoryResponse updateClinicalHistory(Long id, ClinicalHistoryRequest request) {
+
+        ClinicalHistory clinicalHistory = findClinicalHistoryById(id);
+
+        Pet pet = petRepository.findById(request.petId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Pet com id " + request.petId() + " não encontrado"
+                )
+        );
+
+        clinicalHistory.setRecordType(request.recordType());
+        clinicalHistory.setDescription(request.description());
+        clinicalHistory.setReturnDate(request.returnDate());
+        clinicalHistory.setClinicProfessional(request.clinicProfessional());
+        clinicalHistory.setObservations(request.observations());
+        clinicalHistory.setPet(pet);
+
+        return ClinicalHistoryResponse.toResponse(clinicalHistoryRepository.save(clinicalHistory));
     }
 
     private ClinicalHistory findClinicalHistoryById(Long id) {

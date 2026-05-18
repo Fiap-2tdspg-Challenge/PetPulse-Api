@@ -1,9 +1,9 @@
 package fiap.com.br.petpulse.model;
 
-import fiap.com.br.petpulse.Enums.AlertOrigin;
-import fiap.com.br.petpulse.Enums.AlertRiskLevel;
-import fiap.com.br.petpulse.Enums.AlertStatus;
-import fiap.com.br.petpulse.Enums.AlertType;
+import fiap.com.br.petpulse.enums.AlertOrigin;
+import fiap.com.br.petpulse.enums.AlertRiskLevel;
+import fiap.com.br.petpulse.enums.AlertStatus;
+import fiap.com.br.petpulse.enums.AlertType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

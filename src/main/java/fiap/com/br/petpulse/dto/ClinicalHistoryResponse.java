@@ -1,6 +1,6 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.Enums.RecordType;
+import fiap.com.br.petpulse.enums.RecordType;
 import fiap.com.br.petpulse.model.ClinicalHistory;
 
 import java.time.LocalDate;
@@ -12,9 +12,11 @@ public record ClinicalHistoryResponse(
         LocalDate recordDate,
         LocalDate returnDate,
         String clinicProfessional,
-        String observations
+        String observations,
+        Long petId,
+        String petName
 ) {
-    public static ClinicalHistoryResponse fromEntity(ClinicalHistory clinicalHistory){
+    public static ClinicalHistoryResponse toResponse(ClinicalHistory clinicalHistory){
         return new ClinicalHistoryResponse(
                 clinicalHistory.getId(),
                 clinicalHistory.getRecordType(),
@@ -22,7 +24,9 @@ public record ClinicalHistoryResponse(
                 clinicalHistory.getRecordDate(),
                 clinicalHistory.getReturnDate(),
                 clinicalHistory.getClinicProfessional(),
-                clinicalHistory.getObservations()
+                clinicalHistory.getObservations(),
+                clinicalHistory.getPet().getId(),
+                clinicalHistory.getPet().getName()
         );
     }
 }

@@ -1,9 +1,9 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.Enums.AlertOrigin;
-import fiap.com.br.petpulse.Enums.AlertRiskLevel;
-import fiap.com.br.petpulse.Enums.AlertStatus;
-import fiap.com.br.petpulse.Enums.AlertType;
+import fiap.com.br.petpulse.enums.AlertOrigin;
+import fiap.com.br.petpulse.enums.AlertRiskLevel;
+import fiap.com.br.petpulse.enums.AlertStatus;
+import fiap.com.br.petpulse.enums.AlertType;
 import fiap.com.br.petpulse.model.SmartAlert;
 
 import java.time.LocalDate;
@@ -25,7 +25,7 @@ public record SmartAlertResponse(
 
         AlertStatus status
 ) {
-    public static SmartAlertResponse fromEntity(SmartAlert smartAlert){
+    public static SmartAlertResponse toResponse(SmartAlert smartAlert){
         return new SmartAlertResponse(
                 smartAlert.getId(),
                 smartAlert.getAlertType(),

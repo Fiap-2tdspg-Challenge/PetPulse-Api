@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.dto;
 
-import fiap.com.br.petpulse.Enums.PetSize;
-import fiap.com.br.petpulse.Enums.Sex;
+import fiap.com.br.petpulse.enums.PetSize;
+import fiap.com.br.petpulse.enums.Sex;
 import fiap.com.br.petpulse.model.Pet;
 
 import java.time.LocalDate;
@@ -23,7 +23,7 @@ public record PetResponse(
         String tutorName
 
 ) {
-    public PetResponse fromEntity(Pet pet) {
+    public static PetResponse toResponse(Pet pet) {
         return new PetResponse(
                 pet.getId(),
                 pet.getName(),

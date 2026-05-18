@@ -1,9 +1,11 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.model.Tutor;
+import fiap.com.br.petpulse.dto.TutorRequest;
+import fiap.com.br.petpulse.dto.TutorResponse;
 import fiap.com.br.petpulse.service.TutorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/tutors")
 @Slf4j
-@Tag(name = "User", description = "Endpoint para gerenciamento de usuários")
+@Tag(name = "Tutor", description = "Endpoint para gerenciamento de tutores")
 public class TutorController {
 
     @Autowired
@@ -23,54 +25,62 @@ public class TutorController {
 
     @GetMapping
     @Operation(
-            summary = "Listar todos os usuários",
-            description = "Retorna uma lista completa de todos os usuários cadastrados no banco de dados."
+            summary = "Listar todos os tutores",
+            description = "Retorna uma lista completa de todos os tutores cadastrados no banco de dados."
     )
-    public List<Tutor> listAll() {
-        log.info("Listando todos os usuários");
-        return service.getAllUsers();
+    public List<TutorResponse> listAll() {
+        log.info("Listando todos os tutores");
+        return service.getAllTutors();
     }
 
     @PostMapping
     @Operation(
-            summary = "Cadastrar novo usuário",
-            description = "Cria um novo registro de usuário. O ID é gerado automaticamente."
+            summary = "Cadastrar novo tutor",
+            description = "Cria um novo registro de tutor. O ID e a data de cadastro são gerados automaticamente."
     )
-    public ResponseEntity<Tutor> createUser(@RequestBody Tutor tutor) {
-        log.info("Criando novo usuário: {}", tutor.getName());
+    public ResponseEntity<TutorResponse> createTutor(@RequestBody @Valid TutorRequest request) {
+        log.info("Criando novo tutor: {}", request.name());
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(service.addUser(tutor));
+                .body(service.addTutor(request));
     }
 
     @GetMapping("{id}")
     @Operation(
-            summary = "Obter usuário por ID",
-            description = "Busca os detalhes de um usuário específico através do seu identificador único."
+            summary = "Obter tutor por ID",
+            description = "Busca os detalhes de um tutor específico através do seu identificador único."
     )
-    public ResponseEntity<Tutor> getUserById(@PathVariable Long id) {
-        log.info("Obtendo dados do usuário {}", id);
-        return ResponseEntity.ok(service.getUserById(id));
+    public ResponseEntity<TutorResponse> getTutorById(@PathVariable Long id) {
+        log.info("Obtendo dados do tutor {}", id);
+
+        return ResponseEntity.ok(service.getTutorById(id));
     }
 
     @DeleteMapping("{id}")
     @Operation(
-            summary = "Deletar usuário",
-            description = "Remove permanentemente um usuário do sistema através do ID."
+            summary = "Deletar tutor",
+            description = "Remove permanentemente um tutor do sistema através do ID."
     )
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        log.info("Deletando usuário com id {}", id);
-        service.deleteUser(id);
+    public ResponseEntity<Void> deleteTutor(@PathVariable Long id) {
+        log.info("Deletando tutor com id {}", id);
+
+        service.deleteTutor(id);
+
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
     @Operation(
-            summary = "Atualizar usuário",
-            description = "Atualiza os dados de um usuário existente. Substitui todas as informações do registro pelo corpo enviado."
+            summary = "Atualizar tutor",
+            description = "Atualiza os dados de um tutor existente."
     )
-    public ResponseEntity<Tutor> updateUser(@PathVariable Long id, @RequestBody Tutor tutor) {
-        log.info("Atualizando usuário com id {} com os dados {}", id, tutor);
-        return ResponseEntity.ok(service.updateUser(id, tutor));
+    public ResponseEntity<TutorResponse> updateTutor(
+            @PathVariable Long id,
+            @RequestBody @Valid TutorRequest request
+    ) {
+        log.info("Atualizando tutor com id {}", id);
+
+        return ResponseEntity.ok(service.updateTutor(id, request));
     }
 }

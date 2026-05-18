@@ -1,6 +1,7 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.model.IoTDevice;
+import fiap.com.br.petpulse.dto.IoTDeviceRequest;
+import fiap.com.br.petpulse.dto.IoTDeviceResponse;
 import fiap.com.br.petpulse.service.IoTDeviceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +17,26 @@ public class IoTDeviceController {
     private IoTDeviceService ioTDeviceService;
 
     @PostMapping
-    public IoTDevice addIoTDevice(@RequestBody @Valid IoTDevice ioTDevice) {
-        return ioTDeviceService.addIoTDevice(ioTDevice);
+    public IoTDeviceResponse addIoTDevice(@RequestBody @Valid IoTDeviceRequest request) {
+        return ioTDeviceService.addIoTDevice(request);
     }
 
     @GetMapping
-    public List<IoTDevice> getAllIoTDevices() {
+    public List<IoTDeviceResponse> getAllIoTDevices() {
         return ioTDeviceService.getAllIoTDevices();
     }
 
     @GetMapping("/{id}")
-    public IoTDevice getIoTDeviceById(@PathVariable Long id) {
+    public IoTDeviceResponse getIoTDeviceById(@PathVariable Long id) {
         return ioTDeviceService.getIoTDeviceById(id);
     }
 
     @PutMapping("/{id}")
-    public IoTDevice updateIoTDevice(
+    public IoTDeviceResponse updateIoTDevice(
             @PathVariable Long id,
-            @RequestBody @Valid IoTDevice ioTDevice
+            @RequestBody @Valid IoTDeviceRequest request
     ) {
-        return ioTDeviceService.updateIoTDevice(id, ioTDevice);
+        return ioTDeviceService.updateIoTDevice(id, request);
     }
 
     @DeleteMapping("/{id}")

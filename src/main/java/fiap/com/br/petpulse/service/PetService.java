@@ -1,7 +1,11 @@
 package fiap.com.br.petpulse.service;
 
+import fiap.com.br.petpulse.dto.PetRequest;
+import fiap.com.br.petpulse.dto.PetResponse;
 import fiap.com.br.petpulse.model.Pet;
+import fiap.com.br.petpulse.model.Tutor;
 import fiap.com.br.petpulse.repositories.PetRepository;
+import fiap.com.br.petpulse.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,16 +19,33 @@ public class PetService {
     @Autowired
     private PetRepository petRepository;
 
-    public Pet addPet(Pet pet){
-        return petRepository.save(pet);
+    @Autowired
+    private TutorRepository tutorRepository;
+
+    public PetResponse addPet(PetRequest request) {
+
+        Tutor tutor = tutorRepository.findById(request.tutorId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Tutor com id " + request.tutorId() + " não encontrado"
+                )
+        );
+
+        Pet pet = request.toEntity();
+        pet.setTutor(tutor);
+
+        return PetResponse.toResponse(petRepository.save(pet));
     }
 
-    public List<Pet> getAllUPets() {
-        return petRepository.findAll();
+    public List<PetResponse> getAllPets() {
+        return petRepository.findAll()
+                .stream()
+                .map(PetResponse::toResponse)
+                .toList();
     }
 
-    public Pet getPetById(Long id){
-        return findPetById(id);
+    public PetResponse getPetById(Long id) {
+        return PetResponse.toResponse(findPetById(id));
     }
 
     public void deletePet(Long id) {
@@ -32,17 +53,37 @@ public class PetService {
         petRepository.deleteById(id);
     }
 
-    public Pet updatePet(Long id, Pet newPet) {
-        findPetById(id);
-        newPet.setId(id);
-        return petRepository.save(newPet);
+    public PetResponse updatePet(Long id, PetRequest request) {
+
+        Pet pet = findPetById(id);
+
+        Tutor tutor = tutorRepository.findById(request.tutorId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Tutor com id " + request.tutorId() + " não encontrado"
+                )
+        );
+
+        pet.setName(request.name());
+        pet.setSpecies(request.species());
+        pet.setBreed(request.breed());
+        pet.setBirthDate(request.birthDate());
+        pet.setWeight(request.weight());
+        pet.setSex(request.sex());
+        pet.setNeutered(request.neutered());
+        pet.setPetSize(request.size());
+        pet.setKnownDiseases(request.knownDiseases());
+        pet.setTutor(tutor);
+
+        return PetResponse.toResponse(petRepository.save(pet));
     }
 
     private Pet findPetById(Long id) {
         return petRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Petcom id " + id + " não encontrado")
+                        "Pet com id " + id + " não encontrado"
+                )
         );
     }
 }

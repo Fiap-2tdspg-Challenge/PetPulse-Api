@@ -1,7 +1,11 @@
 package fiap.com.br.petpulse.service;
 
+import fiap.com.br.petpulse.dto.IoTDeviceRequest;
+import fiap.com.br.petpulse.dto.IoTDeviceResponse;
 import fiap.com.br.petpulse.model.IoTDevice;
+import fiap.com.br.petpulse.model.Pet;
 import fiap.com.br.petpulse.repositories.IoTDeviceRepository;
+import fiap.com.br.petpulse.repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,19 +15,37 @@ import java.util.List;
 
 @Service
 public class IoTDeviceService {
+
     @Autowired
     private IoTDeviceRepository ioTDeviceRepository;
 
-    public IoTDevice addIoTDevice(IoTDevice ioTDevice){
-        return ioTDeviceRepository.save(ioTDevice);
+    @Autowired
+    private PetRepository petRepository;
+
+    public IoTDeviceResponse addIoTDevice(IoTDeviceRequest request) {
+
+        Pet pet = petRepository.findById(request.petId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Pet com id " + request.petId() + " não encontrado"
+                )
+        );
+
+        IoTDevice ioTDevice = request.toEntity();
+        ioTDevice.setPet(pet);
+
+        return IoTDeviceResponse.toResponse(ioTDeviceRepository.save(ioTDevice));
     }
 
-    public List<IoTDevice> getAllIoTDevices() {
-        return ioTDeviceRepository.findAll();
+    public List<IoTDeviceResponse> getAllIoTDevices() {
+        return ioTDeviceRepository.findAll()
+                .stream()
+                .map(IoTDeviceResponse::toResponse)
+                .toList();
     }
 
-    public IoTDevice getIoTDeviceById(Long id){
-        return findIoTDeviceById(id);
+    public IoTDeviceResponse getIoTDeviceById(Long id) {
+        return IoTDeviceResponse.toResponse(findIoTDeviceById(id));
     }
 
     public void deleteIoTDevice(Long id) {
@@ -31,10 +53,26 @@ public class IoTDeviceService {
         ioTDeviceRepository.deleteById(id);
     }
 
-    public IoTDevice updateIoTDevice(Long id, IoTDevice newIoTDevice) {
-        findIoTDeviceById(id);
-        newIoTDevice.setId(id);
-        return ioTDeviceRepository.save(newIoTDevice);
+    public IoTDeviceResponse updateIoTDevice(Long id, IoTDeviceRequest request) {
+
+        IoTDevice ioTDevice = findIoTDeviceById(id);
+
+        Pet pet = petRepository.findById(request.petId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Pet com id " + request.petId() + " não encontrado"
+                )
+        );
+
+        ioTDevice.setCollectionIntervalMinutes(request.collectionIntervalMinutes());
+        ioTDevice.setHeartRate(request.heartRate());
+        ioTDevice.setActivityLevel(request.activityLevel());
+        ioTDevice.setPressure(request.pressure());
+        ioTDevice.setLastReadingDate(request.lastReadingDate());
+        ioTDevice.setStatus(request.status());
+        ioTDevice.setPet(pet);
+
+        return IoTDeviceResponse.toResponse(ioTDeviceRepository.save(ioTDevice));
     }
 
     private IoTDevice findIoTDeviceById(Long id) {
@@ -45,5 +83,4 @@ public class IoTDeviceService {
                 )
         );
     }
-
 }

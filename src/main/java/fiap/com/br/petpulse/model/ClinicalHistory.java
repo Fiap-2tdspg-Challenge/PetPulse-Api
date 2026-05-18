@@ -1,6 +1,6 @@
 package fiap.com.br.petpulse.model;
 
-import fiap.com.br.petpulse.Enums.RecordType;
+import fiap.com.br.petpulse.enums.RecordType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +32,11 @@ public class ClinicalHistory {
     private String clinicProfessional;
 
     private String observations;
+
+    @PrePersist
+    public void prePersist() {
+        this.recordDate = LocalDate.now();
+    }
 
     @ManyToOne
     private Pet pet;

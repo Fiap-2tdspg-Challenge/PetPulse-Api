@@ -1,8 +1,11 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.model.Pet;
+import fiap.com.br.petpulse.dto.PetRequest;
+import fiap.com.br.petpulse.dto.PetResponse;
 import fiap.com.br.petpulse.service.PetService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,32 +13,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pets")
+@Slf4j
+@Tag(name = "Pet", description = "Endpoint para gerenciamento de Pets")
 public class PetController {
 
     @Autowired
     private PetService petService;
 
     @PostMapping
-    public Pet addPet(@RequestBody @Valid Pet pet) {
-        return petService.addPet(pet);
+    public PetResponse addPet(@RequestBody @Valid PetRequest request) {
+        return petService.addPet(request);
     }
 
     @GetMapping
-    public List<Pet> getAllPets() {
-        return petService.getAllUPets();
+    public List<PetResponse> getAllPets() {
+        return petService.getAllPets();
     }
 
     @GetMapping("/{id}")
-    public Pet getPetById(@PathVariable Long id) {
+    public PetResponse getPetById(@PathVariable Long id) {
         return petService.getPetById(id);
     }
 
     @PutMapping("/{id}")
-    public Pet updatePet(
-            @PathVariable Long id,
-            @RequestBody @Valid Pet pet
+    public PetResponse updatePet(@PathVariable Long id, @RequestBody @Valid PetRequest request
     ) {
-        return petService.updatePet(id, pet);
+        return petService.updatePet(id, request);
     }
 
     @DeleteMapping("/{id}")
