@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class IoTDeviceService {
@@ -37,11 +37,9 @@ public class IoTDeviceService {
         return IoTDeviceResponse.toResponse(ioTDeviceRepository.save(ioTDevice));
     }
 
-    public List<IoTDeviceResponse> getAllIoTDevices() {
-        return ioTDeviceRepository.findAll()
-                .stream()
-                .map(IoTDeviceResponse::toResponse)
-                .toList();
+    public Page<IoTDeviceResponse> getAllIoTDevices(Pageable pageable) {
+        return ioTDeviceRepository.findAll(pageable)
+                .map(IoTDeviceResponse::toResponse);
     }
 
     public IoTDeviceResponse getIoTDeviceById(Long id) {

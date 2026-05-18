@@ -7,6 +7,8 @@ import fiap.com.br.petpulse.model.Tutor;
 import fiap.com.br.petpulse.repositories.PetRepository;
 import fiap.com.br.petpulse.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,11 +39,9 @@ public class PetService {
         return PetResponse.toResponse(petRepository.save(pet));
     }
 
-    public List<PetResponse> getAllPets() {
-        return petRepository.findAll()
-                .stream()
-                .map(PetResponse::toResponse)
-                .toList();
+    public Page<PetResponse> getAllPets(Pageable pageable) {
+        return petRepository.findAll(pageable)
+                .map(PetResponse::toResponse);
     }
 
     public PetResponse getPetById(Long id) {
@@ -85,5 +85,12 @@ public class PetService {
                         "Pet com id " + id + " não encontrado"
                 )
         );
+    }
+
+    public List<PetResponse> searchPetsByName(String name) {
+        return petRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(PetResponse::toResponse)
+                .toList();
     }
 }

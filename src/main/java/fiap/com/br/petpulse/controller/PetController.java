@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class PetController {
     }
 
     @GetMapping
-    public List<PetResponse> getAllPets() {
-        return petService.getAllPets();
+    public Page<PetResponse> getAllPets(Pageable pageable) {
+        return petService.getAllPets(pageable);
     }
 
     @GetMapping("/{id}")
@@ -44,5 +46,10 @@ public class PetController {
     @DeleteMapping("/{id}")
     public void deletePet(@PathVariable Long id) {
         petService.deletePet(id);
+    }
+
+    @GetMapping("/search")
+    public List<PetResponse> searchPetsByName(@RequestParam String name) {
+        return petService.searchPetsByName(name);
     }
 }

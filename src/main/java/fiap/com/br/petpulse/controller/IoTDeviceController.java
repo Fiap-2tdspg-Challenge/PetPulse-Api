@@ -6,8 +6,8 @@ import fiap.com.br.petpulse.service.IoTDeviceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/iot-devices")
@@ -22,8 +22,8 @@ public class IoTDeviceController {
     }
 
     @GetMapping
-    public List<IoTDeviceResponse> getAllIoTDevices() {
-        return ioTDeviceService.getAllIoTDevices();
+    public Page<IoTDeviceResponse> getAllIoTDevices(Pageable pageable) {
+        return ioTDeviceService.getAllIoTDevices(pageable);
     }
 
     @GetMapping("/{id}")

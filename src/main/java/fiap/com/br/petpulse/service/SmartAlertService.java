@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class SmartAlertService {
@@ -37,11 +37,9 @@ public class SmartAlertService {
         return SmartAlertResponse.toResponse(smartAlertRepository.save(smartAlert));
     }
 
-    public List<SmartAlertResponse> getAllSmartAlerts() {
-        return smartAlertRepository.findAll()
-                .stream()
-                .map(SmartAlertResponse::toResponse)
-                .toList();
+    public Page<SmartAlertResponse> getAllSmartAlerts(Pageable pageable) {
+        return smartAlertRepository.findAll(pageable)
+                .map(SmartAlertResponse::toResponse);
     }
 
     public SmartAlertResponse getSmartAlertById(Long id) {

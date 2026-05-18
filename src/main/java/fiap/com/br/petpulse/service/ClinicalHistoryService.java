@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ClinicalHistoryService {
@@ -37,11 +37,9 @@ public class ClinicalHistoryService {
         return ClinicalHistoryResponse.toResponse(clinicalHistoryRepository.save(clinicalHistory));
     }
 
-    public List<ClinicalHistoryResponse> getAllClinicalHistories() {
-        return clinicalHistoryRepository.findAll()
-                .stream()
-                .map(ClinicalHistoryResponse::toResponse)
-                .toList();
+    public Page<ClinicalHistoryResponse> getAllClinicalHistories(Pageable pageable) {
+        return clinicalHistoryRepository.findAll(pageable)
+                .map(ClinicalHistoryResponse::toResponse);
     }
 
     public ClinicalHistoryResponse getClinicalHistoryById(Long id) {

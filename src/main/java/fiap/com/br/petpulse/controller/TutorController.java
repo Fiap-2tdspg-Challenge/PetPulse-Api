@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/tutors")
@@ -28,11 +28,10 @@ public class TutorController {
             summary = "Listar todos os tutores",
             description = "Retorna uma lista completa de todos os tutores cadastrados no banco de dados."
     )
-    public List<TutorResponse> listAll() {
-        log.info("Listando todos os tutores");
-        return service.getAllTutors();
+    public Page<TutorResponse> listAll(Pageable pageable) {
+        log.info("Listando todos os tutores com paginação");
+        return service.getAllTutors(pageable);
     }
-
     @PostMapping
     @Operation(
             summary = "Cadastrar novo tutor",

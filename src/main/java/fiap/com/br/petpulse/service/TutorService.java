@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -22,11 +24,9 @@ public class TutorService {
         return TutorResponse.toResponse(tutorRepository.save(tutor));
     }
 
-    public List<TutorResponse> getAllTutors() {
-        return tutorRepository.findAll()
-                .stream()
-                .map(TutorResponse::toResponse)
-                .toList();
+    public Page<TutorResponse> getAllTutors(Pageable pageable) {
+        return tutorRepository.findAll(pageable)
+                .map(TutorResponse::toResponse);
     }
 
     public TutorResponse getTutorById(Long id) {
