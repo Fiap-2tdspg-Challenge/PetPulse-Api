@@ -1,4 +1,4 @@
-package fiap.com.br.petpulse.handler;
+package fiap.com.br.petpulse.validation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
