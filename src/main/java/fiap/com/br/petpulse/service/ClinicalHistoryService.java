@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
+@CacheConfig(cacheNames = "clinicalHistories")
 @Service
 public class ClinicalHistoryService {
 
@@ -22,6 +26,7 @@ public class ClinicalHistoryService {
     @Autowired
     private PetRepository petRepository;
 
+    @CacheEvict
     public ClinicalHistoryResponse addClinicalHistory(ClinicalHistoryRequest request) {
 
         Pet pet = petRepository.findById(request.petId()).orElseThrow(
@@ -37,20 +42,24 @@ public class ClinicalHistoryService {
         return ClinicalHistoryResponse.toResponse(clinicalHistoryRepository.save(clinicalHistory));
     }
 
+    @Cacheable
     public Page<ClinicalHistoryResponse> getAllClinicalHistories(Pageable pageable) {
         return clinicalHistoryRepository.findAll(pageable)
                 .map(ClinicalHistoryResponse::toResponse);
     }
 
+    @Cacheable
     public ClinicalHistoryResponse getClinicalHistoryById(Long id) {
         return ClinicalHistoryResponse.toResponse(findClinicalHistoryById(id));
     }
 
+    @CacheEvict
     public void deleteClinicalHistory(Long id) {
         findClinicalHistoryById(id);
         clinicalHistoryRepository.deleteById(id);
     }
 
+    @CacheEvict
     public ClinicalHistoryResponse updateClinicalHistory(Long id, ClinicalHistoryRequest request) {
 
         ClinicalHistory clinicalHistory = findClinicalHistoryById(id);
@@ -71,6 +80,7 @@ public class ClinicalHistoryService {
 
         return ClinicalHistoryResponse.toResponse(clinicalHistoryRepository.save(clinicalHistory));
     }
+
 
     private ClinicalHistory findClinicalHistoryById(Long id) {
         return clinicalHistoryRepository.findById(id).orElseThrow(

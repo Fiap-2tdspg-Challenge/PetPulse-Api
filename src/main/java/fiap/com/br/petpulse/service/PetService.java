@@ -7,6 +7,9 @@ import fiap.com.br.petpulse.model.Tutor;
 import fiap.com.br.petpulse.repositories.PetRepository;
 import fiap.com.br.petpulse.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@CacheConfig(cacheNames = "pets")
 @Service
 public class PetService {
 
@@ -24,6 +28,7 @@ public class PetService {
     @Autowired
     private TutorRepository tutorRepository;
 
+    @CacheEvict
     public PetResponse addPet(PetRequest request) {
 
         Tutor tutor = tutorRepository.findById(request.tutorId()).orElseThrow(
@@ -39,20 +44,24 @@ public class PetService {
         return PetResponse.toResponse(petRepository.save(pet));
     }
 
+    @Cacheable
     public Page<PetResponse> getAllPets(Pageable pageable) {
         return petRepository.findAll(pageable)
                 .map(PetResponse::toResponse);
     }
 
+    @Cacheable
     public PetResponse getPetById(Long id) {
         return PetResponse.toResponse(findPetById(id));
     }
 
+    @CacheEvict
     public void deletePet(Long id) {
         findPetById(id);
         petRepository.deleteById(id);
     }
 
+    @CacheEvict
     public PetResponse updatePet(Long id, PetRequest request) {
 
         Pet pet = findPetById(id);
@@ -87,6 +96,7 @@ public class PetService {
         );
     }
 
+    @Cacheable
     public List<PetResponse> searchPetsByName(String name) {
         return petRepository.findByNameContainingIgnoreCase(name)
                 .stream()

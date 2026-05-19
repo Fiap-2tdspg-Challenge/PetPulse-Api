@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
+@CacheConfig(cacheNames = "iotDevices")
 @Service
 public class IoTDeviceService {
 
@@ -22,6 +26,7 @@ public class IoTDeviceService {
     @Autowired
     private PetRepository petRepository;
 
+    @CacheEvict
     public IoTDeviceResponse addIoTDevice(IoTDeviceRequest request) {
 
         Pet pet = petRepository.findById(request.petId()).orElseThrow(
@@ -37,20 +42,24 @@ public class IoTDeviceService {
         return IoTDeviceResponse.toResponse(ioTDeviceRepository.save(ioTDevice));
     }
 
+    @Cacheable
     public Page<IoTDeviceResponse> getAllIoTDevices(Pageable pageable) {
         return ioTDeviceRepository.findAll(pageable)
                 .map(IoTDeviceResponse::toResponse);
     }
 
+    @Cacheable
     public IoTDeviceResponse getIoTDeviceById(Long id) {
         return IoTDeviceResponse.toResponse(findIoTDeviceById(id));
     }
 
+    @CacheEvict
     public void deleteIoTDevice(Long id) {
         findIoTDeviceById(id);
         ioTDeviceRepository.deleteById(id);
     }
 
+    @CacheEvict
     public IoTDeviceResponse updateIoTDevice(Long id, IoTDeviceRequest request) {
 
         IoTDevice ioTDevice = findIoTDeviceById(id);

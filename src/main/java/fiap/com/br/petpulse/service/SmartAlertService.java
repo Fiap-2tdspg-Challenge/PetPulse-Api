@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
+@CacheConfig(cacheNames = "smartAlerts")
 @Service
 public class SmartAlertService {
 
@@ -22,6 +26,7 @@ public class SmartAlertService {
     @Autowired
     private PetRepository petRepository;
 
+    @CacheEvict
     public SmartAlertResponse addSmartAlert(SmartAlertRequest request) {
 
         Pet pet = petRepository.findById(request.petId()).orElseThrow(
@@ -37,20 +42,24 @@ public class SmartAlertService {
         return SmartAlertResponse.toResponse(smartAlertRepository.save(smartAlert));
     }
 
+    @Cacheable
     public Page<SmartAlertResponse> getAllSmartAlerts(Pageable pageable) {
         return smartAlertRepository.findAll(pageable)
                 .map(SmartAlertResponse::toResponse);
     }
 
+    @Cacheable
     public SmartAlertResponse getSmartAlertById(Long id) {
         return SmartAlertResponse.toResponse(findSmartAlertById(id));
     }
 
+    @CacheEvict
     public void deleteSmartAlert(Long id) {
         findSmartAlertById(id);
         smartAlertRepository.deleteById(id);
     }
 
+    @CacheEvict
     public SmartAlertResponse updateSmartAlert(Long id, SmartAlertRequest request) {
 
         SmartAlert smartAlert = findSmartAlertById(id);
