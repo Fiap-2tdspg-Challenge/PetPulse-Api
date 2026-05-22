@@ -1,0 +1,1145 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: PetPulse
+meta:
+  id: wrk_7b3d9e65eb8d4f4a82df99c6030e2d21
+  created: 1779132400954
+  modified: 1779132400954
+  description: ""
+collection:
+  - name: Pet
+    meta:
+      id: fld_2f74143955624b909ba947381370077f
+      created: 1779132405620
+      modified: 1779132405620
+      sortKey: -1779132405620
+      description: ""
+    children:
+      - url: http://localhost:8080/pets
+        name: Post Pet
+        meta:
+          id: req_f80ff633987340bb98b9d10798ea5a0d
+          created: 1779132410093
+          modified: 1779198112018
+          isPrivate: false
+          description: ""
+          sortKey: -1779132410118
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Thor",
+              "species": "Cachorro",
+              "breed": "Golden Retriever",
+              "birthDate": "2020-05-10",
+              "weight": 30.5,
+              "sex": "MACHO",
+              "neutered": true,
+              "size": "GRANDE",
+              "knownDiseases": "Nenhuma",
+              "tutorId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/pets
+        name: Get Pets
+        meta:
+          id: req_97516b7465b840818d5f911c714edfcb
+          created: 1779132470106
+          modified: 1779132493678
+          isPrivate: false
+          description: ""
+          sortKey: -1779132409993
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/pets/1
+        name: Get Pets by Id
+        meta:
+          id: req_a5e35fbd954b4c74928130ab69b5fa64
+          created: 1779132502350
+          modified: 1779132513246
+          isPrivate: false
+          description: ""
+          sortKey: -1779132410043
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/pets/1
+        name: Put Pet
+        meta:
+          id: req_cf70ac6816624e8f82d841a3e8c0ef38
+          created: 1779132527924
+          modified: 1779134193423
+          isPrivate: false
+          description: ""
+          sortKey: -1779132409893
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Thor Atualizado",
+              "species": "Cachorro",
+              "breed": "Golden Retriever",
+              "birthDate": "2020-05-10",
+              "weight": 32.0,
+              "sex": "MACHO",
+              "neutered": true,
+              "size": "GRANDE",
+              "knownDiseases": "Alergia leve",
+              "tutorId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/pets/1
+        name: Delete Pet
+        meta:
+          id: req_871d70ea5b274a43b944a3f05fcffe1d
+          created: 1779132565362
+          modified: 1779132577217
+          isPrivate: false
+          description: ""
+          sortKey: -1779132409793
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/pets?page=0&size=5
+        name: Get Pets Paginado
+        meta:
+          id: req_f8b6ce9cba504f0d94c047675f9bacee
+          created: 1779136865662
+          modified: 1779138634776
+          isPrivate: false
+          description: ""
+          sortKey: -1779132409943
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/pets/search?name=roberto
+        name: Get Pets por Nome
+        meta:
+          id: req_05151ec605214955a2516bd93c87aef6
+          created: 1779137091060
+          modified: 1779219291602
+          isPrivate: false
+          description: ""
+          sortKey: -1779132409918
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/pets?page=0&size=5&sort=name,asc
+        name: Get Pets ordenado por Id Ascendente
+        meta:
+          id: req_250f6ba61642465ea3612f07cd15da5c
+          created: 1779137108021
+          modified: 1779138662852
+          isPrivate: false
+          description: ""
+          sortKey: -1779132409905.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Tutor
+    meta:
+      id: fld_381108a7bcae46e0be1c2f8bfbf4206e
+      created: 1779133873752
+      modified: 1779139156032
+      sortKey: -1779133873752
+      description: ""
+    children:
+      - url: http://localhost:8080/tutors/1
+        name: New Request
+        meta:
+          id: req_3d25bde0d9dd4dcd9eabc4418888f59a
+          created: 1779133877896
+          modified: 1779134142434
+          isPrivate: false
+          description: ""
+          sortKey: -1779133877896
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors/1
+        name: Put Tutor
+        meta:
+          id: req_3204df4b54d54de39416e13c4e64dba4
+          created: 1779133879310
+          modified: 1779291580273
+          isPrivate: false
+          description: ""
+          sortKey: -1779133879310
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "João Silva Atualizado",
+              "cpf": "12345678909",
+              "email": "joao.atualizado@email.com",
+              "password": "12345678",
+              "phone": "11988888888",
+              "address": "Av. Paulista, 1000"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors/1
+        name: Get Tutor by Id
+        meta:
+          id: req_37ef388386584dc6ab6371bee2776d2b
+          created: 1779133880469
+          modified: 1779134085236
+          isPrivate: false
+          description: ""
+          sortKey: -1779133880469
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors
+        name: Get Tutors
+        meta:
+          id: req_71e2a620507b45c3adb9201f13932aa4
+          created: 1779133882780
+          modified: 1779199504960
+          isPrivate: false
+          description: ""
+          sortKey: -1779133882780
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors
+        name: Post Tutor
+        meta:
+          id: req_3fbf13f72302403d9c45213b097ff0a1
+          created: 1779133883917
+          modified: 1779291576729
+          isPrivate: false
+          description: ""
+          sortKey: -1779133883917
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "João Silva",
+              "cpf": "12345678909",
+              "email": "joao@email.com",
+              "password": "12345678",
+              "phone": "11999999999",
+              "address": "Rua das Flores, 100"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors?page=0&size=5&sort=id,desc
+        name: Get Tutor ordenado por Id Decrescente
+        meta:
+          id: req_e797586a6fb44125867c3453c3c29377
+          created: 1779137988421
+          modified: 1779138788358
+          isPrivate: false
+          description: ""
+          sortKey: -1779133879599.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors?page=0&size=5&sort=name,asc
+        name: Get Tutor ordenado por Id Ascendente
+        meta:
+          id: req_d2036cac25c4452988f6690b2e57f866
+          created: 1779137989544
+          modified: 1779145290359
+          isPrivate: false
+          description: ""
+          sortKey: -1779133879454.875
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors?page=0&size=5
+        name: Get Tutor Paginado
+        meta:
+          id: req_5447eb87b1ca485793e92822356987bd
+          created: 1779137990653
+          modified: 1779138731618
+          isPrivate: false
+          description: ""
+          sortKey: -1779133879889.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tutors/search?name=joao
+        name: Get Tutor por Nome
+        meta:
+          id: req_012ae294ef0d44c4b8f111c7b1139e94
+          created: 1779145284921
+          modified: 1779145304500
+          isPrivate: false
+          description: ""
+          sortKey: -1779133879382.4375
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: ClinicalHistory
+    meta:
+      id: fld_381d5713683a4cbeae871a92fc1c87cb
+      created: 1779134830735
+      modified: 1779144985194
+      sortKey: -1779134830735
+      description: ""
+    children:
+      - url: http://localhost:8080/clinical-histories/1
+        name: Delete ClinicalHistory
+        meta:
+          id: req_0db92d24d2e240b7b7041e202a99f2d9
+          created: 1779134833588
+          modified: 1779134987918
+          isPrivate: false
+          description: ""
+          sortKey: -1779134833588
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/clinical-histories/1
+        name: Put ClinicalHistory
+        meta:
+          id: req_efe05d7561fa41729c46fa712ba4ef04
+          created: 1779134834779
+          modified: 1779134980631
+          isPrivate: false
+          description: ""
+          sortKey: -1779134834779
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "recordType": "CONSULTA",
+              "description": "Consulta de rotina com avaliação geral",
+              "returnDate": "2026-07-18",
+              "clinicProfessional": "Dr. Carlos Mendes",
+              "observations": "Pet saudável, manter acompanhamento",
+              "petId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/clinical-histories/1
+        name: Get ClinicalHistory by Id
+        meta:
+          id: req_30bca6a501b04f4ba68953dc0c8b76b2
+          created: 1779134835750
+          modified: 1779139160015
+          isPrivate: false
+          description: ""
+          sortKey: -1779134835750
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/clinical-histories
+        name: Get ClinicalHistory
+        meta:
+          id: req_6067f071e66f401298728cc2a2b3af29
+          created: 1779134836935
+          modified: 1779134962570
+          isPrivate: false
+          description: ""
+          sortKey: -1779134836935
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/clinical-histories
+        name: Post ClinicalHistory
+        meta:
+          id: req_1b38e1a52df64625beed4f580d8c49df
+          created: 1779134838680
+          modified: 1779134928455
+          isPrivate: false
+          description: ""
+          sortKey: -1779134838680
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "recordType": "VACINA",
+              "description": "Aplicação da vacina V10",
+              "returnDate": "2026-06-18",
+              "clinicProfessional": "Dra. Ana Souza",
+              "observations": "Pet reagiu bem à vacina",
+              "petId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/clinical-histories?page=0&size=5&sort=id,desc
+        name: Get ClinicalHistory ordenado por id Decrescente
+        meta:
+          id: req_315b9772841245ad9b0c090ba80d2cb7
+          created: 1779139141882
+          modified: 1779139287032
+          isPrivate: false
+          description: ""
+          sortKey: -1779134835021.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/clinical-histories?page=0&size=5&sort=recordType,asc
+        name: Get ClinicalHistory ordenado por Tipo Ascendente
+        meta:
+          id: req_69a0ab1a06264b84a17ecd1960b90e0c
+          created: 1779139142922
+          modified: 1779139303700
+          isPrivate: false
+          description: ""
+          sortKey: -1779134834900.375
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/clinical-histories?page=0&size=5
+        name: Get ClinicalHistory Paginado
+        meta:
+          id: req_9a82d151f42e47fe9eb4cbb2ac9341ae
+          created: 1779139143833
+          modified: 1779139217125
+          isPrivate: false
+          description: ""
+          sortKey: -1779134835264.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: IoTDevice
+    meta:
+      id: fld_4994e8204d6445d3b8f7153a5a79dc9d
+      created: 1779135238424
+      modified: 1779135238424
+      sortKey: -1779135238424
+      description: ""
+    children:
+      - url: http://localhost:8080/iot-devices/1
+        name: Delete IoTDevice
+        meta:
+          id: req_4421dc66bc8b4428b3af4e7f3aae412f
+          created: 1779135240100
+          modified: 1779135368618
+          isPrivate: false
+          description: ""
+          sortKey: -1779135240100
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/iot-devices/1
+        name: Put IoTDevice
+        meta:
+          id: req_78dd9b80e3264528887be3188a565b91
+          created: 1779135242653
+          modified: 1779135362575
+          isPrivate: false
+          description: ""
+          sortKey: -1779135242653
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "collectionIntervalMinutes": 15,
+              "heartRate": 95,
+              "activityLevel": 8.2,
+              "pressure": 13.1,
+              "lastReadingDate": "2026-05-18",
+              "status": "MANUTENCAO",
+              "petId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/iot-devices/1
+        name: Get IoTDevice by Id
+        meta:
+          id: req_44b58b194d46495a94da00d9da833acc
+          created: 1779135243543
+          modified: 1779135351589
+          isPrivate: false
+          description: ""
+          sortKey: -1779135243543
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/iot-devices
+        name: Get IoTDevice
+        meta:
+          id: req_04499e84324e45549890cf3c12e000fa
+          created: 1779135245414
+          modified: 1779135345094
+          isPrivate: false
+          description: ""
+          sortKey: -1779135245414
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/iot-devices
+        name: Post IoTDevice
+        meta:
+          id: req_e22197bd79c24198ad5c1c24a9b2cf18
+          created: 1779135246308
+          modified: 1779135332637
+          isPrivate: false
+          description: ""
+          sortKey: -1779135246308
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "collectionIntervalMinutes": 30,
+              "heartRate": 90,
+              "activityLevel": 7.5,
+              "pressure": 12.8,
+              "lastReadingDate": "2026-05-18",
+              "status": "ATIVO",
+              "petId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/iot-devices?page=0&size=5&sort=id,desc
+        name: Get IoTDevice por Id Decrescente
+        meta:
+          id: req_52cbe8a4ebe74ab48f954494d83a4008
+          created: 1779140206186
+          modified: 1779140373734
+          isPrivate: false
+          description: ""
+          sortKey: -1779135242764.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/iot-devices?page=0&size=5&sort=status,asc
+        name: Get IoTDevice por Status Ascendente
+        meta:
+          id: req_82844cc2b50d40849e436108ae129b5e
+          created: 1779140207418
+          modified: 1779140447619
+          isPrivate: false
+          description: ""
+          sortKey: -1779135242875.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/iot-devices?page=0&size=5
+        name: Get IoTDevice Paginado
+        meta:
+          id: req_3da2d55e63b34eeb852be1d3c6d64a91
+          created: 1779140208720
+          modified: 1779140355460
+          isPrivate: false
+          description: ""
+          sortKey: -1779135243098
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: SmartAlert
+    meta:
+      id: fld_ebae97026e334f9daef7f7af1f9f7f31
+      created: 1779135689675
+      modified: 1779135689675
+      sortKey: -1779135689675
+      description: ""
+    children:
+      - url: http://localhost:8080/smart-alerts/1
+        name: Delete SmartAlert
+        meta:
+          id: req_76a13ea64c914eb693978870a91d0c3e
+          created: 1779135691103
+          modified: 1779135836981
+          isPrivate: false
+          description: ""
+          sortKey: -1779135691103
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/smart-alerts/1
+        name: Put SmartAlert
+        meta:
+          id: req_9fececa3da164ff29640189264636dd8
+          created: 1779135692207
+          modified: 1779135825989
+          isPrivate: false
+          description: ""
+          sortKey: -1779135692207
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "alertType": "VACINA",
+              "riskLevel": "MEDIO",
+              "alertOrigin": "SISTEMA",
+              "message": "Vacina próxima do prazo de vencimento.",
+              "recommendation": "Agendar vacinação nos próximos dias.",
+              "petId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/smart-alerts/1
+        name: Get SmartAlert by Id
+        meta:
+          id: req_d826d76cd97c49f3aada2acd3d4bb35b
+          created: 1779135692953
+          modified: 1779140827138
+          isPrivate: false
+          description: ""
+          sortKey: -1779135692953
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/smart-alerts
+        name: Get SmartAlert
+        meta:
+          id: req_209d9171e42f49a8ab44e2c694b8b6fa
+          created: 1779135693716
+          modified: 1779135806590
+          isPrivate: false
+          description: ""
+          sortKey: -1779135693716
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/smart-alerts
+        name: Post SmartAlert
+        meta:
+          id: req_8418acc488c04ae48ca6d5685852168c
+          created: 1779135694421
+          modified: 1779135784173
+          isPrivate: false
+          description: ""
+          sortKey: -1779135694421
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+              "alertType": "FREQUENCIA_CARDIACA",
+              "riskLevel": "ALTO",
+              "alertOrigin": "DISPOSITIVO_IOT",
+              "message": "Frequência cardíaca acima do esperado para o pet.",
+              "recommendation": "Recomenda-se acompanhamento veterinário e nova leitura em breve.",
+              "petId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/smart-alerts?page=0&size=5&sort=id,desc
+        name: "Get SmartAlert por Id Decrescente "
+        meta:
+          id: req_15eda929c9de40458e27031790262d6d
+          created: 1779140802993
+          modified: 1779141036439
+          isPrivate: false
+          description: ""
+          sortKey: -1779135692300.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/smart-alerts?page=0&size=5&sort=riskLevel,asc
+        name: Get SmartAlert por Nivel de Risco
+        meta:
+          id: req_f03b95344f00409baa756bbc830f2b4e
+          created: 1779140804061
+          modified: 1779141031104
+          isPrivate: false
+          description: ""
+          sortKey: -1779135692393.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/smart-alerts?page=0&size=5
+        name: Get SmartAlert Paginado
+        meta:
+          id: req_abb11c54b77f4d2cbee47a6ceec3a5ad
+          created: 1779140805016
+          modified: 1779141026508
+          isPrivate: false
+          description: ""
+          sortKey: -1779135692580
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_a6ca1ace8ace55dbe5f45f752499c3738e8f2f65
+    created: 1779132400965
+    modified: 1779132400965
+environments:
+  name: Base Environment
+  meta:
+    id: env_a6ca1ace8ace55dbe5f45f752499c3738e8f2f65
+    created: 1779132400963
+    modified: 1779132400963
+    isPrivate: false
