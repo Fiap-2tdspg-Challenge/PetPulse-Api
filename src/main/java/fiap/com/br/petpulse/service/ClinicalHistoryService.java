@@ -1,93 +1,147 @@
 package fiap.com.br.petpulse.service;
 
+import fiap.com.br.petpulse.assembler.ClinicalHistoryAssembler;
 import fiap.com.br.petpulse.dto.request.ClinicalHistoryRequest;
 import fiap.com.br.petpulse.dto.response.ClinicalHistoryResponse;
 import fiap.com.br.petpulse.model.ClinicalHistory;
 import fiap.com.br.petpulse.model.Pet;
+import fiap.com.br.petpulse.model.Professional;
 import fiap.com.br.petpulse.repositories.ClinicalHistoryRepository;
 import fiap.com.br.petpulse.repositories.PetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import fiap.com.br.petpulse.repositories.ProfessionalRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-@CacheConfig(cacheNames = "clinicalHistories")
 @Service
+@RequiredArgsConstructor
+@CacheConfig(cacheNames = "clinicalHistories")
 public class ClinicalHistoryService {
 
-    @Autowired
-    private ClinicalHistoryRepository clinicalHistoryRepository;
+    private final ClinicalHistoryRepository clinicalHistoryRepository;
+    private final PetRepository petRepository;
+    private final ProfessionalRepository professionalRepository;
+    private final ClinicalHistoryAssembler clinicalHistoryAssembler;
 
-    @Autowired
-    private PetRepository petRepository;
 
-    @CacheEvict
-    public ClinicalHistoryResponse addClinicalHistory(ClinicalHistoryRequest request) {
+    @CacheEvict(allEntries = true)
+    public ClinicalHistoryResponse addClinicalHistory(
+            ClinicalHistoryRequest request
+    ) {
 
-        Pet pet = petRepository.findById(request.petId()).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Pet com id " + request.petId() + " não encontrado"
-                )
+        Pet pet = findPetById(request.petId());
+
+        Professional professional =
+                findProfessionalById(request.professionalId());
+
+        ClinicalHistory history =
+                clinicalHistoryAssembler.toEntity(
+                        request,
+                        pet,
+                        professional
+                );
+
+        return clinicalHistoryAssembler.toResponse(
+                clinicalHistoryRepository.save(history)
         );
-
-        ClinicalHistory clinicalHistory = request.toEntity();
-        clinicalHistory.setPet(pet);
-
-        return ClinicalHistoryResponse.toResponse(clinicalHistoryRepository.save(clinicalHistory));
     }
+
 
     @Cacheable
-    public Page<ClinicalHistoryResponse> getAllClinicalHistories(Pageable pageable) {
+    public Page<ClinicalHistoryResponse> getAllClinicalHistories(
+            Pageable pageable
+    ) {
         return clinicalHistoryRepository.findAll(pageable)
-                .map(ClinicalHistoryResponse::toResponse);
+                .map(clinicalHistoryAssembler::toResponse);
     }
+
 
     @Cacheable
     public ClinicalHistoryResponse getClinicalHistoryById(Long id) {
-        return ClinicalHistoryResponse.toResponse(findClinicalHistoryById(id));
+        return clinicalHistoryAssembler.toResponse(
+                findClinicalHistoryById(id)
+        );
     }
 
-    @CacheEvict
-    public void deleteClinicalHistory(Long id) {
-        findClinicalHistoryById(id);
-        clinicalHistoryRepository.deleteById(id);
-    }
 
-    @CacheEvict
-    public ClinicalHistoryResponse updateClinicalHistory(Long id, ClinicalHistoryRequest request) {
+    @CacheEvict(allEntries = true)
+    public ClinicalHistoryResponse updateClinicalHistory(
+            Long id,
+            ClinicalHistoryRequest request
+    ) {
 
-        ClinicalHistory clinicalHistory = findClinicalHistoryById(id);
+        ClinicalHistory history =
+                findClinicalHistoryById(id);
 
-        Pet pet = petRepository.findById(request.petId()).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Pet com id " + request.petId() + " não encontrado"
-                )
+        Pet pet = findPetById(request.petId());
+
+        Professional professional =
+                findProfessionalById(request.professionalId());
+
+        clinicalHistoryAssembler.updateEntity(
+                history,
+                request,
+                pet,
+                professional
         );
 
-        clinicalHistory.setRecordType(request.recordType());
-        clinicalHistory.setDescription(request.description());
-        clinicalHistory.setReturnDate(request.returnDate());
-        clinicalHistory.setClinicProfessional(request.clinicProfessional());
-        clinicalHistory.setObservations(request.observations());
-        clinicalHistory.setPet(pet);
+        return clinicalHistoryAssembler.toResponse(
+                clinicalHistoryRepository.save(history)
+        );
+    }
 
-        return ClinicalHistoryResponse.toResponse(clinicalHistoryRepository.save(clinicalHistory));
+
+    @CacheEvict(allEntries = true)
+    public void deleteClinicalHistory(Long id) {
+
+        ClinicalHistory history =
+                findClinicalHistoryById(id);
+
+        clinicalHistoryRepository.delete(history);
     }
 
 
     private ClinicalHistory findClinicalHistoryById(Long id) {
-        return clinicalHistoryRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Histórico clínico com id " + id + " não encontrado"
-                )
-        );
+        return clinicalHistoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Histórico clínico com id "
+                                        + id
+                                        + " não encontrado"
+                        )
+                );
+    }
+
+
+    private Pet findPetById(Long id) {
+        return petRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Pet com id "
+                                        + id
+                                        + " não encontrado"
+                        )
+                );
+    }
+
+
+    private Professional findProfessionalById(Long id) {
+        return professionalRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Profissional com id "
+                                        + id
+                                        + " não encontrado"
+                        )
+                );
     }
 }

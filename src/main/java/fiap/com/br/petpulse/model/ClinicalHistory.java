@@ -16,28 +16,40 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class ClinicalHistory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_HISTORICO")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_PET", nullable = false)
+    private Pet pet;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_PROFISSIONAL")
+    private Professional professional;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "TIPO_REGISTRO", length = 50)
     private RecordType recordType;
 
+    @Column(name = "DESCRICAO", length = 500)
     private String description;
 
+    @Column(name = "DT_REGISTRO", nullable = false)
     private LocalDate recordDate;
 
+    @Column(name = "DT_RETORNO")
     private LocalDate returnDate;
 
-    private String clinicProfessional;
-
+    @Column(name = "OBSERVACOES", length = 1000)
     private String observations;
 
     @PrePersist
     public void prePersist() {
-        this.recordDate = LocalDate.now();
+        if (recordDate == null) {
+            recordDate = LocalDate.now();
+        }
     }
-
-    @ManyToOne
-    private Pet pet;
 }

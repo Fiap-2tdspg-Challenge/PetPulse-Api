@@ -8,7 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +18,13 @@ import org.springframework.data.domain.Pageable;
 @RestController
 @RequestMapping("/clinical-histories")
 @Tag(name = "Clinical History", description = "Endpoints para gerenciamento do histórico clínico dos pets")
+@RequiredArgsConstructor
 public class ClinicalHistoryController {
 
-    @Autowired
-    private ClinicalHistoryService clinicalHistoryService;
+    private final ClinicalHistoryService clinicalHistoryService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Cadastrar histórico clínico",
             description = "Cria um novo registro no histórico clínico de um pet, como vacina, consulta, doença, medicamento, observação ou exame."
@@ -81,6 +83,7 @@ public class ClinicalHistoryController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Deletar histórico clínico",
             description = "Remove um registro do histórico clínico a partir do ID informado."
