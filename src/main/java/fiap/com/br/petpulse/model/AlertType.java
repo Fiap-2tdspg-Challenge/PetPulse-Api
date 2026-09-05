@@ -7,18 +7,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "T_CLY_ESPECIE")
+@Table(name = "T_CLY_TIPO_ALERTA")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Species {
+public class AlertType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_ESPECIE")
+    @Column(name = "ID_TIPO_ALERTA")
     private Long id;
 
-    @Column(name = "NOME_ESPECIE", nullable = false, unique = true, length = 50)
-    private String name;
+    @Column(name = "DESCRICAO", nullable = false, length = 100)
+    private String description;
 }

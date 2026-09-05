@@ -7,18 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "T_CLY_ESPECIE")
+@Table(name = "T_CLY_CIDADE")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Species {
+public class City {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_ESPECIE")
+    @Column(name = "COD_CIDADE")
     private Long id;
 
-    @Column(name = "NOME_ESPECIE", nullable = false, unique = true, length = 50)
+    @ManyToOne
+    @JoinColumn(name = "COD_ESTADO", nullable = false, columnDefinition = "CHAR(2)")
+    private State state;
+
+    @Column(name = "NOME_CIDADE", nullable = false, length = 100)
     private String name;
 }

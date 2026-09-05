@@ -7,17 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "T_CLY_ESTADO")
+@Table(name = "T_CLY_TIPO_ENDERECO")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class State {
+public class AddressType {
 
     @Id
-    @Column(name = "COD_ESTADO", columnDefinition = "CHAR(2)")
-    private String code;
+    @Column(name = "COD_TIPO_ENDERECO")
+    private Integer id;
 
-    @Column(name = "NOME_ESTADO", nullable = false, length = 50)
-    private String name;
+    @Column(name = "DES_TIPO_ENDERECO", nullable = false, length = 50)
+    private String description;
 }
