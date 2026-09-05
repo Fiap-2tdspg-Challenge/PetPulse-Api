@@ -8,7 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,12 +17,13 @@ import org.springframework.data.domain.Pageable;
 @RestController
 @RequestMapping("/smart-alerts")
 @Tag(name = "Smart Alert", description = "Endpoints para gerenciamento de alertas inteligentes gerados para os pets")
+@RequiredArgsConstructor
 public class SmartAlertController {
 
-    @Autowired
-    private SmartAlertService smartAlertService;
+    private final  SmartAlertService smartAlertService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Cadastrar alerta inteligente",
             description = "Cria um novo alerta inteligente vinculado a um pet, podendo ser originado pelo sistema, usuário, histórico clínico ou dispositivo IoT."
@@ -68,7 +70,10 @@ public class SmartAlertController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Alerta inteligente atualizado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos enviados na requisição"),
-            @ApiResponse(responseCode = "404", description = "Alerta inteligente ou pet não encontrado")
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Alerta inteligente, pet ou tipo de alerta não encontrado"
+            )
     })
     public SmartAlertResponse updateSmartAlert(
             @PathVariable Long id,
@@ -78,6 +83,7 @@ public class SmartAlertController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Deletar alerta inteligente",
             description = "Remove um alerta inteligente do sistema a partir do ID informado."

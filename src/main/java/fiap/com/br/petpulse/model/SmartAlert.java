@@ -3,55 +3,64 @@ package fiap.com.br.petpulse.model;
 import fiap.com.br.petpulse.enums.AlertOrigin;
 import fiap.com.br.petpulse.enums.AlertRiskLevel;
 import fiap.com.br.petpulse.enums.AlertStatus;
-import fiap.com.br.petpulse.enums.AlertType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "T_CLY_ALERTA_INTELIGENTE")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
 public class SmartAlert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_ALERTA")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "ID_PET", nullable = false)
+    private Pet pet;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_TIPO_ALERTA", nullable = false)
     private AlertType alertType;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "NIVEL_RISCO", length = 20)
     private AlertRiskLevel riskLevel;
 
     @Enumerated(EnumType.STRING)
-    private AlertOrigin alertOrigin;
+    @Column(name = "ORIGEM_ALERTA", length = 50)
+    private AlertOrigin origin;
 
+    @Column(name = "MENSAGEM", length = 500)
     private String message;
 
+    @Column(name = "RECOMENDACAO", length = 1000)
     private String recommendation;
 
-    private LocalDate generatedAt;
+    @Column(name = "DT_GERACAO", nullable = false)
+    private LocalDateTime generatedAt;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS", nullable = false, length = 20)
     private AlertStatus status;
 
     @PrePersist
     public void prePersist() {
+        if (generatedAt == null) {
+            generatedAt = LocalDateTime.now();
+        }
 
-        this.generatedAt = LocalDate.now();
-
-        if (this.status == null) {
-            this.status = AlertStatus.ABERTO;
+        if (status == null) {
+            status = AlertStatus.ABERTO;
         }
     }
-
-    @ManyToOne
-    private Pet pet;
 }

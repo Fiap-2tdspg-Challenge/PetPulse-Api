@@ -3,38 +3,30 @@ package fiap.com.br.petpulse.dto.response;
 import fiap.com.br.petpulse.enums.AlertOrigin;
 import fiap.com.br.petpulse.enums.AlertRiskLevel;
 import fiap.com.br.petpulse.enums.AlertStatus;
-import fiap.com.br.petpulse.enums.AlertType;
-import fiap.com.br.petpulse.model.SmartAlert;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record SmartAlertResponse(
+
         Long id,
 
-        AlertType alertType,
+        Long petId,
+        String petName,
+
+        Long alertTypeId,
+        String alertTypeDescription,
 
         AlertRiskLevel riskLevel,
 
-        AlertOrigin alertOrigin,
+        AlertOrigin origin,
 
         String message,
 
         String recommendation,
 
-        LocalDate generatedAt,
+        LocalDateTime generatedAt,
 
         AlertStatus status
+
 ) {
-    public static SmartAlertResponse toResponse(SmartAlert smartAlert){
-        return new SmartAlertResponse(
-                smartAlert.getId(),
-                smartAlert.getAlertType(),
-                smartAlert.getRiskLevel(),
-                smartAlert.getAlertOrigin(),
-                smartAlert.getMessage(),
-                smartAlert.getRecommendation(),
-                smartAlert.getGeneratedAt(),
-                smartAlert.getStatus()
-        );
-    }
 }

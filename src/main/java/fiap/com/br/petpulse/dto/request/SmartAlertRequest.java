@@ -2,40 +2,33 @@ package fiap.com.br.petpulse.dto.request;
 
 import fiap.com.br.petpulse.enums.AlertOrigin;
 import fiap.com.br.petpulse.enums.AlertRiskLevel;
-import fiap.com.br.petpulse.enums.AlertType;
-import fiap.com.br.petpulse.model.SmartAlert;
-import jakarta.validation.constraints.NotBlank;
+import fiap.com.br.petpulse.enums.AlertStatus;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public record SmartAlertRequest(
 
-        @NotNull(message = "Tipo do Alerta é obrigatorio")
-        AlertType alertType,
+        @NotNull(message = "O pet é obrigatório")
+        @Positive(message = "O ID do pet deve ser maior que zero")
+        Long petId,
 
-        @NotNull(message = "Tipo do Risco é obrigatorio")
+        @NotNull(message = "O tipo de alerta é obrigatório")
+        @Positive(message = "O ID do tipo de alerta deve ser maior que zero")
+        Long alertTypeId,
+
         AlertRiskLevel riskLevel,
 
-        @NotNull(message = "Origem do Alerta é obrigatoria")
-        AlertOrigin alertOrigin,
+        AlertOrigin origin,
 
-        @NotBlank(message = "Mensagem é obrigatória")
-        @Size(max = 500)
+        @Size(max = 500, message = "A mensagem deve ter no máximo 500 caracteres")
         String message,
 
-        @Size(max = 1000)
+        @Size(max = 1000, message = "A recomendação deve ter no máximo 1000 caracteres")
         String recommendation,
 
-        @NotNull(message = "Pet id é requerido")
-        Long petId
+        @NotNull(message = "O status é obrigatório")
+        AlertStatus status
+
 ) {
-    public SmartAlert toEntity(){
-        return SmartAlert.builder()
-                .alertType(alertType)
-                .riskLevel(riskLevel)
-                .alertOrigin(alertOrigin)
-                .message(message)
-                .recommendation(recommendation)
-                .build();
-    }
 }

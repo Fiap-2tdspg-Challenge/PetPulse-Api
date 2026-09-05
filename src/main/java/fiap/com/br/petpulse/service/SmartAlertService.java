@@ -1,92 +1,145 @@
 package fiap.com.br.petpulse.service;
 
+import fiap.com.br.petpulse.assembler.SmartAlertAssembler;
 import fiap.com.br.petpulse.dto.request.SmartAlertRequest;
 import fiap.com.br.petpulse.dto.response.SmartAlertResponse;
+import fiap.com.br.petpulse.model.AlertType;
 import fiap.com.br.petpulse.model.Pet;
 import fiap.com.br.petpulse.model.SmartAlert;
+import fiap.com.br.petpulse.repositories.AlertTypeRepository;
 import fiap.com.br.petpulse.repositories.PetRepository;
 import fiap.com.br.petpulse.repositories.SmartAlertRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-@CacheConfig(cacheNames = "smartAlerts")
 @Service
+@RequiredArgsConstructor
+@CacheConfig(cacheNames = "smartAlerts")
 public class SmartAlertService {
 
-    @Autowired
-    private SmartAlertRepository smartAlertRepository;
+    private final SmartAlertRepository smartAlertRepository;
+    private final PetRepository petRepository;
+    private final AlertTypeRepository alertTypeRepository;
+    private final SmartAlertAssembler smartAlertAssembler;
 
-    @Autowired
-    private PetRepository petRepository;
 
-    @CacheEvict
-    public SmartAlertResponse addSmartAlert(SmartAlertRequest request) {
+    @CacheEvict(allEntries = true)
+    public SmartAlertResponse addSmartAlert(
+            SmartAlertRequest request
+    ) {
 
-        Pet pet = petRepository.findById(request.petId()).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Pet com id " + request.petId() + " não encontrado"
-                )
+        Pet pet = findPetById(request.petId());
+
+        AlertType alertType =
+                findAlertTypeById(request.alertTypeId());
+
+        SmartAlert alert =
+                smartAlertAssembler.toEntity(
+                        request,
+                        pet,
+                        alertType
+                );
+
+        return smartAlertAssembler.toResponse(
+                smartAlertRepository.save(alert)
         );
-
-        SmartAlert smartAlert = request.toEntity();
-        smartAlert.setPet(pet);
-
-        return SmartAlertResponse.toResponse(smartAlertRepository.save(smartAlert));
     }
+
 
     @Cacheable
-    public Page<SmartAlertResponse> getAllSmartAlerts(Pageable pageable) {
+    public Page<SmartAlertResponse> getAllSmartAlerts(
+            Pageable pageable
+    ) {
         return smartAlertRepository.findAll(pageable)
-                .map(SmartAlertResponse::toResponse);
+                .map(smartAlertAssembler::toResponse);
     }
+
 
     @Cacheable
     public SmartAlertResponse getSmartAlertById(Long id) {
-        return SmartAlertResponse.toResponse(findSmartAlertById(id));
+        return smartAlertAssembler.toResponse(
+                findSmartAlertById(id)
+        );
     }
 
-    @CacheEvict
-    public void deleteSmartAlert(Long id) {
-        findSmartAlertById(id);
-        smartAlertRepository.deleteById(id);
-    }
 
-    @CacheEvict
-    public SmartAlertResponse updateSmartAlert(Long id, SmartAlertRequest request) {
+    @CacheEvict(allEntries = true)
+    public SmartAlertResponse updateSmartAlert(
+            Long id,
+            SmartAlertRequest request
+    ) {
 
-        SmartAlert smartAlert = findSmartAlertById(id);
+        SmartAlert alert = findSmartAlertById(id);
 
-        Pet pet = petRepository.findById(request.petId()).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Pet com id " + request.petId() + " não encontrado"
-                )
+        Pet pet = findPetById(request.petId());
+
+        AlertType alertType =
+                findAlertTypeById(request.alertTypeId());
+
+        smartAlertAssembler.updateEntity(
+                alert,
+                request,
+                pet,
+                alertType
         );
 
-        smartAlert.setAlertType(request.alertType());
-        smartAlert.setRiskLevel(request.riskLevel());
-        smartAlert.setAlertOrigin(request.alertOrigin());
-        smartAlert.setMessage(request.message());
-        smartAlert.setRecommendation(request.recommendation());
-        smartAlert.setPet(pet);
-
-        return SmartAlertResponse.toResponse(smartAlertRepository.save(smartAlert));
+        return smartAlertAssembler.toResponse(
+                smartAlertRepository.save(alert)
+        );
     }
+
+
+    @CacheEvict(allEntries = true)
+    public void deleteSmartAlert(Long id) {
+
+        SmartAlert alert = findSmartAlertById(id);
+
+        smartAlertRepository.delete(alert);
+    }
+
 
     private SmartAlert findSmartAlertById(Long id) {
-        return smartAlertRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Alerta inteligente com id " + id + " não encontrado"
-                )
-        );
+        return smartAlertRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Alerta com id "
+                                        + id
+                                        + " não encontrado"
+                        )
+                );
+    }
+
+
+    private Pet findPetById(Long id) {
+        return petRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Pet com id "
+                                        + id
+                                        + " não encontrado"
+                        )
+                );
+    }
+
+
+    private AlertType findAlertTypeById(Long id) {
+        return alertTypeRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Tipo de alerta com id "
+                                        + id
+                                        + " não encontrado"
+                        )
+                );
     }
 }
