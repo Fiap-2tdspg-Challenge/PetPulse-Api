@@ -31,9 +31,6 @@ public record PetRequest(
 
         boolean neutered,
 
-        @NotNull
-        PetSize size,
-
         String knownDiseases,
 
         @NotNull(message = "Tutor id é requerido")
@@ -49,7 +46,6 @@ public record PetRequest(
                 .weight(weight)
                 .sex(sex)
                 .neutered(neutered)
-                .petSize(size)
                 .knownDiseases(knownDiseases)
                 .build();
     }

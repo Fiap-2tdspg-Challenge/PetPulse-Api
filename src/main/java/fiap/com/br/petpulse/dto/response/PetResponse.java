@@ -15,7 +15,6 @@ public record PetResponse(
         Double weight,
         Sex sex,
         boolean neutered,
-        PetSize size,
         String knownDiseases,
 
         Long tutorId,
@@ -32,7 +31,6 @@ public record PetResponse(
                 pet.getWeight(),
                 pet.getSex(),
                 pet.isNeutered(),
-                pet.getPetSize(),
                 pet.getKnownDiseases(),
                 pet.getTutor().getId(),
                 pet.getTutor().getName()
