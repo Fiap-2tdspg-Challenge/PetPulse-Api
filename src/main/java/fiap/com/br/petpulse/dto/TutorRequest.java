@@ -8,30 +8,22 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
 public record TutorRequest(
-        @NotBlank
-        @Size(min = 3, max = 50)
+        @NotBlank(message = "O nome é obrigatório")
+        @Size(max = 150, message = "O nome deve ter no máximo 150 caracteres")
         String name,
 
-        @CPF
-        @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$|^\\d{11}$")
-        @NotBlank
+        @NotBlank(message = "O CPF é obrigatório")
+        @Size(max = 14, message = "O CPF deve ter no máximo 14 caracteres")
         String cpf,
 
-        @Email
-        @NotBlank
+        @NotBlank(message = "O e-mail é obrigatório")
+        @Email(message = "E-mail inválido")
+        @Size(max = 150, message = "O e-mail deve ter no máximo 150 caracteres")
         String email,
 
-        @NotBlank
-        @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
-        String password,
-
-        @NotBlank
-        @Pattern(regexp = "^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$" )
-        String phone,
-
-        @NotBlank
-        @Size(max = 120)
-        String address
+        @NotBlank(message = "A senha é obrigatória")
+        @Size(max = 255, message = "A senha deve ter no máximo 255 caracteres")
+        String password
 
 ) {
     public Tutor toEntity(){
@@ -40,8 +32,6 @@ public record TutorRequest(
                 .cpf(cpf)
                 .email(email)
                 .password(password)
-                .phone(phone)
-                .address(address)
                 .build();
     }
 

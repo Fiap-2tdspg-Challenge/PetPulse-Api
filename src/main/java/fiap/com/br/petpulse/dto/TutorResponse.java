@@ -9,8 +9,6 @@ public record TutorResponse(
         String name,
         String cpf,
         String email,
-        String phone,
-        String address,
         LocalDateTime createdAt
 ) {
     public static TutorResponse toResponse(Tutor tutor){
@@ -19,8 +17,6 @@ public record TutorResponse(
                 tutor.getName(),
                 tutor.getCpf(),
                 tutor.getEmail(),
-                tutor.getPhone(),
-                tutor.getAddress(),
                 tutor.getCreatedAt()
         );
     }

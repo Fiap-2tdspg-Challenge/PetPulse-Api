@@ -54,8 +54,6 @@ public class TutorService {
         tutor.setCpf(request.cpf());
         tutor.setEmail(request.email());
         tutor.setPassword(request.password());
-        tutor.setPhone(request.phone());
-        tutor.setAddress(request.address());
 
         return TutorResponse.toResponse(tutorRepository.save(tutor));
     }

@@ -17,14 +17,22 @@ import java.time.LocalDateTime;
 public class Tutor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_USUARIO")
     private Long id;
-    private String name;
-    private String cpf;
-    private String email;
-    private String password;
-    private String phone;
-    private String address;
 
+    @Column(name = "NOME")
+    private String name;
+
+    @Column(name = "CPF")
+    private String cpf;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @Column(name = "SENHA")
+    private String password;
+
+    @Column(name = "DT_CADASTRO")
     private LocalDateTime createdAt;
 
     @PrePersist
