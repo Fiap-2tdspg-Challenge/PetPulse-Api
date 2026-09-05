@@ -1,36 +1,22 @@
 package fiap.com.br.petpulse.dto.response;
 
 import fiap.com.br.petpulse.enums.DeviceStatus;
-import fiap.com.br.petpulse.model.IoTDevice;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public record IoTDeviceResponse(
 
-        LocalDate linkedAt,
-
+        Long id,
+        Long petId,
+        String petName,
+        LocalDateTime linkedAt,
         Integer collectionIntervalMinutes,
-
         Integer heartRate,
-
-        Double activityLevel,
-
-        Double pressure,
-
-        LocalDate lastReadingDate,
-
+        BigDecimal activityLevel,
+        BigDecimal pressure,
+        LocalDateTime lastReadingDate,
         DeviceStatus status
-) {
-    public static IoTDeviceResponse toResponse(IoTDevice device) {
 
-        return new IoTDeviceResponse(
-                device.getLinkedAt(),
-                device.getCollectionIntervalMinutes(),
-                device.getHeartRate(),
-                device.getActivityLevel(),
-                device.getPressure(),
-                device.getLastReadingDate(),
-                device.getStatus()
-        );
-    }
+) {
 }

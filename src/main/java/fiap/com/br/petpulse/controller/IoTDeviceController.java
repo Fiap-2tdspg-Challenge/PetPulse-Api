@@ -8,7 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,12 +17,13 @@ import org.springframework.data.domain.Pageable;
 @RestController
 @RequestMapping("/iot-devices")
 @Tag(name = "IoT Device", description = "Endpoints para gerenciamento dos dispositivos IoT vinculados aos pets")
+@RequiredArgsConstructor
 public class IoTDeviceController {
 
-    @Autowired
-    private IoTDeviceService ioTDeviceService;
+    private final IoTDeviceService ioTDeviceService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Cadastrar dispositivo IoT",
             description = "Cria um novo dispositivo IoT vinculado a um pet existente. O pet deve ser informado pelo campo petId."
@@ -63,7 +65,7 @@ public class IoTDeviceController {
     @PutMapping("/{id}")
     @Operation(
             summary = "Atualizar dispositivo IoT",
-            description = "Atualiza os dados de um dispositivo IoT existente, incluindo leituras, status e vínculo com o pet."
+            description = "Atualiza as configurações, status, última leitura e vínculo com o pet de um dispositivo IoT existente."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Dispositivo IoT atualizado com sucesso"),
@@ -78,6 +80,7 @@ public class IoTDeviceController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Deletar dispositivo IoT",
             description = "Remove um dispositivo IoT do sistema a partir do ID informado."
