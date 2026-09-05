@@ -3,37 +3,31 @@ package fiap.com.br.petpulse.dto.response;
 import fiap.com.br.petpulse.enums.Sex;
 import fiap.com.br.petpulse.model.Pet;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record PetResponse(
 
         Long id,
         String name,
-        String species,
-        String breed,
         LocalDate birthDate,
-        Double weight,
+        BigDecimal weight,
         Sex sex,
-        boolean neutered,
-        String knownDiseases,
+        Boolean neutered,
 
         Long tutorId,
-        String tutorName
+        String tutorName,
 
-) {
-    public static PetResponse toResponse(Pet pet) {
-        return new PetResponse(
-                pet.getId(),
-                pet.getName(),
-                pet.getSpecies(),
-                pet.getBreed(),
-                pet.getBirthDate(),
-                pet.getWeight(),
-                pet.getSex(),
-                pet.isNeutered(),
-                pet.getKnownDiseases(),
-                pet.getTutor().getId(),
-                pet.getTutor().getName()
-        );
-    }
-}
+        Long speciesId,
+        String speciesName,
+
+        Long breedId,
+        String breedName,
+
+        Long petSizeId,
+        String petSizeDescription,
+
+        LocalDateTime createdAt
+
+) {}

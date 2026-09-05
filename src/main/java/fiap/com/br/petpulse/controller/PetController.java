@@ -8,32 +8,32 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/pets")
-@Slf4j
+@RequiredArgsConstructor
 @Tag(name = "Pet", description = "Endpoints para gerenciamento dos pets cadastrados na carteira digital PetPulse")
 public class PetController {
 
-    @Autowired
-    private PetService petService;
+    private final PetService petService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Cadastrar novo pet",
-            description = "Cria um novo pet vinculado a um tutor existente. O tutor deve ser informado pelo campo tutorId."
+            description = "Cria um novo pet vinculado a um tutor, espécie, raça e porte existentes."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Pet cadastrado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos enviados na requisição"),
-            @ApiResponse(responseCode = "404", description = "Tutor não encontrado")
+            @ApiResponse(responseCode = "404", description = "Tutor, espécie, raça ou porte não encontrado")
     })
     public PetResponse addPet(@RequestBody @Valid PetRequest request) {
         return petService.addPet(request);
@@ -72,7 +72,7 @@ public class PetController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pet atualizado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos enviados na requisição"),
-            @ApiResponse(responseCode = "404", description = "Pet ou tutor não encontrado")
+            @ApiResponse(responseCode = "404", description = "Pet, tutor, espécie, raça ou porte não encontrado")
     })
     public PetResponse updatePet(@PathVariable Long id, @RequestBody @Valid PetRequest request
     ) {
@@ -80,6 +80,7 @@ public class PetController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Deletar pet",
             description = "Remove um pet do sistema a partir do ID informado."

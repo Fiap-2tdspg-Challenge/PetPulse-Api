@@ -1,22 +1,17 @@
 package fiap.com.br.petpulse.dto.request;
 
 import fiap.com.br.petpulse.enums.Sex;
-import fiap.com.br.petpulse.model.Pet;
+import fiap.com.br.petpulse.model.*;
 import jakarta.validation.constraints.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record PetRequest(
 
-        @NotBlank
-        @Size(min = 3, max = 50)
+        @NotBlank(message = "O nome é obrigatório")
+        @Size(min = 3, max = 100)
         String name,
-
-        @NotBlank
-        String species,
-
-        @NotBlank
-        String breed,
 
         @NotNull
         @Past
@@ -24,29 +19,23 @@ public record PetRequest(
 
         @NotNull
         @Positive(message = "O peso tem que ser maior que zero.")
-        Double weight,
+        BigDecimal weight,
 
-        @NotNull
+        @NotNull(message = "O sexo é obrigatório")
         Sex sex,
 
-        boolean neutered,
+        @NotNull(message = "Informe se o pet é castrado")
+        Boolean neutered,
 
-        String knownDiseases,
+        @NotNull(message = "O tutor é obrigatório")
+        Long tutorId,
 
-        @NotNull(message = "Tutor id é requerido")
-        Long tutorId
+        @NotBlank
+        Long speciesId,
 
-) {
-    public Pet toEntity(){
-        return Pet.builder()
-                .name(name)
-                .species(species)
-                .breed(breed)
-                .birthDate(birthDate)
-                .weight(weight)
-                .sex(sex)
-                .neutered(neutered)
-                .knownDiseases(knownDiseases)
-                .build();
-    }
-}
+        @NotNull(message = "A raça é obrigatória")
+        Long breedId,
+
+        @NotNull(message = "O porte é obrigatório")
+        Long petSizeId
+) {}
