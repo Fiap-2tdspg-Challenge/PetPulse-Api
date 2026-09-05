@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.service;
 
-import fiap.com.br.petpulse.dto.ClinicalHistoryRequest;
-import fiap.com.br.petpulse.dto.ClinicalHistoryResponse;
+import fiap.com.br.petpulse.dto.request.ClinicalHistoryRequest;
+import fiap.com.br.petpulse.dto.response.ClinicalHistoryResponse;
 import fiap.com.br.petpulse.model.ClinicalHistory;
 import fiap.com.br.petpulse.model.Pet;
 import fiap.com.br.petpulse.repositories.ClinicalHistoryRepository;

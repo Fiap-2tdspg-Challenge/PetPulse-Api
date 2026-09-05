@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.service;
 
-import fiap.com.br.petpulse.dto.IoTDeviceRequest;
-import fiap.com.br.petpulse.dto.IoTDeviceResponse;
+import fiap.com.br.petpulse.dto.request.IoTDeviceRequest;
+import fiap.com.br.petpulse.dto.response.IoTDeviceResponse;
 import fiap.com.br.petpulse.model.IoTDevice;
 import fiap.com.br.petpulse.model.Pet;
 import fiap.com.br.petpulse.repositories.IoTDeviceRepository;

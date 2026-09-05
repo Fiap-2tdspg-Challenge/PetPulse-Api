@@ -1,8 +1,7 @@
-package fiap.com.br.petpulse.dto;
+package fiap.com.br.petpulse.dto.request;
 
 import fiap.com.br.petpulse.enums.AlertOrigin;
 import fiap.com.br.petpulse.enums.AlertRiskLevel;
-import fiap.com.br.petpulse.enums.AlertStatus;
 import fiap.com.br.petpulse.enums.AlertType;
 import fiap.com.br.petpulse.model.SmartAlert;
 import jakarta.validation.constraints.NotBlank;

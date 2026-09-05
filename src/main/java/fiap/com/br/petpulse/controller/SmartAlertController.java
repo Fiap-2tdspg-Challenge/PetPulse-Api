@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.dto.SmartAlertRequest;
-import fiap.com.br.petpulse.dto.SmartAlertResponse;
+import fiap.com.br.petpulse.dto.request.SmartAlertRequest;
+import fiap.com.br.petpulse.dto.response.SmartAlertResponse;
 import fiap.com.br.petpulse.service.SmartAlertService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

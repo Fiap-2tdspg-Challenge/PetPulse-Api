@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.service;
 
-import fiap.com.br.petpulse.dto.TutorRequest;
-import fiap.com.br.petpulse.dto.TutorResponse;
+import fiap.com.br.petpulse.dto.request.TutorRequest;
+import fiap.com.br.petpulse.dto.response.TutorResponse;
 import fiap.com.br.petpulse.model.Tutor;
 import fiap.com.br.petpulse.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

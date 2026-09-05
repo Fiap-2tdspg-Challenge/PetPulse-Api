@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.service;
 
-import fiap.com.br.petpulse.dto.SmartAlertRequest;
-import fiap.com.br.petpulse.dto.SmartAlertResponse;
+import fiap.com.br.petpulse.dto.request.SmartAlertRequest;
+import fiap.com.br.petpulse.dto.response.SmartAlertResponse;
 import fiap.com.br.petpulse.model.Pet;
 import fiap.com.br.petpulse.model.SmartAlert;
 import fiap.com.br.petpulse.repositories.PetRepository;

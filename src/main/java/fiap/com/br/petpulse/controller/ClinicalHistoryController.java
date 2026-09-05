@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.dto.ClinicalHistoryRequest;
-import fiap.com.br.petpulse.dto.ClinicalHistoryResponse;
+import fiap.com.br.petpulse.dto.request.ClinicalHistoryRequest;
+import fiap.com.br.petpulse.dto.response.ClinicalHistoryResponse;
 import fiap.com.br.petpulse.service.ClinicalHistoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

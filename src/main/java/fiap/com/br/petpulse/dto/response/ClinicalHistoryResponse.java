@@ -1,4 +1,4 @@
-package fiap.com.br.petpulse.dto;
+package fiap.com.br.petpulse.dto.response;
 
 import fiap.com.br.petpulse.enums.RecordType;
 import fiap.com.br.petpulse.model.ClinicalHistory;

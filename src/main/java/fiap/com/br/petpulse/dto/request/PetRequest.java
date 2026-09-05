@@ -1,4 +1,4 @@
-package fiap.com.br.petpulse.dto;
+package fiap.com.br.petpulse.dto.request;
 
 import fiap.com.br.petpulse.enums.PetSize;
 import fiap.com.br.petpulse.enums.Sex;

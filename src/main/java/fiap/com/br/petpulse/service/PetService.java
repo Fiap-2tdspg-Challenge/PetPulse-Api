@@ -1,7 +1,7 @@
 package fiap.com.br.petpulse.service;
 
-import fiap.com.br.petpulse.dto.PetRequest;
-import fiap.com.br.petpulse.dto.PetResponse;
+import fiap.com.br.petpulse.dto.request.PetRequest;
+import fiap.com.br.petpulse.dto.response.PetResponse;
 import fiap.com.br.petpulse.model.Pet;
 import fiap.com.br.petpulse.model.Tutor;
 import fiap.com.br.petpulse.repositories.PetRepository;
