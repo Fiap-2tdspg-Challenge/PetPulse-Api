@@ -1,6 +1,5 @@
 package fiap.com.br.petpulse.dto.response;
 
-import fiap.com.br.petpulse.enums.PetSize;
 import fiap.com.br.petpulse.enums.Sex;
 import fiap.com.br.petpulse.model.Pet;
 
