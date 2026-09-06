@@ -30,7 +30,7 @@ public record PetRequest(
         @NotNull(message = "O tutor é obrigatório")
         Long tutorId,
 
-        @NotBlank
+        @NotNull(message = "A espécie é obrigatória")
         Long speciesId,
 
         @NotNull(message = "A raça é obrigatória")

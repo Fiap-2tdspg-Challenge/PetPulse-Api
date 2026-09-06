@@ -8,7 +8,6 @@ Pietro Paranhos Wilhelm rm561378
 João Vitor Biribi rm565594
 Pedro Matos rm564184
 Gabriel Neris Losano rm564093
-Felipe Monte rm562019
 
 
 ## 📋 Sobre o Projeto
@@ -70,7 +69,9 @@ src/
 |---|---|
 | Tutores | `/tutors` |
 | Pets | `/pets` |
-| Histórico Clínico | `/clinical-history` |
+| Espécies (buscar ou cadastrar) | `/species` |
+| Raças (buscar ou cadastrar) | `/breeds` |
+| Histórico Clínico | `/clinical-histories` |
 | Dispositivos IoT | `/iot-devices` |
 | Alertas Inteligentes | `/smart-alerts` |
 

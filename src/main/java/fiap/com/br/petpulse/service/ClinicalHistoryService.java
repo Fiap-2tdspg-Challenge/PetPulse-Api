@@ -38,7 +38,9 @@ public class ClinicalHistoryService {
         Pet pet = findPetById(request.petId());
 
         Professional professional =
-                findProfessionalById(request.professionalId());
+                request.professionalId() != null
+                        ? findProfessionalById(request.professionalId())
+                        : null;
 
         ClinicalHistory history =
                 clinicalHistoryAssembler.toEntity(
@@ -82,7 +84,9 @@ public class ClinicalHistoryService {
         Pet pet = findPetById(request.petId());
 
         Professional professional =
-                findProfessionalById(request.professionalId());
+                request.professionalId() != null
+                        ? findProfessionalById(request.professionalId())
+                        : null;
 
         clinicalHistoryAssembler.updateEntity(
                 history,
