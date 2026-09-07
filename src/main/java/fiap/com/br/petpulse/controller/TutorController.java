@@ -1,5 +1,6 @@
 package fiap.com.br.petpulse.controller;
 
+import fiap.com.br.petpulse.dto.request.TutorLoginRequest;
 import fiap.com.br.petpulse.dto.request.TutorRequest;
 import fiap.com.br.petpulse.dto.response.TutorResponse;
 import fiap.com.br.petpulse.service.TutorService;
@@ -106,6 +107,23 @@ public class TutorController {
         log.info("Atualizando tutor com id {}", id);
 
         return ResponseEntity.ok(service.updateTutor(id, request));
+    }
+
+    @PostMapping("/login")
+    @Operation(
+            summary = "Login do tutor",
+            description = "Confere e-mail e senha de um tutor já cadastrado. Login provisório: compara " +
+                    "direto no banco, sem hash de senha nem token — fica assim até a segurança de verdade " +
+                    "(Spring Security, JWT) ser implementada."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "E-mail ou senha incorretos")
+    })
+    public ResponseEntity<TutorResponse> login(@RequestBody @Valid TutorLoginRequest request) {
+        log.info("Login de tutor: {}", request.email());
+
+        return ResponseEntity.ok(service.login(request));
     }
 
     @GetMapping("/search")

@@ -1,5 +1,6 @@
 package fiap.com.br.petpulse.service;
 
+import fiap.com.br.petpulse.dto.request.TutorLoginRequest;
 import fiap.com.br.petpulse.dto.request.TutorRequest;
 import fiap.com.br.petpulse.dto.response.TutorResponse;
 import fiap.com.br.petpulse.model.Tutor;
@@ -56,6 +57,25 @@ public class TutorService {
         tutor.setPassword(request.password());
 
         return TutorResponse.toResponse(tutorRepository.save(tutor));
+    }
+
+    /**
+     * Login provisório: compara e-mail/senha direto no banco, sem hash nem
+     * token. Fica assim até a segurança de verdade (Spring Security, JWT)
+     * ser implementada.
+     */
+    public TutorResponse login(TutorLoginRequest request) {
+        Tutor tutor = tutorRepository.findByEmailIgnoreCase(request.email())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "E-mail ou senha incorretos"
+                ));
+
+        if (!tutor.getPassword().equals(request.password())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "E-mail ou senha incorretos");
+        }
+
+        return TutorResponse.toResponse(tutor);
     }
 
     private Tutor findTutorById(Long id) {
