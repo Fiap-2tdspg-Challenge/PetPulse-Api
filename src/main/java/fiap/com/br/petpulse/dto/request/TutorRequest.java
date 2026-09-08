@@ -3,15 +3,19 @@ package fiap.com.br.petpulse.dto.request;
 import fiap.com.br.petpulse.model.Tutor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record TutorRequest(
         @NotBlank(message = "O nome é obrigatório")
-        @Size(max = 150, message = "O nome deve ter no máximo 150 caracteres")
+        @Size(min = 3, max = 150, message = "O nome deve ter entre 3 e 150 caracteres")
         String name,
 
         @NotBlank(message = "O CPF é obrigatório")
-        @Size(max = 14, message = "O CPF deve ter no máximo 14 caracteres")
+        @Pattern(
+                regexp = "\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}",
+                message = "CPF deve conter 11 dígitos ou estar no formato 000.000.000-00"
+        )
         String cpf,
 
         @NotBlank(message = "O e-mail é obrigatório")
@@ -20,7 +24,7 @@ public record TutorRequest(
         String email,
 
         @NotBlank(message = "A senha é obrigatória")
-        @Size(max = 255, message = "A senha deve ter no máximo 255 caracteres")
+        @Size(min = 6, max = 255, message = "A senha deve ter entre 6 e 255 caracteres")
         String password
 
 ) {
@@ -32,5 +36,4 @@ public record TutorRequest(
                 .password(password)
                 .build();
     }
-
 }

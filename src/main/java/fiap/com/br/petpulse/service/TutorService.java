@@ -1,6 +1,5 @@
 package fiap.com.br.petpulse.service;
 
-import fiap.com.br.petpulse.dto.request.TutorLoginRequest;
 import fiap.com.br.petpulse.dto.request.TutorRequest;
 import fiap.com.br.petpulse.dto.response.TutorResponse;
 import fiap.com.br.petpulse.model.Tutor;
@@ -10,6 +9,7 @@ import fiap.com.br.petpulse.repositories.TutorPhoneRepository;
 import fiap.com.br.petpulse.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
@@ -36,9 +36,14 @@ public class TutorService {
     @Autowired
     private PetRepository petRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
     @CacheEvict
     public TutorResponse addTutor(TutorRequest request) {
         Tutor tutor = request.toEntity();
+        tutor.setPassword(passwordEncoder.encode(request.password()));
+
         return TutorResponse.toResponse(tutorRepository.save(tutor));
     }
 
@@ -83,28 +88,9 @@ public class TutorService {
         tutor.setName(request.name());
         tutor.setCpf(request.cpf());
         tutor.setEmail(request.email());
-        tutor.setPassword(request.password());
+        tutor.setPassword(passwordEncoder.encode(request.password()));
 
         return TutorResponse.toResponse(tutorRepository.save(tutor));
-    }
-
-    /**
-     * Login provisório: compara e-mail/senha direto no banco, sem hash nem
-     * token. Fica assim até a segurança de verdade (Spring Security, JWT)
-     * ser implementada.
-     */
-    public TutorResponse login(TutorLoginRequest request) {
-        Tutor tutor = tutorRepository.findByEmailIgnoreCase(request.email())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED,
-                        "E-mail ou senha incorretos"
-                ));
-
-        if (!tutor.getPassword().equals(request.password())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "E-mail ou senha incorretos");
-        }
-
-        return TutorResponse.toResponse(tutor);
     }
 
     private Tutor findTutorById(Long id) {

@@ -1,6 +1,5 @@
 package fiap.com.br.petpulse.controller;
 
-import fiap.com.br.petpulse.dto.request.TutorLoginRequest;
 import fiap.com.br.petpulse.dto.request.TutorRequest;
 import fiap.com.br.petpulse.dto.response.TutorResponse;
 import fiap.com.br.petpulse.service.TutorService;
@@ -13,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +29,7 @@ public class TutorController {
     private TutorService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Listar tutores",
             description = "Retorna uma lista paginada de tutores cadastrados no sistema. Permite paginação e ordenação por parâmetros."
@@ -59,6 +60,7 @@ public class TutorController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Buscar tutor por ID",
             description = "Retorna os dados de um tutor específico a partir do seu identificador."
@@ -74,6 +76,7 @@ public class TutorController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Deletar tutor",
             description = "Remove um tutor do sistema a partir do ID informado, junto com seus telefones e " +
@@ -93,6 +96,7 @@ public class TutorController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Atualizar tutor",
             description = "Atualiza os dados de um tutor existente com base no ID informado."
@@ -111,24 +115,8 @@ public class TutorController {
         return ResponseEntity.ok(service.updateTutor(id, request));
     }
 
-    @PostMapping("/login")
-    @Operation(
-            summary = "Login do tutor",
-            description = "Confere e-mail e senha de um tutor já cadastrado. Login provisório: compara " +
-                    "direto no banco, sem hash de senha nem token — fica assim até a segurança de verdade " +
-                    "(Spring Security, JWT) ser implementada."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
-            @ApiResponse(responseCode = "401", description = "E-mail ou senha incorretos")
-    })
-    public ResponseEntity<TutorResponse> login(@RequestBody @Valid TutorLoginRequest request) {
-        log.info("Login de tutor: {}", request.email());
-
-        return ResponseEntity.ok(service.login(request));
-    }
-
     @GetMapping("/search")
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Buscar tutor por nome",
             description = "Retorna tutores cujo nome contenha o valor informado no parâmetro name."
