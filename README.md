@@ -67,12 +67,18 @@ src/
 
 | Recurso | Base URL |
 |---|---|
-| Tutores | `/tutors` |
+| Tutores (inclui login provisório em `POST /tutors/login`) | `/tutors` |
+| Telefones de Tutores | `/tutor-phones` |
+| Endereços de Tutores | `/tutor-addresses` |
+| Estados (buscar ou cadastrar) | `/states` |
+| Cidades (buscar ou cadastrar) | `/cities` |
 | Pets | `/pets` |
 | Espécies (buscar ou cadastrar) | `/species` |
 | Raças (buscar ou cadastrar) | `/breeds` |
+| Portes (só listagem) | `/pet-sizes` |
 | Histórico Clínico | `/clinical-histories` |
 | Dispositivos IoT | `/iot-devices` |
+| Leituras de Dispositivos IoT | `/iot-readings` |
 | Alertas Inteligentes | `/smart-alerts` |
 
 > A documentação completa dos endpoints está disponível via **Swagger UI** após subir a aplicação.
