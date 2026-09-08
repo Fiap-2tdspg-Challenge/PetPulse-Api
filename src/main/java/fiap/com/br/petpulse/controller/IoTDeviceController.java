@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ public class IoTDeviceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Cadastrar dispositivo IoT",
             description = "Cria um novo dispositivo IoT vinculado a um pet existente. O pet deve ser informado pelo campo petId."
@@ -38,6 +40,7 @@ public class IoTDeviceController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Listar dispositivos IoT",
             description = "Retorna uma lista paginada de dispositivos IoT cadastrados. Permite paginação e ordenação por parâmetros como page, size e sort."
@@ -50,6 +53,7 @@ public class IoTDeviceController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Buscar dispositivo IoT por ID",
             description = "Retorna os dados de um dispositivo IoT específico a partir do seu identificador."
@@ -63,6 +67,7 @@ public class IoTDeviceController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Atualizar dispositivo IoT",
             description = "Atualiza as configurações, status, última leitura e vínculo com o pet de um dispositivo IoT existente."
@@ -80,6 +85,7 @@ public class IoTDeviceController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('TUTOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Deletar dispositivo IoT",

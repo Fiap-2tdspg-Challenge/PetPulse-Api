@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/clinical-histories")
+@PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
 @Tag(name = "Clinical History", description = "Endpoints para gerenciamento do histórico clínico dos pets")
 @RequiredArgsConstructor
 public class ClinicalHistoryController {

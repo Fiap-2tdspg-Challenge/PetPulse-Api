@@ -12,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/iot-readings")
+@PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
 @RequiredArgsConstructor
 @Tag(
         name = "IoT Reading",

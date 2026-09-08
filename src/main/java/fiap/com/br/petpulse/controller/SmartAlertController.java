@@ -10,12 +10,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/smart-alerts")
+@PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
 @Tag(name = "Smart Alert", description = "Endpoints para gerenciamento de alertas inteligentes gerados para os pets")
 @RequiredArgsConstructor
 public class SmartAlertController {
