@@ -1,7 +1,9 @@
 package fiap.com.br.petpulse.controller;
 
 import fiap.com.br.petpulse.dto.request.PetRequest;
+import fiap.com.br.petpulse.dto.response.HealthSummaryResponse;
 import fiap.com.br.petpulse.dto.response.PetResponse;
+import fiap.com.br.petpulse.service.HealthSummaryService;
 import fiap.com.br.petpulse.service.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +25,11 @@ import java.util.List;
 @Tag(name = "Pet", description = "Endpoints para gerenciamento dos pets cadastrados na carteira digital PetPulse")
 public class PetController {
 
+    private final HealthSummaryService healthSummaryService;
     private final PetService petService;
 
     @PostMapping
+    @PreAuthorize("hasRole('TUTOR')")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Cadastrar novo pet",
@@ -40,6 +45,7 @@ public class PetController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Listar pets",
             description = "Retorna uma lista paginada de pets cadastrados. Permite paginação e ordenação por parâmetros como page, size e sort."
@@ -52,6 +58,7 @@ public class PetController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Buscar pet por ID",
             description = "Retorna os dados de um pet específico a partir do seu identificador."
@@ -64,7 +71,22 @@ public class PetController {
         return petService.getPetById(id);
     }
 
+    @GetMapping("/{id}/health-summary")
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
+    @Operation(
+            summary = "Consultar resumo de saúde do pet",
+            description = "Consolida dados do pet, histórico clínico, últimas leituras IoT e alertas em uma única resposta."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Resumo de saúde retornado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Pet não encontrado")
+    })
+    public HealthSummaryResponse getHealthSummary(@PathVariable Long id) {
+        return healthSummaryService.getHealthSummary(id);
+    }
+
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Atualizar pet",
             description = "Atualiza os dados de um pet existente, incluindo suas informações básicas e o tutor responsável."
@@ -81,6 +103,7 @@ public class PetController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('TUTOR')")
     @Operation(
             summary = "Deletar pet",
             description = "Remove um pet do sistema a partir do ID informado."
@@ -94,6 +117,7 @@ public class PetController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Buscar pet por nome",
             description = "Retorna pets cujo nome contenha o valor informado no parâmetro name."

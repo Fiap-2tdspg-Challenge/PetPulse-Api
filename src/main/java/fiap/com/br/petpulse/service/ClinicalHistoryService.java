@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "clinicalHistories")
@@ -71,6 +73,16 @@ public class ClinicalHistoryService {
         );
     }
 
+    public List<ClinicalHistoryResponse> getClinicalHistoriesByPetId(Long petId) {
+
+        findPetById(petId);
+
+        return clinicalHistoryRepository
+                .findByPetIdOrderByRecordDateDesc(petId)
+                .stream()
+                .map(clinicalHistoryAssembler::toResponse)
+                .toList();
+    }
 
     @CacheEvict(allEntries = true)
     public ClinicalHistoryResponse updateClinicalHistory(

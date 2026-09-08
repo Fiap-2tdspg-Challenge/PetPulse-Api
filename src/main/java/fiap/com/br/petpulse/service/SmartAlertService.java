@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "smartAlerts")
@@ -69,6 +71,16 @@ public class SmartAlertService {
         );
     }
 
+    public List<SmartAlertResponse> getSmartAlertsByPetId(Long petId) {
+
+        findPetById(petId);
+
+        return smartAlertRepository
+                .findByPetIdOrderByGeneratedAtDesc(petId)
+                .stream()
+                .map(smartAlertAssembler::toResponse)
+                .toList();
+    }
 
     @CacheEvict(allEntries = true)
     public SmartAlertResponse updateSmartAlert(

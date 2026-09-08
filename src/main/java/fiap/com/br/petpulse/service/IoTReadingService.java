@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "iotReadings")
@@ -25,7 +27,7 @@ public class IoTReadingService {
     private final IoTReadingRepository ioTReadingRepository;
     private final IoTDeviceRepository ioTDeviceRepository;
     private final IoTReadingAssembler ioTReadingAssembler;
-
+    private final IoTReadingAnalysisService ioTReadingAnalysisService;
 
     @CacheEvict(allEntries = true)
     public IoTReadingResponse addIoTReading(
@@ -39,9 +41,12 @@ public class IoTReadingService {
                 device
         );
 
-        return ioTReadingAssembler.toResponse(
-                ioTReadingRepository.save(reading)
-        );
+        IoTReading savedReading =
+                ioTReadingRepository.save(reading);
+
+        ioTReadingAnalysisService.analyze(savedReading);
+
+        return ioTReadingAssembler.toResponse(savedReading);
     }
 
 
@@ -61,6 +66,14 @@ public class IoTReadingService {
         );
     }
 
+    public List<IoTReadingResponse> getLatestIoTReadingsByPetId(Long petId) {
+
+        return ioTReadingRepository
+                .findTop5ByDevicePetIdOrderByReadingDateDesc(petId)
+                .stream()
+                .map(ioTReadingAssembler::toResponse)
+                .toList();
+    }
 
     @CacheEvict(allEntries = true)
     public IoTReadingResponse updateIoTReading(
