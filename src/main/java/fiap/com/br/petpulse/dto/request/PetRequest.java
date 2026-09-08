@@ -1,7 +1,6 @@
 package fiap.com.br.petpulse.dto.request;
 
 import fiap.com.br.petpulse.enums.Sex;
-import fiap.com.br.petpulse.model.*;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -14,7 +13,7 @@ public record PetRequest(
         String name,
 
         @NotNull
-        @Past
+        @PastOrPresent(message = "A data de nascimento não pode estar no futuro")
         LocalDate birthDate,
 
         @NotNull
@@ -28,14 +27,18 @@ public record PetRequest(
         Boolean neutered,
 
         @NotNull(message = "O tutor é obrigatório")
+        @Positive(message = "O ID do tutor deve ser maior que zero")
         Long tutorId,
 
         @NotNull(message = "A espécie é obrigatória")
+        @Positive(message = "O ID da espécie deve ser maior que zero")
         Long speciesId,
 
         @NotNull(message = "A raça é obrigatória")
+        @Positive(message = "O ID da raça deve ser maior que zero")
         Long breedId,
 
         @NotNull(message = "O porte é obrigatório")
+        @Positive(message = "O ID do porte deve ser maior que zero")
         Long petSizeId
 ) {}
