@@ -76,11 +76,13 @@ public class TutorController {
     @DeleteMapping("{id}")
     @Operation(
             summary = "Deletar tutor",
-            description = "Remove um tutor do sistema a partir do ID informado."
+            description = "Remove um tutor do sistema a partir do ID informado, junto com seus telefones e " +
+                    "endereços. Bloqueia a exclusão se ainda existirem pets cadastrados para esse tutor."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Tutor removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Tutor não encontrado")
+            @ApiResponse(responseCode = "404", description = "Tutor não encontrado"),
+            @ApiResponse(responseCode = "409", description = "Tutor ainda tem pets cadastrados")
     })
     public ResponseEntity<Void> deleteTutor(@PathVariable Long id) {
         log.info("Deletando tutor com id {}", id);

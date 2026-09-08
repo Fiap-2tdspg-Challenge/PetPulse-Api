@@ -4,7 +4,11 @@ import fiap.com.br.petpulse.model.TutorAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface TutorAddressRepository extends JpaRepository<TutorAddress, Long> {
+
+    List<TutorAddress> findByTutor_Id(Long tutorId);
 
     // SEQ_ENDERECO_USUARIO não é auto-incremento no banco, então o próximo
     // id é calculado aqui na criação.

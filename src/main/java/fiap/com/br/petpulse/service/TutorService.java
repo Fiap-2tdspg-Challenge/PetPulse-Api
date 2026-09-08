@@ -4,6 +4,9 @@ import fiap.com.br.petpulse.dto.request.TutorLoginRequest;
 import fiap.com.br.petpulse.dto.request.TutorRequest;
 import fiap.com.br.petpulse.dto.response.TutorResponse;
 import fiap.com.br.petpulse.model.Tutor;
+import fiap.com.br.petpulse.repositories.PetRepository;
+import fiap.com.br.petpulse.repositories.TutorAddressRepository;
+import fiap.com.br.petpulse.repositories.TutorPhoneRepository;
 import fiap.com.br.petpulse.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,15 @@ public class TutorService {
     @Autowired
     private TutorRepository tutorRepository;
 
+    @Autowired
+    private TutorPhoneRepository tutorPhoneRepository;
+
+    @Autowired
+    private TutorAddressRepository tutorAddressRepository;
+
+    @Autowired
+    private PetRepository petRepository;
+
     @CacheEvict
     public TutorResponse addTutor(TutorRequest request) {
         Tutor tutor = request.toEntity();
@@ -41,9 +53,26 @@ public class TutorService {
         return TutorResponse.toResponse(findTutorById(id));
     }
 
+    /**
+     * Exclui o tutor e seus dados dependentes (telefones, endereços). Pets
+     * têm histórico clínico, alertas e dispositivos IoT vinculados, então a
+     * exclusão em cascata não é automática aqui — o tutor precisa remover os
+     * pets primeiro (a API bloqueia com 409 caso ainda existam).
+     */
     @CacheEvict
     public void deleteTutor(Long id) {
         findTutorById(id);
+
+        if (petRepository.existsByTutor_Id(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Não é possível excluir o tutor: existem pets cadastrados para ele. Remova os pets primeiro."
+            );
+        }
+
+        tutorPhoneRepository.deleteAll(tutorPhoneRepository.findByTutor_Id(id));
+        tutorAddressRepository.deleteAll(tutorAddressRepository.findByTutor_Id(id));
+
         tutorRepository.deleteById(id);
     }
 

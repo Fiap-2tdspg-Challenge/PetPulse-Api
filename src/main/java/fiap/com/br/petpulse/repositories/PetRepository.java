@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
     List<Pet> findByNameContainingIgnoreCase(String name);
+
+    boolean existsByTutor_Id(Long tutorId);
 }
