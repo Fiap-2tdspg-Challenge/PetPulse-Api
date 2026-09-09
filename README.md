@@ -67,11 +67,13 @@ src/
 
 | Recurso | Base URL |
 |---|---|
-| Tutores (inclui login provisório em `POST /tutors/login`) | `/tutors` |
+| Login (Tutor e Profissional, JWT via `POST /login`) | `/login` |
+| Tutores | `/tutors` |
 | Telefones de Tutores | `/tutor-phones` |
 | Endereços de Tutores | `/tutor-addresses` |
 | Estados (buscar ou cadastrar) | `/states` |
 | Cidades (buscar ou cadastrar) | `/cities` |
+| Profissionais (veterinários) | `/professionals` |
 | Pets | `/pets` |
 | Espécies (buscar ou cadastrar) | `/species` |
 | Raças (buscar ou cadastrar) | `/breeds` |
@@ -80,6 +82,8 @@ src/
 | Dispositivos IoT | `/iot-devices` |
 | Leituras de Dispositivos IoT | `/iot-readings` |
 | Alertas Inteligentes | `/smart-alerts` |
+
+Autenticação JWT (RS256): a maioria dos endpoints exige `Authorization: Bearer <token>`, obtido via `POST /login`. Exceções públicas: `POST /login`, `POST /tutors` (cadastro) e os endpoints do Swagger/Actuator. `POST /professionals` hoje não tem `@PreAuthorize` específico, então basta qualquer token válido (Tutor ou Profissional) para cadastrar um profissional.
 
 > A documentação completa dos endpoints está disponível via **Swagger UI** após subir a aplicação.
 
