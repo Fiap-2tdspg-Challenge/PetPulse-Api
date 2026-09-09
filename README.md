@@ -1,157 +1,206 @@
-# 🐾 PetPulse API
+﻿# 🐾 PetPulse API
 
-API REST desenvolvida com **Spring Boot** para gerenciamento de pets, tutores, histórico clínico, dispositivos IoT e alertas inteligentes — a carteira digital do seu pet.
-
----
-## Membros da Equipe
-Pietro Paranhos Wilhelm rm561378
-João Vitor Biribi rm565594
-Pedro Matos rm564184
-Gabriel Neris Losano rm564093
-
-
-## 📋 Sobre o Projeto
-
-O **PetPulse** é uma plataforma voltada ao bem-estar animal que centraliza informações sobre pets, seus tutores e dados de saúde. Através da integração com dispositivos IoT, o sistema é capaz de gerar alertas inteligentes baseados em dados coletados em tempo real.
+API REST desenvolvida com Spring Boot para gestão de pets, tutores, histórico clínico, dispositivos IoT e alertas inteligentes, com autenticação JWT e integração com banco Oracle.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 👥 Membros da equipe
 
-| Tecnologia | Versão |
-|---|---|
-| Java | 17 |
-| Spring Boot | 4.0.6 |
-| Spring Data JPA | - |
-| Spring Web MVC | - |
-| H2 Database | - |
-| Lombok | - |
-| SpringDoc OpenAPI (Swagger) | 3.0.2 |
-| Spring Boot Actuator | - |
-| Spring Boot Admin Client | 4.0.3 |
-| Spring Cache | - |
+- Pietro Paranhos Wilhelm — RM561378
+- João Vitor Biribi — RM565594
+- Pedro Matos — RM564184
+- Gabriel Neris Losano — RM564093
 
 ---
 
-## 🏗️ Estrutura do Projeto
+## 📌 Sobre o projeto
 
-```
+O PetPulse é uma solução voltada para o bem-estar animal, centralizando informações de pets, tutores, saúde, sensores e alertas em uma única API. A plataforma permite:
+
+- cadastro e consulta de tutores e pets;
+- registro de histórico clínico e informações de saúde;
+- manutenção de espécies, raças, portes, estados e cidades;
+- gerenciamento de dispositivos IoT e leituras;
+- geração de alertas inteligentes com base em dados coletados;
+- autenticação por JWT com chaves RSA.
+
+---
+
+## 🧰 Tecnologias utilizadas
+
+- Java 17
+- Spring Boot 4.0.6
+- Spring Data JPA
+- Spring Security + OAuth2 Resource Server
+- JWT com chaves RSA
+- Oracle Database
+- Flyway
+- Springdoc OpenAPI (Swagger)
+- Spring Boot Actuator
+- Lombok
+- Maven
+
+---
+
+## 🏗️ Estrutura do projeto
+
+```text
 src/
-└── main/
-    ├── java/fiap/com/br/petpulse/
-    │   ├── config/          # Configurações (Swagger, etc.)
-    │   ├── controller/      # Camada de entrada (endpoints REST)
-    │   ├── dto/             # Objetos de transferência de dados (Request/Response)
-    │   ├── enums/           # Enumerações do domínio
-    │   ├── model/           # Entidades JPA
-    │   ├── repositories/    # Interfaces de acesso ao banco de dados
-    │   ├── service/         # Regras de negócio
-    │   └── validation/      # Tratamento global de erros
-    └── resources/
-        └── application.properties
+├── main/
+│   ├── java/fiap/com/br/petpulse/
+│   │   ├── assembler/
+│   │   ├── config/
+│   │   ├── controller/
+│   │   ├── dto/
+│   │   ├── enums/
+│   │   ├── model/
+│   │   ├── repositories/
+│   │   ├── security/
+│   │   ├── service/
+│   │   └── validation/
+│   └── resources/
+│       ├── application.properties
+│       ├── certs/
+│       └── db/migration/
+└── test/
 ```
 
 ---
 
-## 📦 Entidades Principais
+## 🔐 Autenticação e segurança
 
-- **Tutor** — Responsável pelo pet (nome, contato, etc.)
-- **Pet** — Animal cadastrado (espécie, raça, peso, sexo, doenças conhecidas, etc.)
-- **ClinicalHistory** — Histórico clínico do pet (consultas, vacinas, exames, etc.)
-- **IoTDevice** — Dispositivos inteligentes vinculados ao pet
-- **SmartAlert** — Alertas gerados automaticamente com base em dados IoT ou eventos clínicos
+A API usa autenticação JWT assinada com RSA.
 
----
+- Endpoint público de login: `POST /login`
+- Endpoint público de cadastro: `POST /tutors`
+- A maioria dos demais endpoints exige token válido no header:
 
-## 🔗 Endpoints Disponíveis
+```http
+Authorization: Bearer <token>
+```
 
-| Recurso | Base URL |
-|---|---|
-| Login (Tutor e Profissional, JWT via `POST /login`) | `/login` |
-| Tutores | `/tutors` |
-| Telefones de Tutores | `/tutor-phones` |
-| Endereços de Tutores | `/tutor-addresses` |
-| Estados (buscar ou cadastrar) | `/states` |
-| Cidades (buscar ou cadastrar) | `/cities` |
-| Profissionais (veterinários) | `/professionals` |
-| Pets | `/pets` |
-| Espécies (buscar ou cadastrar) | `/species` |
-| Raças (buscar ou cadastrar) | `/breeds` |
-| Portes (só listagem) | `/pet-sizes` |
-| Histórico Clínico | `/clinical-histories` |
-| Dispositivos IoT | `/iot-devices` |
-| Leituras de Dispositivos IoT | `/iot-readings` |
-| Alertas Inteligentes | `/smart-alerts` |
+Os arquivos de chave ficam em:
 
-Autenticação JWT (RS256): a maioria dos endpoints exige `Authorization: Bearer <token>`, obtido via `POST /login`. Exceções públicas: `POST /login`, `POST /tutors` (cadastro) e os endpoints do Swagger/Actuator. `POST /professionals` hoje não tem `@PreAuthorize` específico, então basta qualquer token válido (Tutor ou Profissional) para cadastrar um profissional.
+- `src/main/resources/keys`
+- `src/main/resources/keys`
 
-> A documentação completa dos endpoints está disponível via **Swagger UI** após subir a aplicação.
+A configuração de segurança está em:
+
+- `src/main/java/fiap/com/br/petpulse/config/SecurityConfig.java`
 
 ---
 
-## 📖 Documentação da API (Swagger)
+## 📚 Endpoints principais
+
+A API expõe recursos para:
+
+- `/login`
+- `/tutors`
+- `/tutor-phones`
+- `/tutor-addresses`
+- `/states`
+- `/cities`
+- `/professionals`
+- `/pets`
+- `/species`
+- `/breeds`
+- `/pet-sizes`
+- `/clinical-histories`
+- `/iot-devices`
+- `/iot-readings`
+- `/smart-alerts`
+
+A documentação completa dos endpoints está disponível via Swagger após a aplicação subir.
+
+---
+
+## 📖 Swagger
 
 Com a aplicação em execução, acesse:
 
+```text
+http://localhost:8080/swagger-ui/index.html
 ```
-http://localhost:8080/swagger-ui.html
+
+Ou a documentação OpenAPI em:
+
+```text
+http://localhost:8080/v3/api-docs
 ```
 
 ---
 
-## ⚙️ Como Executar
+## ⚙️ Como executar
 
 ### Pré-requisitos
 
 - Java 17+
 - Maven 3.8+
+- Acesso a um banco Oracle configurado
 
-### Rodando a aplicação
+### Configuração do banco e JWT
+
+Configure as propriedades do banco e das chaves RSA em `src/main/resources/application.properties`.
+
+Exemplo:
+
+```properties
+spring.datasource.url=jdbc:oracle:thin:@<host>:1521:<service>
+spring.datasource.username=<usuario>
+spring.datasource.password=<senha>
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+rsa.public-key=classpath:keys/public_key.pem
+rsa.private-key=classpath:keys/private_key.pem
+```
+
+### Executar localmente
+
+Linux/macOS:
 
 ```bash
-# Clonar o repositório
-git clone <url-do-repositorio>
-cd PetPulse-Api
-
-# Executar com Maven Wrapper
 ./mvnw spring-boot:run
 ```
 
-No Windows:
+Windows:
 
 ```cmd
 mvnw.cmd spring-boot:run
 ```
 
-A aplicação estará disponível em: `http://localhost:8080`
+A API ficará disponível em:
+
+```text
+http://localhost:8080
+```
 
 ---
 
-## 🗄️ Banco de Dados
+## 🗄️ Banco de dados
 
-A aplicação utiliza o banco de dados **H2** em memória, ideal para desenvolvimento e testes.
+A aplicação utiliza Oracle como banco principal e Flyway para versionamento e migração do schema.
 
-Console H2 (quando habilitado):
+Os scripts de migração ficam em:
 
-```
-http://localhost:8080/h2-console
+```text
+src/main/resources/db/migration/
 ```
 
 ---
 
 ## 📊 Monitoramento
 
-A API conta com o **Spring Boot Actuator** para monitoramento de saúde e métricas, além de integração com o **Spring Boot Admin**.
+A API expõe endpoints do Spring Boot Actuator, incluindo healthcheck.
 
-Endpoints de actuator disponíveis em:
-
-```
-http://localhost:8080/actuator
+```text
+http://localhost:8080/actuator/health
 ```
 
 ---
 
 ## 🧪 Testes
+
+Para rodar a suíte de testes:
 
 ```bash
 ./mvnw test
@@ -159,6 +208,7 @@ http://localhost:8080/actuator
 
 ---
 
-## 👥 Equipe
+## 🚀 Contexto do desafio
 
-Projeto desenvolvido para o **Challenge FIAP — 2TDSPG**.
+Projeto desenvolvido para o Challenge FIAP — 2TDSPG.
+
