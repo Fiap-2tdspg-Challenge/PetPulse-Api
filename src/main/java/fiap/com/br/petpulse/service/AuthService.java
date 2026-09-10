@@ -20,7 +20,7 @@ public class AuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        var tutor = tutorRepository.findByEmail(email);
+        var tutor = tutorRepository.findByEmailIgnoreCase(email);
 
         if (tutor.isPresent()) {
             var user = tutor.get();
@@ -33,7 +33,7 @@ public class AuthService implements UserDetailsService {
             );
         }
 
-        var professional = professionalRepository.findByEmail(email)
+        var professional = professionalRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 "Usuário não encontrado com o email: " + email

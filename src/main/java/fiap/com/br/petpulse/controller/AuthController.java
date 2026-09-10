@@ -1,6 +1,9 @@
 package fiap.com.br.petpulse.controller;
 
 import fiap.com.br.petpulse.service.TokenService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,8 +20,14 @@ public class AuthController {
     private final TokenService tokenService;
 
     public record LoginRequest(
+
+            @NotBlank(message = "O e-mail é obrigatório")
+            @Email(message = "O e-mail deve ser válido")
             String email,
+
+            @NotBlank(message = "A senha é obrigatória")
             String password
+
     ) {
     }
 
@@ -28,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public TokenResponse login(@RequestBody LoginRequest loginRequest) {
+    public TokenResponse login(@RequestBody @Valid LoginRequest loginRequest) {
 
         Authentication authentication =
                 authenticationManager.authenticate(

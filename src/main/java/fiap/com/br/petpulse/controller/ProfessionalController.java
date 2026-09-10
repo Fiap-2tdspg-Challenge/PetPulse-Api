@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class ProfessionalController {
     private final ProfessionalService professionalService;
 
     @PostMapping
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Cadastrar novo profissional",
@@ -40,6 +42,7 @@ public class ProfessionalController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Listar profissionais",
             description = "Retorna uma lista paginada de profissionais cadastrados. Permite paginação e ordenação por parâmetros."
@@ -52,6 +55,7 @@ public class ProfessionalController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Buscar profissional por ID",
             description = "Retorna os dados de um profissional específico a partir do seu identificador."
@@ -65,6 +69,7 @@ public class ProfessionalController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @Operation(
             summary = "Atualizar profissional",
             description = "Atualiza os dados de um profissional existente com base no ID informado."
@@ -82,6 +87,7 @@ public class ProfessionalController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Deletar profissional",
@@ -96,6 +102,7 @@ public class ProfessionalController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('TUTOR', 'PROFESSIONAL')")
     @Operation(
             summary = "Buscar profissional por nome",
             description = "Retorna profissionais cujo nome contenha o valor informado no parâmetro name."

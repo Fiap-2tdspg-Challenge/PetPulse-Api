@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ProfessionalRepository extends JpaRepository<Professional, Long> {
 
-    Optional<Professional> findByEmail(String email);
+    Optional<Professional> findByEmailIgnoreCase(String email);
 
     List<Professional> findByNameContainingIgnoreCase(String name);
 }
