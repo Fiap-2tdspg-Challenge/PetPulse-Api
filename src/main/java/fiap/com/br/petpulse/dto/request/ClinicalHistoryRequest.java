@@ -1,7 +1,6 @@
 package fiap.com.br.petpulse.dto.request;
 
 import fiap.com.br.petpulse.enums.RecordType;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +21,6 @@ public record ClinicalHistoryRequest(
         @Size(max = 500, message = "A descrição deve ter no máximo 500 caracteres")
         String description,
 
-        @FutureOrPresent(message = "A data de retorno deve ser hoje ou uma data futura")
         LocalDate returnDate,
 
         @Size(max = 1000, message = "As observações devem ter no máximo 1000 caracteres")

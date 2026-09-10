@@ -44,6 +44,9 @@ public class PetService {
         Tutor tutor = findTutorById(request.tutorId());
         Species species = findSpeciesById(request.speciesId());
         Breed breed = findBreedById(request.breedId());
+
+        validateBreedBelongsToSpecies(breed, species);
+
         PetSize petSize = findPetSizeById(request.petSizeId());
 
         Pet pet = petAssembler.toEntity(
@@ -92,6 +95,9 @@ public class PetService {
         Tutor tutor = findTutorById(request.tutorId());
         Species species = findSpeciesById(request.speciesId());
         Breed breed = findBreedById(request.breedId());
+
+        validateBreedBelongsToSpecies(breed, species);
+
         PetSize petSize = findPetSizeById(request.petSizeId());
 
         petAssembler.updateEntity(
@@ -160,5 +166,19 @@ public class PetService {
                         HttpStatus.NOT_FOUND,
                         "Porte com id " + id + " não encontrado"
                 ));
+    }
+
+    private void validateBreedBelongsToSpecies(
+            Breed breed,
+            Species species
+    ) {
+        if (breed.getSpecies() == null ||
+                !breed.getSpecies().getId().equals(species.getId())) {
+
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "A raça informada não pertence à espécie selecionada"
+            );
+        }
     }
 }

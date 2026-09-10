@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +39,8 @@ public class TutorService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
-    @CacheEvict
+
+    @CacheEvict(allEntries = true)
     public TutorResponse addTutor(TutorRequest request) {
         Tutor tutor = request.toEntity();
         tutor.setPassword(passwordEncoder.encode(request.password()));
@@ -64,7 +65,8 @@ public class TutorService {
      * exclusão em cascata não é automática aqui — o tutor precisa remover os
      * pets primeiro (a API bloqueia com 409 caso ainda existam).
      */
-    @CacheEvict
+    @CacheEvict(allEntries = true)
+    @Transactional
     public void deleteTutor(Long id) {
         findTutorById(id);
 
@@ -75,13 +77,18 @@ public class TutorService {
             );
         }
 
-        tutorPhoneRepository.deleteAll(tutorPhoneRepository.findByTutor_Id(id));
-        tutorAddressRepository.deleteAll(tutorAddressRepository.findByTutor_Id(id));
+        tutorPhoneRepository.deleteAll(
+                tutorPhoneRepository.findByTutor_Id(id)
+        );
+
+        tutorAddressRepository.deleteAll(
+                tutorAddressRepository.findByTutor_Id(id)
+        );
 
         tutorRepository.deleteById(id);
     }
 
-    @CacheEvict
+    @CacheEvict(allEntries = true)
     public TutorResponse updateTutor(Long id, TutorRequest request) {
         Tutor tutor = findTutorById(id);
 
