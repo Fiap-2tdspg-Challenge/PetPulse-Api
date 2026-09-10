@@ -21,7 +21,7 @@
       "created": 1789071962528,
       "name": "Base Environment",
       "data": {
-        "base_url": "http://localhost:8080",
+        "base_url": "https://petpulse-api-j1k8.onrender.com",
         "tutor_token": "",
         "professional_token": "",
         "tutor_id": 1,
