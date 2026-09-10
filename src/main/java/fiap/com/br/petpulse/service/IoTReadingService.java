@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class IoTReadingService {
     private final IoTReadingAnalysisService ioTReadingAnalysisService;
 
     @CacheEvict(allEntries = true)
+    @Transactional
     public IoTReadingResponse addIoTReading(
             IoTReadingRequest request
     ) {
@@ -43,6 +45,22 @@ public class IoTReadingService {
 
         IoTReading savedReading =
                 ioTReadingRepository.save(reading);
+
+        if (savedReading.getHeartRate() != null) {
+            device.setHeartRate(savedReading.getHeartRate());
+        }
+
+        if (savedReading.getActivityLevel() != null) {
+            device.setActivityLevel(savedReading.getActivityLevel());
+        }
+
+        if (savedReading.getPressure() != null) {
+            device.setPressure(savedReading.getPressure());
+        }
+
+        device.setLastReadingDate(savedReading.getReadingDate());
+
+        ioTDeviceRepository.save(device);
 
         ioTReadingAnalysisService.analyze(savedReading);
 

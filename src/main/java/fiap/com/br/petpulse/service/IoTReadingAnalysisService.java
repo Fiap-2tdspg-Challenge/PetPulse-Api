@@ -21,6 +21,15 @@ public class IoTReadingAnalysisService {
     private final SmartAlertService smartAlertService;
     private final AlertTypeRepository alertTypeRepository;
 
+    private static final int MIN_HEART_RATE = 60;
+    private static final int MAX_HEART_RATE = 180;
+
+    private static final BigDecimal MAX_PRESSURE =
+            BigDecimal.valueOf(16);
+
+    private static final BigDecimal MIN_ACTIVITY_LEVEL =
+            BigDecimal.valueOf(2);
+
     public void analyze(IoTReading reading) {
 
         analyzeHeartRate(reading);
@@ -36,7 +45,7 @@ public class IoTReadingAnalysisService {
             return;
         }
 
-        if (heartRate < 60 || heartRate > 180) {
+        if (heartRate < MIN_HEART_RATE || heartRate > MAX_HEART_RATE) {
             createAlert(
                     reading,
                     "FREQUENCIA_CARDIACA",
@@ -55,7 +64,7 @@ public class IoTReadingAnalysisService {
             return;
         }
 
-        if (pressure.compareTo(BigDecimal.valueOf(160)) > 0) {
+        if (pressure.compareTo(MAX_PRESSURE) > 0) {
             createAlert(
                     reading,
                     "PRESSAO",
@@ -74,7 +83,7 @@ public class IoTReadingAnalysisService {
             return;
         }
 
-        if (activityLevel.compareTo(BigDecimal.valueOf(10)) < 0) {
+        if (activityLevel.compareTo(MIN_ACTIVITY_LEVEL) < 0) {
             createAlert(
                     reading,
                     "ATIVIDADE",
