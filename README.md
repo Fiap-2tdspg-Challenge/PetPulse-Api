@@ -31,7 +31,7 @@ OpenAPI:
 ```text
 https://petpulse-api-j1k8.onrender.com/v3/api-docs
 ```
-
+Adendo: Devido ao serviço Deploy ser gratuito a primeira requisição pode demorar cerca de cinco minutos para acontecer.
 ---
 
 # 👥 Integrantes
