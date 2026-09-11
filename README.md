@@ -1,8 +1,36 @@
-﻿# 🐾 PetPulse API
+# 🐾 PetPulse API
 
 API REST desenvolvida para o projeto **PetPulse**, solução voltada ao acompanhamento da saúde e bem-estar de pets por meio do gerenciamento de tutores, animais, histórico clínico, profissionais veterinários, dispositivos IoT, leituras e alertas inteligentes.
 
 O backend foi desenvolvido com **Java, Spring Boot, Oracle Database, Flyway e Spring Security com autenticação JWT utilizando chaves RSA**.
+
+---
+
+# 🌐 API publicada
+
+A API está publicada no Render:
+
+```text
+https://petpulse-api-j1k8.onrender.com
+```
+
+Health Check:
+
+```text
+https://petpulse-api-j1k8.onrender.com/actuator/health
+```
+
+Swagger:
+
+```text
+https://petpulse-api-j1k8.onrender.com/swagger-ui/index.html
+```
+
+OpenAPI:
+
+```text
+https://petpulse-api-j1k8.onrender.com/v3/api-docs
+```
 
 ---
 
@@ -64,6 +92,8 @@ A API permite:
 - Lombok
 - Maven
 - Maven Wrapper
+- Docker
+- Render
 
 ---
 
@@ -437,59 +467,51 @@ spring.application.name=PetPulse
 # =========================
 # SERVER
 # =========================
-
-server.port=8080
-
+server.port=${PORT:8080}
 
 # =========================
 # ORACLE DATABASE
 # =========================
-
 spring.datasource.url=${SPRING_DATASOURCE_URL}
 spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
 spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
-
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
-
 
 # =========================
 # JPA / HIBERNATE
 # =========================
-
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.OracleDialect
 
-
 # =========================
 # FLYWAY
 # =========================
-
 spring.flyway.enabled=true
 spring.flyway.locations=classpath:db/migration
-
 spring.flyway.baseline-on-migrate=true
 spring.flyway.baseline-version=4
-
 spring.flyway.validate-on-migrate=true
 spring.flyway.clean-disabled=true
-
 
 # =========================
 # JWT / RSA
 # =========================
-
-rsa.private-key=classpath:certs/private_key.pem
-rsa.public-key=classpath:certs/public_key.pem
-
+rsa.private-key=${RSA_PRIVATE_KEY:classpath:certs/private_key.pem}
+rsa.public-key=${RSA_PUBLIC_KEY:classpath:certs/public_key.pem}
 
 # =========================
 # ACTUATOR
 # =========================
-
 management.endpoints.web.exposure.include=health,info
 management.endpoint.health.show-details=always
 ```
+
+Com essa configuração:
+
+- localmente, se `PORT` não estiver definida, a aplicação utiliza a porta `8080`;
+- localmente, se `RSA_PRIVATE_KEY` e `RSA_PUBLIC_KEY` não estiverem definidas, a aplicação utiliza os arquivos da pasta `certs`;
+- no Render, essas propriedades são fornecidas através de variáveis de ambiente e Secret Files.
 
 ---
 
@@ -565,7 +587,7 @@ http://localhost:8080
 
 # 📖 Swagger
 
-Com a aplicação executando:
+## Ambiente local
 
 ```text
 http://localhost:8080/swagger-ui/index.html
@@ -575,6 +597,18 @@ Documentação OpenAPI:
 
 ```text
 http://localhost:8080/v3/api-docs
+```
+
+## Ambiente publicado
+
+```text
+https://petpulse-api-j1k8.onrender.com/swagger-ui/index.html
+```
+
+Documentação OpenAPI:
+
+```text
+https://petpulse-api-j1k8.onrender.com/v3/api-docs
 ```
 
 ---
@@ -587,10 +621,16 @@ O endpoint de monitoramento pode ser consultado em:
 GET /actuator/health
 ```
 
-URL:
+Ambiente local:
 
 ```text
 http://localhost:8080/actuator/health
+```
+
+Ambiente publicado:
+
+```text
+https://petpulse-api-j1k8.onrender.com/actuator/health
 ```
 
 Exemplo de resposta:
@@ -643,6 +683,7 @@ GET    /pets/{id}
 PUT    /pets/{id}
 DELETE /pets/{id}
 GET    /pets/search
+GET    /pets/{id}/health-summary
 ```
 
 ## Profissionais
@@ -754,17 +795,148 @@ Uma combinação inválida retorna:
 
 ---
 
-## 🧪 Testando a API com Insomnia
+# 🧪 Testando a API com Insomnia
 
-O projeto possui uma coleção do Insomnia pronta para testar os endpoints da API.
-
-Arquivo:
+O repositório possui uma coleção do Insomnia pronta para testar os endpoints da API:
 
 ```text
 PetPulse-Insomnia-Sprint3-DEMO.json
 ```
 
-Lembre-se de inserir o valor do Token no Base Enviroment para uma melhor experiência de teste.
+## 1. Importar a coleção
+
+No Insomnia:
+
+```text
+Import
+→ File
+→ PetPulse-Insomnia-Sprint3-DEMO.json
+```
+
+A coleção está organizada em pastas por funcionalidade.
+
+## 2. Base Environment
+
+A coleção já possui um `Base Environment` configurado para execução local.
+
+Entre as variáveis disponíveis estão:
+
+```json
+{
+  "base_url": "http://localhost:8080",
+  "tutor_token": "",
+  "professional_token": "",
+  "tutor_id": 1,
+  "professional_id": 1,
+  "clinic_id": 1,
+  "pet_id": 1,
+  "species_id": 1,
+  "breed_id": 1,
+  "pet_size_id": 3,
+  "state_code": "SP",
+  "city_id": 1,
+  "address_type_id": 1,
+  "tutor_phone_id": 1,
+  "tutor_address_id": 1,
+  "clinical_history_id": 1,
+  "iot_device_id": 1,
+  "iot_reading_id": 1,
+  "smart_alert_id": 1,
+  "alert_type_id": 1,
+  "delete_test_id": 999999
+}
+```
+
+Os IDs representam registros utilizados nos testes de demonstração.
+
+Caso o banco utilizado possua outros IDs, basta alterar as variáveis correspondentes no `Base Environment`.
+
+## 3. Gerar o token do Tutor
+
+Abra:
+
+```text
+00 - Auth
+→ Login - Tutor
+```
+
+Credenciais:
+
+```text
+E-mail: security.tutor@petpulse.com
+Senha: 123456
+```
+
+Copie o token retornado e salve em:
+
+```text
+tutor_token
+```
+
+## 4. Gerar o token do Professional
+
+Execute:
+
+```text
+00 - Auth
+→ Login - Professional
+```
+
+Credenciais:
+
+```text
+E-mail: carlos.andrade@vetcare.com
+Senha: 123456
+```
+
+Copie o token retornado e salve em:
+
+```text
+professional_token
+```
+
+Os requests protegidos já utilizam automaticamente o token adequado.
+
+> Os tokens JWT possuem tempo de expiração. Caso um endpoint protegido retorne `401 Unauthorized` após algum tempo, realize o login novamente e atualize o token no `Base Environment`.
+
+## 5. Testar a API publicada
+
+Para execução local:
+
+```text
+base_url = http://localhost:8080
+```
+
+Para testar o ambiente publicado no Render:
+
+```text
+base_url = https://petpulse-api-j1k8.onrender.com
+```
+
+Ao alterar apenas `base_url`, todos os requests passam automaticamente a utilizar o ambiente escolhido.
+
+## 6. Testes preparados para a Sprint 3
+
+A pasta:
+
+```text
+12 - Sprint 3 - Testes da Apresentação
+```
+
+possui cenários preparados para demonstrar:
+
+- autenticação com JWT;
+- acesso autorizado;
+- `401 Unauthorized`;
+- `403 Forbidden`;
+- validação com `400 Bad Request`;
+- validação de espécie e raça;
+- geração automática de Smart Alert por leitura IoT;
+- atualização do snapshot do dispositivo IoT;
+- Health Summary do pet;
+- conflito de integridade com `409 Conflict`.
+
+---
 
 # 📡 Fluxo inteligente 1 — Leitura IoT e geração automática de alerta
 
@@ -1240,6 +1412,89 @@ Em uma aplicação de produção, esses dados poderiam ser previamente carregado
 
 ---
 
+# ☁️ Deploy no Render
+
+A API está preparada para execução no Render utilizando Docker.
+
+O projeto possui:
+
+```text
+Dockerfile
+.dockerignore
+```
+
+O container utiliza Java 17 e executa a aplicação Spring Boot através do arquivo `.jar` gerado pelo Maven.
+
+## Variáveis de ambiente
+
+No Render são configuradas:
+
+```text
+SPRING_DATASOURCE_URL
+SPRING_DATASOURCE_USERNAME
+SPRING_DATASOURCE_PASSWORD
+PORT
+RSA_PRIVATE_KEY
+RSA_PUBLIC_KEY
+```
+
+As credenciais do Oracle não são armazenadas no repositório.
+
+## Chaves RSA no Render
+
+As chaves são cadastradas através de Secret Files:
+
+```text
+private_key.pem
+public_key.pem
+```
+
+As variáveis apontam para esses arquivos:
+
+```text
+RSA_PRIVATE_KEY=file:/etc/secrets/private_key.pem
+RSA_PUBLIC_KEY=file:/etc/secrets/public_key.pem
+```
+
+## Porta
+
+A aplicação utiliza:
+
+```properties
+server.port=${PORT:8080}
+```
+
+Assim:
+
+- localmente, a porta padrão é `8080`;
+- no Render, a aplicação utiliza o valor da variável `PORT`.
+
+No ambiente atual do projeto:
+
+```text
+PORT=10000
+```
+
+## URL publicada
+
+```text
+https://petpulse-api-j1k8.onrender.com
+```
+
+Health Check:
+
+```text
+https://petpulse-api-j1k8.onrender.com/actuator/health
+```
+
+Swagger:
+
+```text
+https://petpulse-api-j1k8.onrender.com/swagger-ui/index.html
+```
+
+---
+
 # 📝 Logs e monitoramento
 
 A aplicação utiliza logs do Spring durante sua execução.
@@ -1292,6 +1547,8 @@ de acordo com a operação desejada.
 
 ## Erro ao carregar chave RSA
 
+### Ambiente local
+
 Confirme a existência dos arquivos:
 
 ```text
@@ -1299,11 +1556,29 @@ src/main/resources/certs/private_key.pem
 src/main/resources/certs/public_key.pem
 ```
 
-E confirme o `application.properties`:
+O `application.properties` utiliza:
 
 ```properties
-rsa.private-key=classpath:certs/private_key.pem
-rsa.public-key=classpath:certs/public_key.pem
+rsa.private-key=${RSA_PRIVATE_KEY:classpath:certs/private_key.pem}
+rsa.public-key=${RSA_PUBLIC_KEY:classpath:certs/public_key.pem}
+```
+
+Se as variáveis `RSA_PRIVATE_KEY` e `RSA_PUBLIC_KEY` não estiverem definidas, os arquivos locais serão utilizados.
+
+### Render
+
+Confirme a existência dos Secret Files:
+
+```text
+private_key.pem
+public_key.pem
+```
+
+e das variáveis:
+
+```text
+RSA_PRIVATE_KEY=file:/etc/secrets/private_key.pem
+RSA_PUBLIC_KEY=file:/etc/secrets/public_key.pem
 ```
 
 ---
@@ -1354,18 +1629,26 @@ A exclusão é impedida para preservar a integridade das informações.
 
 ---
 
-## Porta 8080 ocupada
+## Porta local ocupada
 
-A aplicação utiliza por padrão:
+A porta padrão local é:
 
 ```text
 8080
 ```
 
-Caso outra aplicação esteja utilizando essa porta, finalize o outro processo ou altere temporariamente:
+Caso outra aplicação esteja utilizando essa porta, finalize o outro processo ou defina outra porta temporariamente:
 
-```properties
-server.port=8081
+### PowerShell
+
+```powershell
+$env:PORT="8081"
+```
+
+### Linux/macOS
+
+```bash
+export PORT=8081
 ```
 
 ---
@@ -1428,6 +1711,8 @@ Entre os principais recursos implementados nesta etapa estão:
 ✅ atualização automática do dispositivo
 ✅ transações
 ✅ resumo consolidado da saúde do pet
+✅ coleção de testes no Insomnia
+✅ deploy da API utilizando Docker e Render
 ```
 
 ---
@@ -1437,20 +1722,23 @@ Entre os principais recursos implementados nesta etapa estão:
 O vídeo de demonstração da entrega deve apresentar principalmente:
 
 ```text
-1. Aplicação iniciando
-2. Flyway sendo validado/executado
-3. Swagger
-4. Login de Tutor
-5. Geração do JWT
-6. Endpoint protegido funcionando
-7. Login de Professional
-8. Diferença entre permissões
-9. Teste 401 sem autenticação
-10. Teste 403 com role incorreta
-11. Cadastro de leitura IoT
-12. Geração automática de alerta
-13. Health Summary do pet
-14. Validações e tratamento de erros
+1. Apresentação rápida do PetPulse
+2. Aplicação/API funcionando
+3. Flyway sendo validado/executado
+4. Swagger
+5. Login de Tutor
+6. Geração do JWT
+7. Endpoint protegido funcionando
+8. Login de Professional
+9. Diferença entre permissões
+10. Teste 401 sem autenticação
+11. Teste 403 com role incorreta
+12. Cadastro de leitura IoT
+13. Atualização do IoTDevice
+14. Geração automática de SmartAlert
+15. Health Summary do pet
+16. Validações e tratamento de erros
+17. API publicada no Render
 ```
 
 ---
@@ -1459,6 +1747,14 @@ O vídeo de demonstração da entrega deve apresentar principalmente:
 
 ```text
 https://github.com/Fiap-2tdspg-Challenge/PetPulse-Api
+```
+
+---
+
+# 🌐 API
+
+```text
+https://petpulse-api-j1k8.onrender.com
 ```
 
 ---
