@@ -1720,6 +1720,9 @@ Entre os principais recursos implementados nesta etapa estão:
 # 📹 Demonstração
 
 O vídeo de demonstração da entrega deve apresentar principalmente:
+```text
+https://youtu.be/pi_CTIW9Ngk
+```
 
 ```text
 1. Apresentação rápida do PetPulse
