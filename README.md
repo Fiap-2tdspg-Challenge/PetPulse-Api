@@ -6,6 +6,13 @@ O backend foi desenvolvido com **Java, Spring Boot, Oracle Database, Flyway e Sp
 
 ---
 
+# 📹 Demonstração
+
+O vídeo de demonstração da entrega:
+```text
+https://youtu.be/pi_CTIW9Ngk
+```
+
 # 🌐 API publicada
 
 A API está publicada no Render:
@@ -1716,33 +1723,6 @@ Entre os principais recursos implementados nesta etapa estão:
 ```
 
 ---
-
-# 📹 Demonstração
-
-O vídeo de demonstração da entrega deve apresentar principalmente:
-```text
-https://youtu.be/pi_CTIW9Ngk
-```
-
-```text
-1. Apresentação rápida do PetPulse
-2. Aplicação/API funcionando
-3. Flyway sendo validado/executado
-4. Swagger
-5. Login de Tutor
-6. Geração do JWT
-7. Endpoint protegido funcionando
-8. Login de Professional
-9. Diferença entre permissões
-10. Teste 401 sem autenticação
-11. Teste 403 com role incorreta
-12. Cadastro de leitura IoT
-13. Atualização do IoTDevice
-14. Geração automática de SmartAlert
-15. Health Summary do pet
-16. Validações e tratamento de erros
-17. API publicada no Render
-```
 
 ---
 
