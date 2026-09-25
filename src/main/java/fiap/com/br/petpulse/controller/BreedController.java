@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class BreedController {
                     "(ignorando maiúsculas/minúsculas) ou cria uma nova, caso ainda não exista. Usado " +
                     "pelo app para permitir que o tutor digite livremente a raça do pet."
     )
+    @PreAuthorize("hasRole('TUTOR')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Raça encontrada ou cadastrada com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos enviados na requisição"),
@@ -42,6 +44,7 @@ public class BreedController {
             summary = "Listar raças por espécie",
             description = "Retorna todas as raças cadastradas para a espécie informada."
     )
+    @PreAuthorize("hasRole('TUTOR')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Raças listadas com sucesso")
     })

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class StateController {
             summary = "Buscar ou cadastrar estado",
             description = "Retorna o estado (UF) existente com o código informado ou cria um novo, caso ainda não exista."
     )
+    @PreAuthorize("hasRole('TUTOR')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estado encontrado ou cadastrado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos enviados na requisição")
@@ -39,6 +41,7 @@ public class StateController {
             summary = "Listar estados",
             description = "Retorna todos os estados cadastrados."
     )
+    @PreAuthorize("hasRole('TUTOR')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estados listados com sucesso")
     })

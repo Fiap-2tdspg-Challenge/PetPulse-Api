@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class CityController {
             description = "Retorna a cidade existente com o nome informado no estado indicado (ignorando " +
                     "maiúsculas/minúsculas) ou cria uma nova, caso ainda não exista."
     )
+    @PreAuthorize("hasRole('TUTOR')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cidade encontrada ou cadastrada com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos enviados na requisição"),
@@ -41,6 +43,7 @@ public class CityController {
             summary = "Listar cidades por estado",
             description = "Retorna todas as cidades cadastradas para o estado informado."
     )
+    @PreAuthorize("hasRole('TUTOR')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cidades listadas com sucesso")
     })
