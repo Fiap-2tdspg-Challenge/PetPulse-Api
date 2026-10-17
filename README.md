@@ -45,7 +45,6 @@ Adendo: Devido ao serviço Deploy ser gratuito a primeira requisição pode demo
 
 - Pietro Paranhos Wilhelm — RM561378
 - João Vitor Biribilli Ravelli  — RM565594
-- Pedro Matos — RM564184
 - Gabriel Neris Losano — RM564093
 
 Turma: **2TDSPG**
