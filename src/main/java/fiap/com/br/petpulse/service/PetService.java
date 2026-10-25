@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -38,28 +39,37 @@ public class PetService {
     private final PetAssembler petAssembler;
 
 
+    @Transactional
     @CacheEvict(allEntries = true)
     public PetResponse addPet(PetRequest request) {
 
-        Tutor tutor = findTutorById(request.tutorId());
+        // validações continuam no Java, porque a procedure não repassa o erro
+        findTutorById(request.tutorId());
         Species species = findSpeciesById(request.speciesId());
         Breed breed = findBreedById(request.breedId());
-
         validateBreedBelongsToSpecies(breed, species);
+        findPetSizeById(request.petSizeId());
 
-        PetSize petSize = findPetSizeById(request.petSizeId());
-
-        Pet pet = petAssembler.toEntity(
-                request,
-                tutor,
-                species,
-                breed,
-                petSize
+        petRepository.cargaPet(
+                request.tutorId(),
+                request.name(),
+                request.speciesId(),
+                request.breedId(),
+                request.petSizeId(),
+                request.birthDate(),
+                request.weight(),
+                request.sex().name(),                              // "M" / "F"
+                Boolean.TRUE.equals(request.neutered()) ? "S" : "N"
         );
 
-        return petAssembler.toResponse(
-                petRepository.save(pet)
-        );
+        Pet pet = petRepository
+                .findFirstByTutor_IdAndNameOrderByIdDesc(request.tutorId(), request.name())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Procedure PRC_CARGA_PET não inseriu o pet (ver T_CLY_LOG_ERRO)"
+                ));
+
+        return petAssembler.toResponse(pet);
     }
 
 
