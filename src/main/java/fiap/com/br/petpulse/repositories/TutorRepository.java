@@ -11,4 +11,8 @@ import java.util.Optional;
 public interface TutorRepository extends JpaRepository <Tutor, Long> {
     List<Tutor> findByNameContainingIgnoreCase(String name);
     Optional<Tutor> findByEmailIgnoreCase(String email);
+    boolean existsByEmailIgnoreCase(String email);
+    boolean existsByCpf(String cpf);
+    boolean existsByEmailIgnoreCaseAndIdNot(String email, Long id);
+    boolean existsByCpfAndIdNot(String cpf, Long id);
 }

@@ -43,6 +43,11 @@ public class TutorService {
 
     @CacheEvict(allEntries = true)
     public TutorResponse addTutor(TutorRequest request) {
+        validateUniqueEmailAndCpf(
+                tutorRepository.existsByEmailIgnoreCase(request.email()),
+                tutorRepository.existsByCpf(request.cpf())
+        );
+
         Tutor tutor = request.toEntity();
         tutor.setPassword(passwordEncoder.encode(request.password()));
 
@@ -97,12 +102,26 @@ public class TutorService {
     public TutorResponse updateTutor(Long id, TutorRequest request) {
         Tutor tutor = findTutorById(id);
 
+        validateUniqueEmailAndCpf(
+                tutorRepository.existsByEmailIgnoreCaseAndIdNot(request.email(), id),
+                tutorRepository.existsByCpfAndIdNot(request.cpf(), id)
+        );
+
         tutor.setName(request.name());
         tutor.setCpf(request.cpf());
         tutor.setEmail(request.email());
         tutor.setPassword(passwordEncoder.encode(request.password()));
 
         return TutorResponse.toResponse(tutorRepository.save(tutor));
+    }
+
+    private void validateUniqueEmailAndCpf(boolean emailInUse, boolean cpfInUse) {
+        if (emailInUse) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail já cadastrado");
+        }
+        if (cpfInUse) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CPF já cadastrado");
+        }
     }
 
     private Tutor findTutorById(Long id) {
