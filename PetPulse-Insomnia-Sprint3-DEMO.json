@@ -21,7 +21,7 @@
       "created": 1789071962528,
       "name": "Base Environment",
       "data": {
-        "base_url": "https://petpulse-api-j1k8.onrender.com",
+        "base_url": "http://localhost:8080",
         "tutor_token": "",
         "professional_token": "",
         "tutor_id": 1,
@@ -41,7 +41,8 @@
         "iot_reading_id": 1,
         "smart_alert_id": 1,
         "alert_type_id": 1,
-        "delete_test_id": 999999
+        "delete_test_id": 999999,
+        "logged_tutor_id": 23
       },
       "dataPropertyOrder": null,
       "color": null,
@@ -523,7 +524,7 @@
       "created": 1789071962528,
       "url": "{{ _.base_url }}/tutors",
       "name": "Cadastrar Tutor",
-      "description": "Público. Se já existir CPF/e-mail, altere os dados antes de reenviar.",
+      "description": "Público. CPF e e-mail são únicos: na segunda execução a API responde 409 (esperado). Para repetir com 201, altere os dois.",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
@@ -636,13 +637,13 @@
       "parentId": "fld_6f209914ac8b4b2986e189e3",
       "modified": 1789071962528,
       "created": 1789071962528,
-      "url": "{{ _.base_url }}/tutors/{{ _.tutor_id }}",
+      "url": "{{ _.base_url }}/tutors/{{ _.logged_tutor_id }}",
       "name": "Atualizar Tutor",
-      "description": "Usa o tutor seed ID 1 por padrão.",
+      "description": "Só é permitido na própria conta (senão 403). Use o id retornado por GET /tutors/me em logged_tutor_id.",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"name\": \"Armando Souza\",\n  \"cpf\": \"12345678900\",\n  \"email\": \"armando@email.com\",\n  \"password\": \"123456\"\n}"
+        "text": "{\n  \"name\": \"Tutor Security\",\n  \"cpf\": \"52998224725\",\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -685,6 +686,34 @@
       ],
       "authentication": {},
       "metaSortKey": 4200,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ac31216a2c9641b39157caa7",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/me",
+      "name": "Buscar Tutor logado (/me)",
+      "description": "Retorna o tutor dono do token. Use o id retornado em logged_tutor_id.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4165,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -1129,7 +1158,7 @@
       "created": 1789071962528,
       "url": "{{ _.base_url }}/professionals",
       "name": "Cadastrar Professional",
-      "description": "Se e-mail/CRMV já existirem, altere os dados.",
+      "description": "E-mail e CRMV são únicos: na segunda execução a API responde 409 (esperado). Para repetir com 201, altere os dados.",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
@@ -1211,6 +1240,34 @@
       ],
       "authentication": {},
       "metaSortKey": 7360,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0de191d01cfe4ef89db2015c",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/me",
+      "name": "Buscar Professional logado (/me)",
+      "description": "Retorna o profissional dono do token.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7335,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -1627,7 +1684,7 @@
       "created": 1789071962528,
       "url": "{{ _.base_url }}/iot-devices",
       "name": "Cadastrar Dispositivo IoT",
-      "description": "O banco permite um dispositivo por pet; use um pet sem dispositivo para testar 201.",
+      "description": "Cada pet tem no máximo um dispositivo: com petId 1 a API responde 409 (esperado). Para 201, use o id de um pet sem dispositivo.",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
@@ -2405,6 +2462,132 @@
       ],
       "authentication": {},
       "metaSortKey": 13730,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ffb226fd005b48c58f22ab5d",
+      "parentId": "fld_5704d7cdc38c40b8b404f09a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/me",
+      "name": "10 - 200 /tutors/me",
+      "description": "Dados do tutor logado, sem baixar a lista de tutores.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 13740,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_d97650b190b548f2bc73f52f",
+      "parentId": "fld_5704d7cdc38c40b8b404f09a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors",
+      "name": "11 - 409 e-mail duplicado",
+      "description": "Esperado: 409 {\"message\": \"E-mail já cadastrado\"}.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Tutor Duplicado\",\n  \"cpf\": \"11144477735\",\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 13750,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_c224b22ae84b426b9b14da94",
+      "parentId": "fld_5704d7cdc38c40b8b404f09a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/{{ _.tutor_id }}",
+      "name": "12 - 403 tutor altera outro tutor",
+      "description": "Esperado: 403. O tutor logado só altera a própria conta.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Armando Souza\",\n  \"cpf\": \"12345678900\",\n  \"email\": \"armando@email.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 13760,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_22e4931c17a2489d9505e8bc",
+      "parentId": "fld_5704d7cdc38c40b8b404f09a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/me",
+      "name": "13 - 200 /professionals/me",
+      "description": "Dados do profissional logado.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 13770,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
