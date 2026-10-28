@@ -77,8 +77,10 @@ public class TutorService {
             @CacheEvict(cacheNames = "tutorAddresses", allEntries = true)
     })
     @Transactional
-    public void deleteTutor(Long id) {
-        findTutorById(id);
+    public void deleteTutor(Long id, String loggedEmail) {
+        Tutor tutor = findTutorById(id);
+
+        validateLoggedTutor(tutor, loggedEmail);
 
         if (petRepository.existsByTutor_Id(id)) {
             throw new ResponseStatusException(
@@ -99,8 +101,10 @@ public class TutorService {
     }
 
     @CacheEvict(allEntries = true)
-    public TutorResponse updateTutor(Long id, TutorRequest request) {
+    public TutorResponse updateTutor(Long id, TutorRequest request, String loggedEmail) {
         Tutor tutor = findTutorById(id);
+
+        validateLoggedTutor(tutor, loggedEmail);
 
         validateUniqueEmailAndCpf(
                 tutorRepository.existsByEmailIgnoreCaseAndIdNot(request.email(), id),
@@ -113,6 +117,24 @@ public class TutorService {
         tutor.setPassword(passwordEncoder.encode(request.password()));
 
         return TutorResponse.toResponse(tutorRepository.save(tutor));
+    }
+
+    public TutorResponse getTutorByEmail(String email) {
+        return tutorRepository.findByEmailIgnoreCase(email)
+                .map(TutorResponse::toResponse)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Tutor com e-mail " + email + " não encontrado"
+                ));
+    }
+
+    private void validateLoggedTutor(Tutor tutor, String loggedEmail) {
+        if (!tutor.getEmail().equalsIgnoreCase(loggedEmail)) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Você só pode alterar ou excluir a sua própria conta"
+            );
+        }
     }
 
     private void validateUniqueEmailAndCpf(boolean emailInUse, boolean cpfInUse) {
