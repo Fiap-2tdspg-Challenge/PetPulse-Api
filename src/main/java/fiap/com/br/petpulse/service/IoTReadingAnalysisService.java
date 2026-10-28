@@ -8,9 +8,7 @@ import fiap.com.br.petpulse.model.AlertType;
 import fiap.com.br.petpulse.model.IoTReading;
 import fiap.com.br.petpulse.repositories.AlertTypeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 
@@ -105,12 +103,7 @@ public class IoTReadingAnalysisService {
         AlertType alertType = alertTypeRepository
                 .findByDescription(alertTypeDescription)
                 .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Tipo de alerta "
-                                        + alertTypeDescription
-                                        + " não encontrado"
-                        )
+                        new IllegalStateException("Tipo de alerta " + alertTypeDescription + " não cadastrado no banco")
                 );
 
         SmartAlertRequest request = new SmartAlertRequest(

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,10 @@ public class IoTReadingService {
     private final IoTReadingAssembler ioTReadingAssembler;
     private final IoTReadingAnalysisService ioTReadingAnalysisService;
 
-    @CacheEvict(allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "iotReadings", allEntries = true),
+            @CacheEvict(cacheNames = "iotDevices", allEntries = true)
+    })
     @Transactional
     public IoTReadingResponse addIoTReading(
             IoTReadingRequest request

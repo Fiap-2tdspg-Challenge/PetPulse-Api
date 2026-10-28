@@ -43,12 +43,7 @@ public class PetService {
     @CacheEvict(allEntries = true)
     public PetResponse addPet(PetRequest request) {
 
-        // validações continuam no Java, porque a procedure não repassa o erro
-        findTutorById(request.tutorId());
-        Species species = findSpeciesById(request.speciesId());
-        Breed breed = findBreedById(request.breedId());
-        validateBreedBelongsToSpecies(breed, species);
-        findPetSizeById(request.petSizeId());
+        validatePetRelations(request);
 
         petRepository.cargaPet(
                 request.tutorId(),
@@ -58,7 +53,7 @@ public class PetService {
                 request.petSizeId(),
                 request.birthDate(),
                 request.weight(),
-                request.sex().name(),                              // "M" / "F"
+                request.sex().name(),
                 Boolean.TRUE.equals(request.neutered()) ? "S" : "N"
         );
 
@@ -133,6 +128,14 @@ public class PetService {
                 .toList();
     }
 
+
+    private void validatePetRelations(PetRequest request) {
+        findTutorById(request.tutorId());
+        Species species = findSpeciesById(request.speciesId());
+        Breed breed = findBreedById(request.breedId());
+        validateBreedBelongsToSpecies(breed, species);
+        findPetSizeById(request.petSizeId());
+    }
 
     private Pet findPetById(Long id) {
         return petRepository.findById(id)

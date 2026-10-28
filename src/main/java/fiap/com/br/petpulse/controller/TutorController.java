@@ -8,11 +8,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +24,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/tutors")
 @Slf4j
+@RequiredArgsConstructor
 @Tag(name = "Tutor", description = "Endpoints para gerenciamento dos tutores responsáveis pelos pets")
 public class TutorController {
 
-    @Autowired
-    private TutorService service;
+    private final TutorService service;
 
     @GetMapping
     @PreAuthorize("hasRole('TUTOR')")
@@ -59,6 +61,15 @@ public class TutorController {
                 .body(service.addTutor(request));
     }
 
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('TUTOR')")
+    @Operation(summary = "Buscar tutor logado",
+            description = "Retorna os dados do tutor dono do token JWT enviado na requisição.")
+    public TutorResponse getLoggedTutor(@AuthenticationPrincipal Jwt jwt) {
+        log.info("Obtendo dados do tutor logado {}", jwt.getSubject());
+        return service.getTutorByEmail(jwt.getSubject());
+    }
+
     @GetMapping("{id}")
     @PreAuthorize("hasRole('TUTOR')")
     @Operation(
@@ -84,13 +95,14 @@ public class TutorController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Tutor removido com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Tutor tentando excluir a conta de outro tutor"),
             @ApiResponse(responseCode = "404", description = "Tutor não encontrado"),
             @ApiResponse(responseCode = "409", description = "Tutor ainda tem pets cadastrados")
     })
-    public ResponseEntity<Void> deleteTutor(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTutor(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
         log.info("Deletando tutor com id {}", id);
 
-        service.deleteTutor(id);
+        service.deleteTutor(id, jwt.getSubject());
 
         return ResponseEntity.noContent().build();
     }
@@ -104,15 +116,17 @@ public class TutorController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tutor atualizado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos enviados na requisição"),
+            @ApiResponse(responseCode = "403", description = "Tutor tentando alterar a conta de outro tutor"),
             @ApiResponse(responseCode = "404", description = "Tutor não encontrado")
     })
     public ResponseEntity<TutorResponse> updateTutor(
             @PathVariable Long id,
-            @RequestBody @Valid TutorRequest request
+            @RequestBody @Valid TutorRequest request,
+            @AuthenticationPrincipal Jwt jwt
     ) {
         log.info("Atualizando tutor com id {}", id);
 
-        return ResponseEntity.ok(service.updateTutor(id, request));
+        return ResponseEntity.ok(service.updateTutor(id, request, jwt.getSubject()));
     }
 
     @GetMapping("/search")

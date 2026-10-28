@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,6 +54,16 @@ public class ProfessionalController {
     })
     public Page<ProfessionalResponse> getAllProfessionals(Pageable pageable) {
         return professionalService.getAllProfessionals(pageable);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('PROFESSIONAL')")
+    @Operation(
+            summary = "Buscar profissional logado",
+            description = "Retorna os dados do profissional dono do token JWT enviado na requisição."
+    )
+    public ProfessionalResponse getLoggedProfessional(@AuthenticationPrincipal Jwt jwt) {
+        return professionalService.getProfessionalByEmail(jwt.getSubject());
     }
 
     @GetMapping("/{id}")

@@ -82,6 +82,15 @@ public class ProfessionalService {
                 .toList();
     }
 
+    public ProfessionalResponse getProfessionalByEmail(String email) {
+        return professionalRepository.findByEmailIgnoreCase(email)
+                .map(ProfessionalResponse::toResponse)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Profissional com e-mail " + email + " não encontrado"
+                ));
+    }
+
     private Professional findProfessionalById(Long id) {
         return professionalRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(

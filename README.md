@@ -79,6 +79,25 @@ A API permite:
 
 ---
 
+# 🧩 Ecossistema PetPulse e integração multidisciplinar
+
+| Disciplina | Repositório | Papel na solução |
+|---|---|---|
+| Java Advanced | [PetPulse-Api](https://github.com/Fiap-2tdspg-Challenge/PetPulse-Api) (este) | API Spring Boot com Spring Security (JWT/RSA, perfis `TUTOR` e `PROFESSIONAL`), Flyway e os fluxos de leitura IoT → alerta e resumo de saúde. Publicada no Render. |
+| Mobile | [PetPulse-mobile](https://github.com/Fiap-2tdspg-Challenge/PetPulse-mobile) | **Frontend da solução**: app React Native + Expo que consome esta API (login de tutor e veterinário, pets, histórico clínico, alertas, painel do veterinário). [Vídeo](https://youtu.be/n2Yz0YmoF2s) · [Figma](https://www.figma.com/design/azNxLqmfQtd8EnDj1zAQfV/PetPulse?node-id=92-313&t=c9dJiuZnI4zCH66f-0) |
+| Banco de Dados | [PetPulseDB](https://github.com/Fiap-2tdspg-Challenge/PetPulseDB) | Modelo Oracle em 3FN, procedures, funções, trigger de auditoria e os pacotes `PKG_CARGA`, `PKG_RELATORIOS` e `PKG_AUDITORIA`. Esta API usa o mesmo banco e chama `PKG_CARGA.PRC_CARGA_PET` no `POST /pets`. |
+| IoT / IA | [PetPulse-Iot](https://github.com/Fiap-2tdspg-Challenge/PetPulse-Iot) · [PetPulse-AI](https://github.com/Fiap-2tdspg-Challenge/PetPulse-AI) | Coleira ESP32 simulada no Wokwi, que mede frequência cardíaca, atividade e pressão e expõe as leituras em `GET /api/dados` (lidas pelo app). As mesmas métricas formam o modelo de leitura desta API (`POST /iot-readings`), que gera os alertas. [Vídeo IoT](https://youtu.be/EtxuK6oE5VM) |
+| .NET / DevOps | [PetPulse](https://github.com/Fiap-2tdspg-Challenge/PetPulse) | API ASP.NET Core sobre o mesmo modelo Oracle, com MongoDB Atlas para o histórico de leituras e CI/CD no Azure DevOps com deploy no Azure App Service. |
+
+## Evidências por disciplina
+
+- **Banco de dados:** migrations `V1` a `V7` e o repositório PetPulseDB.
+- **Mobile:** integração em `src/services/api/` do PetPulse-mobile.
+- **IoT:** firmware `PetPulse-Iot.ino` e as capturas da simulação.
+- **DevOps:** pipeline descrito no README da API .NET.
+
+---
+
 # 🧰 Tecnologias utilizadas
 
 - Java 17
@@ -540,7 +559,10 @@ V3__load_initial_data.sql
 V4__database_sprint3_objects.sql
 V5__add_iot_reading_index.sql
 V6__encode_seed_passwords.sql
+V7__create_pkg_carga.sql
 ```
+
+A `V7` cria o pacote `PKG_CARGA`, usado pelo cadastro de pets (`POST /pets` chama `PKG_CARGA.PRC_CARGA_PET`). Como usa `CREATE OR REPLACE`, ela roda também em bancos onde o pacote já existia.
 
 O Flyway é executado automaticamente quando a aplicação é iniciada.
 
@@ -556,8 +578,8 @@ spring.flyway.baseline-version=4
 As migrations já aplicadas não devem ser alteradas. Novas alterações de banco devem ser criadas em uma nova versão:
 
 ```text
-V7__descricao_da_alteracao.sql
 V8__descricao_da_alteracao.sql
+V9__descricao_da_alteracao.sql
 ...
 ```
 
@@ -662,11 +684,14 @@ POST /login
 ```text
 POST   /tutors
 GET    /tutors
+GET    /tutors/me
 GET    /tutors/{id}
 PUT    /tutors/{id}
 DELETE /tutors/{id}
 GET    /tutors/search
 ```
+
+`PUT` e `DELETE /tutors/{id}` só são permitidos na própria conta do tutor logado. Caso contrário, a API responde `403 Forbidden`.
 
 ## Telefones
 
@@ -697,6 +722,7 @@ GET    /pets/{id}/health-summary
 ```text
 POST   /professionals
 GET    /professionals
+GET    /professionals/me
 GET    /professionals/{id}
 PUT    /professionals/{id}
 DELETE /professionals/{id}
@@ -1129,11 +1155,19 @@ Registro solicitado não encontrado.
 Operação não pode ser realizada devido a relacionamento ou integridade dos dados.
 ```
 
-Exemplo de tentativa de excluir um registro que possui dados relacionados:
+Exemplo de tentativa de cadastrar um tutor com e-mail já existente:
 
 ```json
 {
-  "message": "Não é possível excluir este registro porque ele possui dados relacionados."
+  "message": "E-mail já cadastrado"
+}
+```
+
+Exemplo de violação de integridade no banco:
+
+```json
+{
+  "message": "Operação não permitida: o registro já existe ou possui dados relacionados."
 }
 ```
 
@@ -1612,7 +1646,7 @@ Novas alterações devem receber uma nova versão.
 Exemplo:
 
 ```text
-V7__nova_alteracao.sql
+V8__nova_alteracao.sql
 ```
 
 ---
