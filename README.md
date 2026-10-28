@@ -661,7 +661,7 @@ Ambiente publicado:
 https://petpulse-api-j1k8.onrender.com/actuator/health
 ```
 
-Exemplo de resposta:
+Exemplo de resposta (resumida; o campo `components` traz também os detalhes do banco e do disco):
 
 ```json
 {
@@ -859,6 +859,7 @@ Entre as variáveis disponíveis estão:
   "tutor_token": "",
   "professional_token": "",
   "tutor_id": 1,
+  "logged_tutor_id": 23,
   "professional_id": 1,
   "clinic_id": 1,
   "pet_id": 1,
@@ -882,6 +883,8 @@ Entre as variáveis disponíveis estão:
 Os IDs representam registros utilizados nos testes de demonstração.
 
 Caso o banco utilizado possua outros IDs, basta alterar as variáveis correspondentes no `Base Environment`.
+
+`logged_tutor_id` deve ser o id do tutor `security.tutor@petpulse.com`, o mesmo usuário do login. Para descobrir o valor, execute `03 - Tutors → Buscar Tutor logado (/me)`. O `Atualizar Tutor` usa essa variável, porque `PUT` e `DELETE /tutors/{id}` só são permitidos na própria conta.
 
 ## 3. Gerar o token do Tutor
 
@@ -966,7 +969,12 @@ possui cenários preparados para demonstrar:
 - geração automática de Smart Alert por leitura IoT;
 - atualização do snapshot do dispositivo IoT;
 - Health Summary do pet;
-- conflito de integridade com `409 Conflict`.
+- conflito de integridade com `409 Conflict`;
+- `GET /tutors/me` e `GET /professionals/me`;
+- `409 Conflict` ao cadastrar tutor com e-mail já existente;
+- `403 Forbidden` quando um tutor tenta alterar a conta de outro tutor.
+
+Os cadastros de tutor, profissional e dispositivo IoT usam dados únicos (CPF, e-mail, CRMV e um dispositivo por pet). Na segunda execução eles respondem `409 Conflict`, o que é esperado. Para repetir com `201`, altere esses dados no corpo do request.
 
 ---
 
