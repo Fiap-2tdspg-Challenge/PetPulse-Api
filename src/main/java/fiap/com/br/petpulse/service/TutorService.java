@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 
 import java.util.List;
 
@@ -65,7 +66,11 @@ public class TutorService {
      * exclusão em cascata não é automática aqui — o tutor precisa remover os
      * pets primeiro (a API bloqueia com 409 caso ainda existam).
      */
-    @CacheEvict(allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "tutors", allEntries = true),
+            @CacheEvict(cacheNames = "tutorPhones", allEntries = true),
+            @CacheEvict(cacheNames = "tutorAddresses", allEntries = true)
+    })
     @Transactional
     public void deleteTutor(Long id) {
         findTutorById(id);
