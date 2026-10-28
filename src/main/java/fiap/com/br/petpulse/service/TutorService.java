@@ -7,7 +7,7 @@ import fiap.com.br.petpulse.repositories.PetRepository;
 import fiap.com.br.petpulse.repositories.TutorAddressRepository;
 import fiap.com.br.petpulse.repositories.TutorPhoneRepository;
 import fiap.com.br.petpulse.repositories.TutorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,22 +24,18 @@ import java.util.List;
 
 @CacheConfig(cacheNames = "tutors")
 @Service
+@RequiredArgsConstructor
 public class TutorService {
 
-    @Autowired
-    private TutorRepository tutorRepository;
+    private final TutorRepository tutorRepository;
 
-    @Autowired
-    private TutorPhoneRepository tutorPhoneRepository;
+    private final TutorPhoneRepository tutorPhoneRepository;
 
-    @Autowired
-    private TutorAddressRepository tutorAddressRepository;
+    private final TutorAddressRepository tutorAddressRepository;
 
-    @Autowired
-    private PetRepository petRepository;
+    private final PetRepository petRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @CacheEvict(allEntries = true)
     public TutorResponse addTutor(TutorRequest request) {
