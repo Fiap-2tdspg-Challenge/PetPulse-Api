@@ -8,10 +8,8 @@ O backend foi desenvolvido com **Java, Spring Boot, Oracle Database, Flyway e Sp
 
 # 📹 Demonstração
 
-O vídeo de demonstração da entrega:
-```text
-https://youtu.be/pi_CTIW9Ngk
-```
+- **Vídeo da Sprint 3:** https://youtu.be/pi_CTIW9Ngk
+- **Vídeo da Sprint 4:** https://youtu.be/WhmJ1GNdA24
 
 # 🌐 API publicada
 

@@ -1,0 +1,2973 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-10-29T12:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v12.5.0",
+  "resources": [
+    {
+      "_id": "wrk_12c08c169108eed116e93bc1",
+      "parentId": null,
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "PetPulse API - Sprint 4 - VIDEO",
+      "description": "Base da coleção da Sprint 3, apontando para o Render. Pastas V0 a V4 = roteiro do vídeo, em ordem. Antes de gravar: rode V0 e cole os tokens (valem 20 minutos) no Base Environment.",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_12c08c169108eed116e93bc1",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "https://petpulse-api-j1k8.onrender.com",
+        "tutor_token": "",
+        "professional_token": "",
+        "tutor_id": 1,
+        "professional_id": 1,
+        "clinic_id": 1,
+        "pet_id": 1,
+        "species_id": 1,
+        "breed_id": 1,
+        "pet_size_id": 3,
+        "state_code": "SP",
+        "city_id": 1,
+        "address_type_id": 1,
+        "tutor_phone_id": 1,
+        "tutor_address_id": 1,
+        "clinical_history_id": 1,
+        "iot_device_id": 1,
+        "iot_reading_id": 1,
+        "smart_alert_id": 1,
+        "alert_type_id": 1,
+        "delete_test_id": 999999,
+        "logged_tutor_id": 23,
+        "other_tutor_id": 1
+      },
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1,
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_c8adbc71bd174adf845ab363",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "00 - Auth",
+      "description": "1) Execute Login - Tutor e copie o token para tutor_token no Base Environment. 2) Execute Login - Professional e copie o token para professional_token. Os demais dados de demonstração já vêm preenchidos.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 1000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_26ce62396c4240fd8ea228f1",
+      "parentId": "fld_c8adbc71bd174adf845ab363",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "Login - Tutor",
+      "description": "Público. Depois copie o token retornado para tutor_token no Base Environment.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 1010,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6b6ea51d067e4bd6b5a13f36",
+      "parentId": "fld_c8adbc71bd174adf845ab363",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "Login - Professional",
+      "description": "Público. Depois copie o token retornado para professional_token no Base Environment.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"carlos.andrade@vetcare.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 1020,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0ef0c5b06f1d4342af027917",
+      "parentId": "fld_c8adbc71bd174adf845ab363",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "Login inválido - validação 400",
+      "description": "Teste de validação. Esperado: 400 Bad Request.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"email-invalido\",\n  \"password\": \"\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 1030,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_e427e73ff5194985ae060fb1",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "01 - System",
+      "description": "Health check e documentação.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 2030,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_0a1adcb0044e4fed87170af8",
+      "parentId": "fld_e427e73ff5194985ae060fb1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/actuator/health",
+      "name": "Health Check",
+      "description": "Público. Esperado: 200 e status UP.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 2040,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_71c403f787fc45099630117e",
+      "parentId": "fld_e427e73ff5194985ae060fb1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/v3/api-docs",
+      "name": "OpenAPI JSON",
+      "description": "Público.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 2050,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_3248451372a746c9a8649c20",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "02 - Reference Data",
+      "description": "Estados, cidades, espécies, raças e portes. Os POSTs findOrCreate são idempotentes por regra de negócio quando o registro já existe.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 3050,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_65a95b52a04049648a454615",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/states",
+      "name": "Listar Estados",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3060,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b8da5618acb147e6a9d48cfa",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/states",
+      "name": "Buscar ou cadastrar Estado",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"code\": \"SP\",\n  \"name\": \"Sao Paulo\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3070,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_e7cee93361c24558ae1b0624",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/cities?stateCode={{ _.state_code }}",
+      "name": "Listar Cidades por Estado",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3080,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_af6e0a9249614c2f938eb7a3",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/cities",
+      "name": "Buscar ou cadastrar Cidade",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Sao Paulo\",\n  \"stateCode\": \"SP\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3090,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ebb422c355c3433384d0c217",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/species",
+      "name": "Listar Espécies",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3100,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_262001dba5d34868a4bc8a06",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/species",
+      "name": "Buscar ou cadastrar Espécie",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"CACHORRO\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3110,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_272492408aaf4298b543dd63",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/breeds?speciesId={{ _.species_id }}",
+      "name": "Listar Raças por Espécie",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3120,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b9d6a2a70b7a4a0dbbf11a65",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/breeds",
+      "name": "Buscar ou cadastrar Raça",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"speciesId\": 1,\n  \"name\": \"Golden Retriever\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3130,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0b492c7fe0544789b022a2de",
+      "parentId": "fld_3248451372a746c9a8649c20",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pet-sizes",
+      "name": "Listar Portes",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 3140,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_6f209914ac8b4b2986e189e3",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "03 - Tutors",
+      "description": "POST /tutors é público. Demais endpoints exigem ROLE_TUTOR.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 4140,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_77a093fe368d4a818645b8a6",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors",
+      "name": "Cadastrar Tutor",
+      "description": "Público. CPF e e-mail são únicos: na segunda execução a API responde 409 (esperado). Para repetir com 201, altere os dois.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Tutor Teste Insomnia\",\n  \"cpf\": \"32165498700\",\n  \"email\": \"tutor.insomnia@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4150,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_21b229c922b94a1b99c1ee41",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors?page=0&size=5",
+      "name": "Listar Tutores",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4160,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_cd0cc182e0d947c284a34732",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/{{ _.tutor_id }}",
+      "name": "Buscar Tutor por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4170,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_81d93cabf3e74445b4f60f82",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/search?name=Armando",
+      "name": "Buscar Tutor por Nome",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4180,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6c25f64e8a9f4628aac67ed6",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/{{ _.logged_tutor_id }}",
+      "name": "Atualizar Tutor",
+      "description": "Só é permitido na própria conta (senão 403). Use o id retornado por GET /tutors/me em logged_tutor_id.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Tutor Security\",\n  \"cpf\": \"52998224725\",\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4190,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2c96adc324ff4f218961a4ea",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/{{ _.delete_test_id }}",
+      "name": "Excluir Tutor - ID de teste",
+      "description": "Por segurança usa delete_test_id=999999. Troque por um ID criado apenas para teste se quiser validar 204.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4200,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ac31216a2c9641b39157caa7",
+      "parentId": "fld_6f209914ac8b4b2986e189e3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/me",
+      "name": "Buscar Tutor logado (/me)",
+      "description": "Retorna o tutor dono do token. Use o id retornado em logged_tutor_id.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 4165,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_fad34dc492264ce19264e23d",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "04 - Tutor Phones",
+      "description": "Todos exigem ROLE_TUTOR.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 5200,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_0d09b20b397a4128b88a9eac",
+      "parentId": "fld_fad34dc492264ce19264e23d",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-phones",
+      "name": "Cadastrar Telefone",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"tutorId\": 1,\n  \"phoneNumber\": \"11999999999\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 5210,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3e0a1b9966334042aaecd947",
+      "parentId": "fld_fad34dc492264ce19264e23d",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-phones?page=0&size=5",
+      "name": "Listar Telefones",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 5220,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_47472b9799cb4ce5b83d8f72",
+      "parentId": "fld_fad34dc492264ce19264e23d",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-phones/{{ _.tutor_phone_id }}",
+      "name": "Buscar Telefone por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 5230,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_53d54bc18e3b4cf3a3dfab92",
+      "parentId": "fld_fad34dc492264ce19264e23d",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-phones/{{ _.tutor_phone_id }}",
+      "name": "Atualizar Telefone",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"tutorId\": 1,\n  \"phoneNumber\": \"11999999999\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 5240,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2aebdd512f1b45579a5084c5",
+      "parentId": "fld_fad34dc492264ce19264e23d",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-phones/{{ _.delete_test_id }}",
+      "name": "Excluir Telefone - ID de teste",
+      "description": "Troque por ID descartável para validar 204.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 5250,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_fa026908bc344417b0367b18",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "05 - Tutor Addresses",
+      "description": "Todos exigem ROLE_TUTOR.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 6250,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_4ddd102e7aaf41279fa4342b",
+      "parentId": "fld_fa026908bc344417b0367b18",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-addresses",
+      "name": "Cadastrar Endereço",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"tutorId\": 1,\n  \"addressTypeId\": 1,\n  \"cityId\": 1,\n  \"address\": \"Rua das Flores\",\n  \"number\": \"100\",\n  \"complement\": \"Apto 12\",\n  \"zipCode\": \"01310-100\",\n  \"neighborhood\": \"Centro\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 6260,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_90e42767c4d04bba80118bc9",
+      "parentId": "fld_fa026908bc344417b0367b18",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-addresses?page=0&size=5",
+      "name": "Listar Endereços",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 6270,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5ac1518bdbe04aed871b4dfb",
+      "parentId": "fld_fa026908bc344417b0367b18",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-addresses/{{ _.tutor_address_id }}",
+      "name": "Buscar Endereço por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 6280,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2654ab4f050646aea6751051",
+      "parentId": "fld_fa026908bc344417b0367b18",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-addresses/{{ _.tutor_address_id }}",
+      "name": "Atualizar Endereço",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"tutorId\": 1,\n  \"addressTypeId\": 1,\n  \"cityId\": 1,\n  \"address\": \"Rua das Flores\",\n  \"number\": \"100\",\n  \"complement\": \"Apto 12\",\n  \"zipCode\": \"01310-100\",\n  \"neighborhood\": \"Centro\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 6290,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5b95acbc782c4cee9b034b95",
+      "parentId": "fld_fa026908bc344417b0367b18",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutor-addresses/{{ _.delete_test_id }}",
+      "name": "Excluir Endereço - ID de teste",
+      "description": "Troque por ID descartável para validar 204.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 6300,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_4be7e4ba3c0449d988f7579a",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "06 - Professionals",
+      "description": "GETs aceitam TUTOR ou PROFESSIONAL. POST/PUT/DELETE estão preparados para ROLE_PROFESSIONAL conforme a revisão da Sprint 3.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 7300,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_6a863150c38a4c5a9dc414f6",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals?page=0&size=5",
+      "name": "Listar Professionals",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7310,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_e3e5a928ad924b5e86e28d62",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/{{ _.professional_id }}",
+      "name": "Buscar Professional por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7320,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b4ba898e5008475885c9104c",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/search?name=Carlos",
+      "name": "Buscar Professional por Nome",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7330,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_48f4466138814d7b98fe301d",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals",
+      "name": "Cadastrar Professional",
+      "description": "E-mail e CRMV são únicos: na segunda execução a API responde 409 (esperado). Para repetir com 201, altere os dados.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Dra. Teste Insomnia\",\n  \"email\": \"vet.insomnia@petpulse.com\",\n  \"password\": \"123456\",\n  \"crmv\": \"CRMV-SP-99999\",\n  \"clinicId\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7340,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8b62d8919f134c2790c07022",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/{{ _.professional_id }}",
+      "name": "Atualizar Professional",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Dr. Carlos Andrade\",\n  \"email\": \"carlos.andrade@vetcare.com\",\n  \"password\": \"123456\",\n  \"crmv\": \"CRMV-SP-12345\",\n  \"clinicId\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7350,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8f84ea3924d247db88d89109",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/{{ _.delete_test_id }}",
+      "name": "Excluir Professional - ID de teste",
+      "description": "Troque por ID descartável para validar 204.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7360,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0de191d01cfe4ef89db2015c",
+      "parentId": "fld_4be7e4ba3c0449d988f7579a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/me",
+      "name": "Buscar Professional logado (/me)",
+      "description": "Retorna o profissional dono do token.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 7335,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_d6c5de54824d405795be7f4f",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "07 - Pets",
+      "description": "POST/PUT/DELETE exigem TUTOR. GETs e Health Summary aceitam TUTOR ou PROFESSIONAL.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 8360,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_c811eef8bb084e90957b75fa",
+      "parentId": "fld_d6c5de54824d405795be7f4f",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets",
+      "name": "Cadastrar Pet - exemplo",
+      "description": "Cria um novo pet. Ajuste o nome se necessário.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Pet Teste Insomnia\",\n  \"birthDate\": \"2024-01-10\",\n  \"weight\": 12.5,\n  \"sex\": \"M\",\n  \"neutered\": true,\n  \"tutorId\": 1,\n  \"speciesId\": 1,\n  \"breedId\": 1,\n  \"petSizeId\": 3\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 8370,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8249e852c3914187a76fa43a",
+      "parentId": "fld_d6c5de54824d405795be7f4f",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets?page=0&size=5",
+      "name": "Listar Pets",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 8380,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_d10fc5e6ae0f48fca6c03522",
+      "parentId": "fld_d6c5de54824d405795be7f4f",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/{{ _.pet_id }}",
+      "name": "Buscar Pet por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 8390,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_24f66644028242358aa2f472",
+      "parentId": "fld_d6c5de54824d405795be7f4f",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/search?name=Rex",
+      "name": "Buscar Pet por Nome",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 8400,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_d03c9ea3f75a4daf8ae8d437",
+      "parentId": "fld_d6c5de54824d405795be7f4f",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/{{ _.pet_id }}/health-summary",
+      "name": "Health Summary do Pet",
+      "description": "Fluxo não-CRUD da Sprint 3: consolida pet, históricos, leituras e alertas.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 8410,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2e78319a92584663838d2766",
+      "parentId": "fld_d6c5de54824d405795be7f4f",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/{{ _.pet_id }}",
+      "name": "Atualizar Pet",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Rex\",\n  \"birthDate\": \"2021-05-10\",\n  \"weight\": 25,\n  \"sex\": \"M\",\n  \"neutered\": true,\n  \"tutorId\": 1,\n  \"speciesId\": 1,\n  \"breedId\": 1,\n  \"petSizeId\": 3\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 8420,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_610483b2e2534cc384a5da05",
+      "parentId": "fld_d6c5de54824d405795be7f4f",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/{{ _.delete_test_id }}",
+      "name": "Excluir Pet - ID de teste",
+      "description": "Troque por ID descartável para validar 204. Pet com dependências deve retornar 409.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 8430,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_760b36c481214813a0396e2a",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "08 - Clinical History",
+      "description": "Todos aceitam TUTOR ou PROFESSIONAL.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 9430,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_6089bbb3f7764ab381a0a106",
+      "parentId": "fld_760b36c481214813a0396e2a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/clinical-histories",
+      "name": "Cadastrar Histórico Clínico",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"petId\": 1,\n  \"professionalId\": 1,\n  \"recordType\": \"CONSULTA\",\n  \"description\": \"Consulta de rotina - saudavel\",\n  \"returnDate\": \"2026-12-01\",\n  \"observations\": \"Sem alteracoes\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 9440,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8c931f2a836c4e82889072b1",
+      "parentId": "fld_760b36c481214813a0396e2a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/clinical-histories?page=0&size=5",
+      "name": "Listar Históricos",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 9450,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_204305afe55b462f88787d02",
+      "parentId": "fld_760b36c481214813a0396e2a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/clinical-histories/{{ _.clinical_history_id }}",
+      "name": "Buscar Histórico por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 9460,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_d1b85df678d74de78499753b",
+      "parentId": "fld_760b36c481214813a0396e2a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/clinical-histories/{{ _.clinical_history_id }}",
+      "name": "Atualizar Histórico",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"petId\": 1,\n  \"professionalId\": 1,\n  \"recordType\": \"CONSULTA\",\n  \"description\": \"Consulta de rotina - saudavel\",\n  \"returnDate\": \"2026-12-01\",\n  \"observations\": \"Sem alteracoes\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 9470,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_46787e4b7607410797e82c3d",
+      "parentId": "fld_760b36c481214813a0396e2a",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/clinical-histories/{{ _.delete_test_id }}",
+      "name": "Excluir Histórico - ID de teste",
+      "description": "Troque por ID descartável para validar 204.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 9480,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_5188771cee474917a9ad30bf",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "09 - IoT Devices",
+      "description": "POST/PUT/DELETE exigem TUTOR. GETs aceitam TUTOR ou PROFESSIONAL.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 10480,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_931bfdd6a89545c7a61f7007",
+      "parentId": "fld_5188771cee474917a9ad30bf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-devices",
+      "name": "Cadastrar Dispositivo IoT",
+      "description": "Cada pet tem no máximo um dispositivo: com petId 1 a API responde 409 (esperado). Para 201, use o id de um pet sem dispositivo.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"petId\": 1,\n  \"collectionIntervalMinutes\": 5,\n  \"heartRate\": 80,\n  \"activityLevel\": 3,\n  \"pressure\": 12,\n  \"lastReadingDate\": \"2026-09-10T15:00:00\",\n  \"status\": \"ATIVO\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 10490,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9295d36fd3874e98a3fe9a81",
+      "parentId": "fld_5188771cee474917a9ad30bf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-devices?page=0&size=5",
+      "name": "Listar Dispositivos",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 10500,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_767c3a1449944b71a7f6d1fb",
+      "parentId": "fld_5188771cee474917a9ad30bf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-devices/{{ _.iot_device_id }}",
+      "name": "Buscar Dispositivo por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 10510,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8ccac545f89040238b6d834f",
+      "parentId": "fld_5188771cee474917a9ad30bf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-devices/{{ _.iot_device_id }}",
+      "name": "Atualizar Dispositivo",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"petId\": 1,\n  \"collectionIntervalMinutes\": 5,\n  \"heartRate\": 123,\n  \"activityLevel\": 4,\n  \"pressure\": 13,\n  \"lastReadingDate\": \"2026-09-10T15:00:00\",\n  \"status\": \"ATIVO\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 10520,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_733829988d9d4d29b8e25af0",
+      "parentId": "fld_5188771cee474917a9ad30bf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-devices/{{ _.delete_test_id }}",
+      "name": "Excluir Dispositivo - ID de teste",
+      "description": "Troque por ID descartável para validar 204. Dispositivo com leituras pode retornar 409.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 10530,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_caef61cfbf15486785cf6baf",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "10 - IoT Readings",
+      "description": "Todos aceitam TUTOR ou PROFESSIONAL. O POST também atualiza o snapshot do dispositivo e pode gerar SmartAlert automaticamente.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 11530,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_698f574c909948d5ab313ea5",
+      "parentId": "fld_caef61cfbf15486785cf6baf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-readings",
+      "name": "Cadastrar Leitura - normal",
+      "description": "Registra leitura sem disparar os limites configurados.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"deviceId\": 1,\n  \"heartRate\": 123,\n  \"activityLevel\": 4,\n  \"pressure\": 13\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 11540,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ec6116a6bf764c529c4fbfac",
+      "parentId": "fld_caef61cfbf15486785cf6baf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-readings",
+      "name": "Cadastrar Leitura - gera alerta FC",
+      "description": "Fluxo não-CRUD. FC > 180 deve gerar SmartAlert automaticamente.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"deviceId\": 1,\n  \"heartRate\": 200,\n  \"activityLevel\": 4,\n  \"pressure\": 13\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 11550,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_cadc5ce6ce3343e0a3a8d4bb",
+      "parentId": "fld_caef61cfbf15486785cf6baf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-readings?page=0&size=5",
+      "name": "Listar Leituras",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 11560,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_65fdca8f50504982be7033bb",
+      "parentId": "fld_caef61cfbf15486785cf6baf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-readings/{{ _.iot_reading_id }}",
+      "name": "Buscar Leitura por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 11570,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_791733bde5d54498a15e8fc3",
+      "parentId": "fld_caef61cfbf15486785cf6baf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-readings/{{ _.iot_reading_id }}",
+      "name": "Atualizar Leitura",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"deviceId\": 1,\n  \"heartRate\": 85,\n  \"activityLevel\": 4,\n  \"pressure\": 12\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 11580,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_bb8a5c7ffb4446a2a8695d30",
+      "parentId": "fld_caef61cfbf15486785cf6baf",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-readings/{{ _.delete_test_id }}",
+      "name": "Excluir Leitura - ID de teste",
+      "description": "Troque por ID descartável para validar 204.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 11590,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_32474b9911014eeab001e593",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "11 - Smart Alerts",
+      "description": "Todos aceitam TUTOR ou PROFESSIONAL. alertTypeId 1 = FREQUENCIA_CARDIACA nos dados seed.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 12590,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_c023aa05033b417fbab7b771",
+      "parentId": "fld_32474b9911014eeab001e593",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/smart-alerts",
+      "name": "Cadastrar SmartAlert manual",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"petId\": 1,\n  \"alertTypeId\": 1,\n  \"riskLevel\": \"ALTO\",\n  \"origin\": \"DISPOSITIVO_IOT\",\n  \"message\": \"Frequencia cardiaca elevada detectada\",\n  \"recommendation\": \"Acompanhar o pet e buscar avaliacao profissional.\",\n  \"status\": \"ABERTO\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 12600,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_41b607bb8ecc479ab4264c57",
+      "parentId": "fld_32474b9911014eeab001e593",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/smart-alerts?page=0&size=5",
+      "name": "Listar SmartAlerts",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 12610,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_c2555875b37b4532b6e38a2a",
+      "parentId": "fld_32474b9911014eeab001e593",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/smart-alerts/{{ _.smart_alert_id }}",
+      "name": "Buscar SmartAlert por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 12620,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3840ae4790ec48a5a3c356c2",
+      "parentId": "fld_32474b9911014eeab001e593",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/smart-alerts/{{ _.smart_alert_id }}",
+      "name": "Atualizar SmartAlert",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"petId\": 1,\n  \"alertTypeId\": 1,\n  \"riskLevel\": \"ALTO\",\n  \"origin\": \"DISPOSITIVO_IOT\",\n  \"message\": \"Frequencia cardiaca elevada detectada\",\n  \"recommendation\": \"Acompanhar o pet e buscar avaliacao profissional.\",\n  \"status\": \"ABERTO\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 12630,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_20d0ef4b74ae47b4927651e3",
+      "parentId": "fld_32474b9911014eeab001e593",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/smart-alerts/{{ _.delete_test_id }}",
+      "name": "Excluir SmartAlert - ID de teste",
+      "description": "Troque por ID descartável para validar 204.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 12640,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_aa2fbe73d26ad41eac1d90f2",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "V0 - Preparar (antes de gravar)",
+      "description": "1) Rode 'Acordar a API' até responder 200 (o Render pode demorar uns 5 min). 2) Rode os dois logins e cole os tokens em tutor_token e professional_token no Base Environment. O token vale 20 minutos: cole pouco antes de gravar.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 100,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_1174eb2870f69385fc9632c3",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "V1 - João - Segurança",
+      "description": "JWT com RSA, BCrypt, perfis com @PreAuthorize, rota /me e regra de que cada tutor só altera a própria conta.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 200,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_7b1f62d9644299510790c0d6",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "V2 - Pietro - Dados, validação e erros",
+      "description": "Spring Data JPA (paginação, consulta derivada, procedure), Bean Validation e tratamento global de erros.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 300,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_8917a3319dfdb987fd345ab8",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "V3 - Gabriel - IoT, alerta e cache",
+      "description": "Leitura IoT atualiza o dispositivo, gera SmartAlert na mesma transação e limpa o cache.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 400,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_dc18dd67b15c71f6344dfaf5",
+      "parentId": "wrk_12c08c169108eed116e93bc1",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "name": "V4 - Pietro - Deploy",
+      "description": "API publicada no Render com Docker. Health check do Actuator.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 500,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_9ef2f71c9ec21e0b23972608",
+      "parentId": "fld_aa2fbe73d26ad41eac1d90f2",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/actuator/health",
+      "name": "P1 · Acordar a API (health) → 200",
+      "description": "Rode até aparecer {\"status\":\"UP\"}. Faça isso uns 5 minutos antes de gravar.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 101,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5438c22e6499b0c69b92001c",
+      "parentId": "fld_aa2fbe73d26ad41eac1d90f2",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "P2 · Login Tutor → 200 (copie o token)",
+      "description": "Copie o valor de 'token' (sem aspas) para tutor_token no Base Environment.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 102,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_552cc35e007b01079c9d763e",
+      "parentId": "fld_aa2fbe73d26ad41eac1d90f2",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "P3 · Login Veterinário → 200 (copie o token)",
+      "description": "Copie o valor de 'token' (sem aspas) para professional_token no Base Environment.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"carlos.andrade@vetcare.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 103,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_76071b6949cffdff1a9bb432",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "J1 · Login com senha errada → 401",
+      "description": "Credencial inválida: a API responde 401.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"senhaerrada\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 201,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9ad97208961e9ab9a560f903",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "J2 · Login certo → 200 com token",
+      "description": "Devolve {\"token\": \"...\"}: JWT assinado com chave RSA.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 202,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0ff7201ef203bc4edfccd293",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets",
+      "name": "J3 · Pets sem token → 401",
+      "description": "Rota protegida: sem token, 401.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 203,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5de7e75309535a1c876fcb3f",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/me",
+      "name": "J4 · Meus dados (/tutors/me) → 200",
+      "description": "Devolve só o tutor dono do token. O e-mail vem no subject do JWT.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 204,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6941517ebdd08c57e291724b",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors/{{ _.other_tutor_id }}",
+      "name": "J5 · Alterar OUTRO tutor → 403",
+      "description": "Regra de negócio: o tutor só altera a própria conta. other_tutor_id tem de ser diferente do id mostrado em J4.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Tutor Security\",\n  \"cpf\": \"52998224725\",\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 205,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b7e487f6b4cf7d07c95579bf",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets",
+      "name": "J6 · Veterinário em rota de tutor (POST /pets) → 403",
+      "description": "@PreAuthorize(\"hasRole('TUTOR')\"): o perfil PROFESSIONAL não cadastra pet.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Thor\",\n  \"birthDate\": \"2024-01-10\",\n  \"weight\": 12.5,\n  \"sex\": \"M\",\n  \"neutered\": true,\n  \"tutorId\": 1,\n  \"speciesId\": 1,\n  \"breedId\": 1,\n  \"petSizeId\": 3\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 206,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ca097d39c3c577fa5534ff22",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/me",
+      "name": "J7 · Meus dados de veterinário (/professionals/me) → 200",
+      "description": "Mesma ideia do /tutors/me, para o perfil PROFESSIONAL.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.professional_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 207,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0b9942eb864817c73e76d7da",
+      "parentId": "fld_1174eb2870f69385fc9632c3",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/professionals/me",
+      "name": "J8 · Tutor em rota de veterinário (/professionals/me) → 403",
+      "description": "O token de tutor não acessa a rota exclusiva do veterinário.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 208,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_d743687afd2855d5d5368021",
+      "parentId": "fld_7b1f62d9644299510790c0d6",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets?page=0&size=5",
+      "name": "D1 · Listar pets paginado → 200",
+      "description": "Pageable do Spring Data: a resposta vem paginada.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 301,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_c86915d75b22e3d4fc6006d4",
+      "parentId": "fld_7b1f62d9644299510790c0d6",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/search?name=Rex",
+      "name": "D2 · Buscar pet por nome → 200",
+      "description": "Consulta derivada findByNameContainingIgnoreCase.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 302,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8211b5048088fc1e4eb899d2",
+      "parentId": "fld_7b1f62d9644299510790c0d6",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/login",
+      "name": "D3 · Login inválido (validação) → 400",
+      "description": "Bean Validation: lista de campos com a mensagem de cada erro.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"email-invalido\",\n  \"password\": \"\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 303,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_50134129971ea902950410c5",
+      "parentId": "fld_7b1f62d9644299510790c0d6",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets",
+      "name": "D4 · Pet inválido (validação) → 400",
+      "description": "@NotBlank, @PastOrPresent e @Positive com @Valid: várias mensagens de uma vez.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"\",\n  \"birthDate\": \"2099-01-10\",\n  \"weight\": -5,\n  \"sex\": \"M\",\n  \"neutered\": true,\n  \"tutorId\": 1,\n  \"speciesId\": 1,\n  \"breedId\": 1,\n  \"petSizeId\": 3\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 304,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_251e6c2c97011004070ae35c",
+      "parentId": "fld_7b1f62d9644299510790c0d6",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/999999",
+      "name": "D5 · Pet que não existe → 404",
+      "description": "ResponseStatusException tratada pelo @RestControllerAdvice: {\"message\": \"Pet com id 999999 não encontrado\"}.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 305,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9c31c8651f9b35b551787f86",
+      "parentId": "fld_7b1f62d9644299510790c0d6",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/tutors",
+      "name": "D6 · Tutor com e-mail repetido → 409",
+      "description": "Regra de unicidade no service: {\"message\": \"E-mail já cadastrado\"}.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Tutor Duplicado\",\n  \"cpf\": \"11144477735\",\n  \"email\": \"security.tutor@petpulse.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 306,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8685e1e878b1cf1169240146",
+      "parentId": "fld_7b1f62d9644299510790c0d6",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets",
+      "name": "D7 · Cadastrar pet (procedure Oracle) → 201",
+      "description": "ATENÇÃO: grava dado de verdade (um pet 'Thor' novo). O cadastro chama a procedure PKG_CARGA.PRC_CARGA_PET via @Procedure.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Thor\",\n  \"birthDate\": \"2024-01-10\",\n  \"weight\": 12.5,\n  \"sex\": \"M\",\n  \"neutered\": true,\n  \"tutorId\": 1,\n  \"speciesId\": 1,\n  \"breedId\": 1,\n  \"petSizeId\": 3\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 307,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ab959345e0c6bb500237a369",
+      "parentId": "fld_8917a3319dfdb987fd345ab8",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-devices/{{ _.iot_device_id }}",
+      "name": "I1 · Dispositivo ANTES da leitura → 200",
+      "description": "Anote o heartRate atual. Esta consulta entra no cache.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 401,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_e869f0c321056add28285617",
+      "parentId": "fld_8917a3319dfdb987fd345ab8",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-readings",
+      "name": "I2 · Enviar leitura com 195 bpm → 201",
+      "description": "ATENÇÃO: grava dado e cria alerta. A leitura atualiza o dispositivo e roda a análise na mesma transação. O limite do alerta é 180.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"deviceId\": 1,\n  \"heartRate\": 195,\n  \"activityLevel\": 4,\n  \"pressure\": 13\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 402,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ca6db39289f6008df6a82cb4",
+      "parentId": "fld_8917a3319dfdb987fd345ab8",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/iot-devices/{{ _.iot_device_id }}",
+      "name": "I3 · Dispositivo DEPOIS da leitura → 200 (heartRate 195)",
+      "description": "heartRate = 195. Só aparece porque o cache do dispositivo é limpo (@Caching com dois @CacheEvict).",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 403,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_81ba8f91497399f7140ce23c",
+      "parentId": "fld_8917a3319dfdb987fd345ab8",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/smart-alerts?page=0&size=10&sort=id,desc",
+      "name": "I4 · Alertas, mais novo primeiro → 200",
+      "description": "O alerta gerado pela leitura aparece no topo.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 404,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_d98c36cae8e6393402797c8e",
+      "parentId": "fld_8917a3319dfdb987fd345ab8",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/pets/{{ _.pet_id }}/health-summary",
+      "name": "I5 · Resumo de saúde do pet → 200",
+      "description": "Consulta consolidada (HealthSummaryService): dados do pet, dispositivo, leituras e alertas.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.tutor_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 405,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_d9251dda7d9cbea61785008e",
+      "parentId": "fld_dc18dd67b15c71f6344dfaf5",
+      "modified": 1789071962528,
+      "created": 1789071962528,
+      "url": "{{ _.base_url }}/actuator/health",
+      "name": "H1 · Health check (Render) → 200",
+      "description": "Actuator: {\"status\":\"UP\"}. API publicada e no ar.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 501,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    }
+  ]
+}
