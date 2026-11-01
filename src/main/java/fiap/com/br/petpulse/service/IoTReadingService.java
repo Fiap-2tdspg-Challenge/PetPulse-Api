@@ -1,6 +1,7 @@
 package fiap.com.br.petpulse.service;
 
 import fiap.com.br.petpulse.assembler.IoTReadingAssembler;
+import fiap.com.br.petpulse.config.AiServiceProperties;
 import fiap.com.br.petpulse.dto.request.IoTReadingRequest;
 import fiap.com.br.petpulse.dto.response.IoTReadingResponse;
 import fiap.com.br.petpulse.model.IoTDevice;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,6 +32,7 @@ public class IoTReadingService {
     private final IoTDeviceRepository ioTDeviceRepository;
     private final IoTReadingAssembler ioTReadingAssembler;
     private final IoTReadingAnalysisService ioTReadingAnalysisService;
+    private final AiServiceProperties aiProperties;
 
     @Caching(evict = {
             @CacheEvict(cacheNames = "iotReadings", allEntries = true),
@@ -50,23 +53,37 @@ public class IoTReadingService {
         IoTReading savedReading =
                 ioTReadingRepository.save(reading);
 
-        if (savedReading.getHeartRate() != null) {
-            device.setHeartRate(savedReading.getHeartRate());
+        // Leituras retroativas (sincronização offline) não sobrescrevem o estado atual.
+        boolean newestReading = device.getLastReadingDate() == null
+                || !savedReading.getReadingDate().isBefore(device.getLastReadingDate());
+
+        if (newestReading) {
+
+            if (savedReading.getHeartRate() != null) {
+                device.setHeartRate(savedReading.getHeartRate());
+            }
+
+            if (savedReading.getActivityLevel() != null) {
+                device.setActivityLevel(savedReading.getActivityLevel());
+            }
+
+            if (savedReading.getPressure() != null) {
+                device.setPressure(savedReading.getPressure());
+            }
+
+            device.setLastReadingDate(savedReading.getReadingDate());
+
+            ioTDeviceRepository.save(device);
         }
 
-        if (savedReading.getActivityLevel() != null) {
-            device.setActivityLevel(savedReading.getActivityLevel());
+        // Só leituras recentes disparam a análise; as retroativas entram no histórico
+        // (baseline da IA) sem gerar alertas sobre o passado.
+        LocalDateTime liveWindowStart = LocalDateTime.now()
+                .minusMinutes(aiProperties.liveWindowMinutes());
+
+        if (!savedReading.getReadingDate().isBefore(liveWindowStart)) {
+            ioTReadingAnalysisService.analyze(savedReading);
         }
-
-        if (savedReading.getPressure() != null) {
-            device.setPressure(savedReading.getPressure());
-        }
-
-        device.setLastReadingDate(savedReading.getReadingDate());
-
-        ioTDeviceRepository.save(device);
-
-        ioTReadingAnalysisService.analyze(savedReading);
 
         return ioTReadingAssembler.toResponse(savedReading);
     }
