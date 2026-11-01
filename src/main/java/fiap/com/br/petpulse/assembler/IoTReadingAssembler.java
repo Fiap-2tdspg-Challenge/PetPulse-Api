@@ -18,6 +18,8 @@ public class IoTReadingAssembler {
                 .heartRate(request.heartRate())
                 .activityLevel(request.activityLevel())
                 .pressure(request.pressure())
+                .temperature(request.temperature())
+                .readingDate(request.readingDate())
                 .build();
     }
 
@@ -30,7 +32,8 @@ public class IoTReadingAssembler {
                 reading.getReadingDate(),
                 reading.getHeartRate(),
                 reading.getActivityLevel(),
-                reading.getPressure()
+                reading.getPressure(),
+                reading.getTemperature()
         );
     }
 
@@ -43,5 +46,6 @@ public class IoTReadingAssembler {
         reading.setHeartRate(request.heartRate());
         reading.setActivityLevel(request.activityLevel());
         reading.setPressure(request.pressure());
+        reading.setTemperature(request.temperature());
     }
 }

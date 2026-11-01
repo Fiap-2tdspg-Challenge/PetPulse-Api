@@ -4,5 +4,6 @@ public enum AlertOrigin {
     HISTORICO_CLINICO,
     DISPOSITIVO_IOT,
     SISTEMA,
-    USUARIO
+    USUARIO,
+    MOTOR_IA
 }

@@ -12,7 +12,8 @@ public record IoTReadingResponse(
         LocalDateTime readingDate,
         Integer heartRate,
         BigDecimal activityLevel,
-        BigDecimal pressure
+        BigDecimal pressure,
+        BigDecimal temperature
 
 ) {
 }

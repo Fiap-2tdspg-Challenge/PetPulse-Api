@@ -38,6 +38,9 @@ public class IoTReading {
     @Column(name = "PRESSAO", precision = 6, scale = 2)
     private BigDecimal pressure;
 
+    @Column(name = "TEMPERATURA", precision = 5, scale = 2)
+    private BigDecimal temperature;
+
     @PrePersist
     public void prePersist() {
         if (readingDate == null) {
