@@ -558,9 +558,12 @@ V4__database_sprint3_objects.sql
 V5__add_iot_reading_index.sql
 V6__encode_seed_passwords.sql
 V7__create_pkg_carga.sql
+V8__ai_integration.sql
 ```
 
 A `V7` cria o pacote `PKG_CARGA`, usado pelo cadastro de pets (`POST /pets` chama `PKG_CARGA.PRC_CARGA_PET`). Como usa `CREATE OR REPLACE`, ela roda também em bancos onde o pacote já existia.
+
+A `V8` (Sprint 4) prepara o banco para o motor de IA: adiciona a coluna `TEMPERATURA` em `T_CLY_LEITURA_IOT`, inclui a origem `MOTOR_IA` no CHECK de `T_CLY_ALERTA_INTELIGENTE` e cadastra os tipos de alerta `TEMPERATURA` e `ANOMALIA_MULTIVARIADA`.
 
 O Flyway é executado automaticamente quando a aplicação é iniciada.
 
@@ -980,20 +983,31 @@ Os cadastros de tutor, profissional e dispositivo IoT usam dados únicos (CPF, e
 
 Uma das funcionalidades não-CRUD da aplicação é a análise automática de dados recebidos dos dispositivos IoT.
 
+Na Sprint 4 essa análise passou a ser feita pelo motor de IA do **[PetPulse-AI](https://github.com/Fiap-2tdspg-Challenge/PetPulse-AI)** (baseline individual + Isolation Forest + texto contextual com Gemini). As regras fixas continuam no código como **contingência** para quando o serviço de IA não responde.
+
 O fluxo acontece da seguinte forma:
 
 ```text
 POST /iot-readings
         ↓
-Leitura é salva
+Leitura é salva (com temperatura e, opcionalmente, a data original da coleira)
         ↓
-Estado atual do IoTDevice é atualizado
+Estado atual do IoTDevice é atualizado (só se a leitura for a mais recente)
         ↓
-IoTReadingAnalysisService analisa os valores
+Leitura da última hora? ── não ──► fica no histórico (alimenta a baseline da IA)
+        ↓ sim
+IoTReadingAnalysisService monta o pedido para a IA:
+  perfil do pet + leituras dos últimos 14 dias + histórico clínico
         ↓
-Caso seja detectada uma condição configurada
+POST {AI_SERVICE_URL}/v1/analises  (timeout configurável)
+        ↓                                   ↓ falhou / espécie não suportada
+gerarAlerta = true?                   regras fixas (comportamento anterior)
+        ↓ sim
+Já existe alerta de IA aberto nas últimas 6 h com risco igual ou maior? ── sim ──► não duplica
+        ↓ não
+SmartAlert criado com origem MOTOR_IA, mensagem e recomendação contextuais
         ↓
-SmartAlert é criado automaticamente
+App mobile exibe o alerta (e notifica se o risco for ALTO)
 ```
 
 Exemplo de leitura:
@@ -1008,10 +1022,39 @@ Content-Type: application/json
 {
   "deviceId": 1,
   "heartRate": 123,
-  "activityLevel": 4,
-  "pressure": 13
+  "activityLevel": 12.5,
+  "pressure": 132,
+  "temperature": 38.6,
+  "readingDate": "2026-10-31T14:20:00"
 }
 ```
+
+`temperature` e `readingDate` são opcionais. Sem `readingDate`, vale o horário do servidor. Leituras com data de mais de 1 hora atrás (por exemplo, a coleira sincronizando dados guardados sem conexão) entram no histórico da IA, mas não disparam alertas sobre o passado.
+
+Exemplo de alerta gerado pela IA (`GET /smart-alerts`):
+
+```json
+{
+  "petName": "Thor",
+  "alertTypeDescription": "FREQUENCIA_CARDIACA",
+  "riskLevel": "MEDIO",
+  "origin": "MOTOR_IA",
+  "message": "A frequência cardíaca do Thor está 31% acima do padrão dele em repouso há cerca de 6 h (107 bpm; o habitual é 82 bpm).",
+  "recommendation": "Observe o Thor nas próximas horas (apetite, respiração e disposição) e agende uma consulta de rotina com o veterinário.",
+  "status": "ABERTO"
+}
+```
+
+### Configuração da integração com a IA
+
+| Variável | Padrão | Uso |
+|---|---|---|
+| `AI_SERVICE_URL` | `http://localhost:8000` | Endereço do PetPulse-AI |
+| `AI_SERVICE_KEY` | vazio | Chave enviada no header `X-API-Key` (a mesma configurada no PetPulse-AI) |
+| `AI_SERVICE_ENABLED` | `true` | `false` desliga a IA e volta às regras fixas |
+| `AI_SERVICE_TIMEOUT_MS` | `30000` | Tempo máximo de espera pela IA (o texto do Gemini leva ~10 s) |
+
+Outras propriedades (`application.properties`): `petpulse.ai.history-days=14`, `petpulse.ai.max-readings=3000`, `petpulse.ai.cooldown-hours=6`, `petpulse.ai.live-window-minutes=60`.
 
 A leitura atualiza no dispositivo:
 
@@ -1038,7 +1081,9 @@ Se alguma etapa falhar, a operação pode ser revertida para evitar inconsistên
 
 ---
 
-# 🚨 Regras de análise IoT
+# 🚨 Regras de análise IoT (contingência)
+
+Desde a Sprint 4, estas regras só são aplicadas quando o PetPulse-AI está indisponível ou quando a espécie do pet não é cão nem gato. A comparação entre elas e o motor de IA está em [PetPulse-AI › Resultados](https://github.com/Fiap-2tdspg-Challenge/PetPulse-AI#resultados).
 
 Nesta versão acadêmica foram definidos limites de negócio compatíveis com a escala dos dados simulados pelo projeto.
 
@@ -1058,7 +1103,7 @@ Frequência cardíaca:
 - acima de 180 → alerta
 
 Pressão:
-- acima de 16 → alerta
+- acima de 160 mmHg (16 cmHg) → alerta
 
 Atividade:
 - abaixo de 2 → alerta
@@ -1293,6 +1338,15 @@ O build deve terminar com:
 ```text
 BUILD SUCCESS
 ```
+
+> `PetPulseApplicationTests` sobe o contexto completo e precisa das variáveis do Oracle. Os testes da integração com a IA rodam sem banco:
+
+```bash
+./mvnw test -Dtest=IoTReadingAnalysisServiceTest,AiAnalysisClientContractTest
+```
+
+- `IoTReadingAnalysisServiceTest` (Mockito): alerta da IA gravado com origem `MOTOR_IA`, dados enviados à IA (perfil, leituras, histórico clínico), severidade baixa sem alerta, deduplicação, escalada de risco, contingência com regras fixas e espécie não suportada.
+- `AiAnalysisClientContractTest`: chama o PetPulse-AI de verdade e confere que ele aceita o JSON gerado pelo Java e devolve o alerta contextual. Só roda com `PETPULSE_AI_URL` definida (ex.: `PETPULSE_AI_URL=http://localhost:8000`, e `PETPULSE_AI_KEY` se o serviço exigir chave). O outro teste da classe garante que, com a IA fora do ar, o cliente devolve vazio em vez de quebrar a leitura.
 
 ---
 
